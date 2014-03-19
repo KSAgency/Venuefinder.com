@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+iosLaunchConfigurationAttributes/ATTR_MINIFY=true
+iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=Venue Finder
+iosLaunchConfigurationAttributes/appid=com.ksagency.venuefinder
+iosLaunchConfigurationAttributes/certificate=TechWeb (XL8EQR2CF9)
+iosLaunchConfigurationAttributes/keychain=/Users/SamJacob/Library/Keychains/login.keychain
+iosLaunchConfigurationAttributes/sdk_version=7.0
+iosLaunchConfigurationAttributes/uuid=A7798D59-87E7-443C-AE57-1EA0CE078D24
+provisioning_profiles/development/AB7B56E4-E868-4D02-9C68-40A2EA5B4481/appid=com.ksagency.*
+provisioning_profiles/development/AB7B56E4-E868-4D02-9C68-40A2EA5B4481/name=KS Dev
+provisioning_profiles/development/AB7B56E4-E868-4D02-9C68-40A2EA5B4481/uuid=AB7B56E4-E868-4D02-9C68-40A2EA5B4481
+provisioning_profiles/distribution/A7798D59-87E7-443C-AE57-1EA0CE078D24/appid=com.ksagency.venuefinder
+provisioning_profiles/distribution/A7798D59-87E7-443C-AE57-1EA0CE078D24/name=Venue Finder Distribution
+provisioning_profiles/distribution/A7798D59-87E7-443C-AE57-1EA0CE078D24/uuid=A7798D59-87E7-443C-AE57-1EA0CE078D24

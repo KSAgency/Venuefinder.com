@@ -1,0 +1,17 @@
+android/ATTR_MINIFY=true
+android/ATTR_PROJECT_NAME=Venue Finder
+android/abi=armeabi
+android/distribute_path=/Users/SamJacob/Desktop/App Design/Venue Finder
+android/keystore_alias=venuefinder.com
+android/keystore_password=KeeScott101
+android/keystore_path=/Users/SamJacob/Desktop/App Design/Keystores/com.ksagency.venuefinder
+android/recent_output=/Users/SamJacob/Desktop/App Design/Venue Finder
+android/sdk_version=Google APIs (Android 2.3.3)
+eclipse.preferences.version=1
+iosLaunchConfigurationAttributes/ATTR_MINIFY=true
+iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=Venue Finder
+iosLaunchConfigurationAttributes/appid=venuefinder.ksagency.com
+iosLaunchConfigurationAttributes/certificate=Rory Kee (9NUWPPDLJ2)
+iosLaunchConfigurationAttributes/keychain=
+iosLaunchConfigurationAttributes/sdk_version=7.0
+iosLaunchConfigurationAttributes/uuid=DE360B11-DC84-4983-B476-ABB5B43660C4

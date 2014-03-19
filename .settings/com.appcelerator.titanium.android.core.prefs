@@ -1,0 +1,10 @@
+android/ATTR_MINIFY=true
+android/ATTR_PROJECT_NAME=Venue Finder
+android/abi=armeabi
+android/distribute_path=/Users/SamJacob/Desktop
+android/keystore_alias=venuefinder.com
+android/keystore_password=KeeScott101
+android/keystore_path=/Users/SamJacob/Desktop/App Design/Keystores/com.ksagency.venuefinder
+android/recent_output=/Users/SamJacob/Desktop
+android/sdk_version=2.3.3
+eclipse.preferences.version=1
