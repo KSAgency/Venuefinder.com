@@ -1,0 +1,1 @@
+/Users/SamJacob/Desktop/App Design/Venue Finder/Resources/SpryAssets/SpryCollapsiblePanel.js
