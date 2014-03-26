@@ -7,6 +7,16 @@ function newApplicationTabGroup() {
     //Require dashboard files & reference tabGroup
     var applicationDashboard = require('/builders/applicationDashboard'), home_screen = applicationDashboard(tabGroup);
 
+	var home_button = Titanium.UI.createButton({
+			        title:'Home',
+			        backgroundColor:'#FFF',
+			        tintColor:'#FFF',
+		    });
+
+		searchView.home_button =  home_button;
+		mapView.home_button =  home_button;
+		offersView.home_button =  home_button;
+		
     //Create app wins & tabs
     var win1 = searchView(tabGroup, 'Search', '#d2e8f5'), win2 = mapView(tabGroup, 'Map', '#d2e8f5'), win3 = mediaView(tabGroup, 'Videos', '#d2e8f5'), win4 = offersView(tabGroup, 'Offers', '#d2e8f5'), win5 = favouritesView(tabGroup, 'Favourites', '#d2e8f5');
 
@@ -67,11 +77,7 @@ function newApplicationTabGroup() {
 			win5[1]();
 		});
 
-	    var home_button = Titanium.UI.createButton({
-	        title:'Home',
-	        backgroundColor:'#FFF',
-	        tintColor:'#FFF'
-	    });
+	    
         
         win1.leftNavButton = home_button;
         win2.leftNavButton = home_button;
@@ -82,7 +88,7 @@ function newApplicationTabGroup() {
         // Setup Listener
 
 	    home_button.addEventListener('click', function(e) {
-	        home_screen.show();
+	          home_screen.show();
 	    });
     }
     
