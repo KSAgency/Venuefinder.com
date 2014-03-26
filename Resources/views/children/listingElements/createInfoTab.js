@@ -1,5 +1,4 @@
 function infoTab(tabGroup, win, scroll, venueID, tabs) {
-
 	//get todays date
 	var createTodaysDate = require('/builders/todaysDate');
 	var today = createTodaysDate();
@@ -69,14 +68,18 @@ function infoTab(tabGroup, win, scroll, venueID, tabs) {
 		} else {
 			var venuePostcode = '';
 		}
-
-		var venueURL = venueURL.toString();
-		var urlCheck = venueURL.indexOf('http://');
-
-		if (urlCheck != -1) {
-			var venueURL = venueURL.substr(7, 200);
+		
+        var venueURL = venueURL;
+		var urlCheck = -1;
+		if(venueURL != null){
+			venueURL = venueURL.toString();
+		    urlCheck = venueURL.indexOf('http://');
 		}
 
+		if (urlCheck != -1) {
+			venueURL = venueURL.substr(7, 200);
+		}
+		
 		var ratingrow = db.execute('SELECT * FROM Ratings WHERE VenueID="' + venueID + '"');
 		if (ratingrow.isValidRow()) {
 			var venueRating = ratingrow.fieldByName('Text');

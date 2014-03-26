@@ -216,6 +216,10 @@ function mapView(tabGroup, title, backgroundColor) {
         }
 
         win.add(tableview);
+        
+		mapView.home_button.addEventListener('click', function(e) {
+		        townText[1].blur();
+		    });
 
     }
 
@@ -324,6 +328,9 @@ function mapView(tabGroup, title, backgroundColor) {
         }
 
     });
+
+	
+
 
     return win;
 
