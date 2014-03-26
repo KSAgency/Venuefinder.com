@@ -1,0 +1,1 @@
+function endActInd(e,t,i){return e.remove(t),t.remove(i),i.hide(),e.setTouchEnabled(!0),t}module.exports=endActInd;

@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>get-task-allow</key>
-	<false/>
+	<true/>
 	<key>application-identifier</key>
-	<string>XL8EQR2CF9.com.ksagency.venuefinder</string>
+	<string>NQVW7522T3.com.ksagency.venuefinder</string>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>XL8EQR2CF9.com.ksagency.venuefinder</string>
+		<string>NQVW7522T3.com.ksagency.venuefinder</string>
 	</array>
 </dict>
 </plist>
