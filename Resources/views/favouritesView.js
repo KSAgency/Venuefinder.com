@@ -8,7 +8,7 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
 	});
 	
 	win.addEventListener('click', function(e){
-//		alert(e.source);		
+		alert(e.source);		
 	});
         
     if (Ti.App.Properties.getString('osname') != 'Android'){
@@ -376,36 +376,15 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
 
             favRow.add(title);
 
-			function getDelete(e) {
-				var confirm = Titanium.UI.createAlertDialog({
-                        title:'Confirmation',
-                        message:'Please confirm that you would like to delete ' + e.rowData.venueName + ' from your favourites',
-                        buttonNames:['Cancel', 'Delete']
-                    });
+            favRow.addEventListener('click', function(e) {
 
-                    confirm.show();
+				Ti.API.info(e.source);
+				Ti.API.info(e.source.goDetail);
+				Ti.API.info(e.source.goDelete);
 
-                    var vID = e.rowData.uniqueID;
+                if (e.source.goDetail==true) {
 
-                    confirm.addEventListener('click', function(e) {
-
-                        if (e.index==1) {
-
-                            favRow.remove(rightButton);
-                            favRow.remove(deleteButton);
-                            var createDatabase = require('/builders/databaseFunctions/createDatabase');
-                            var db = createDatabase('/favourites.db', 'favourites');
-                            db.execute('DELETE FROM Favourites WHERE VenueID="' + vID + '"');
-                            db.close();
-                            refreshData();
-                        }
-
-                    });
-
-			}
-			
-			function getRating(e) {
-				selectedRow = e.rowData.uniqueID;
+                    selectedRow = e.rowData.uniqueID;
 
                     var createApplicationWindow = require('/builders/createApplicationWindow');
 					var childWin = createApplicationWindow(tabGroup, null, 'Edit Favourite', '#d2e8f5', null, null, null, null);
@@ -532,46 +511,48 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
 						}
 
                     });
-			}
-			
-			function getFavRow(e) {
-	            var createApplicationWindow = require('/builders/createApplicationWindow');
-		        var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.rowData.venueName, '#FFF', 'Favourites', e.rowData.venueName, null, null, e.rowData.uniqueID, null);
-			}	
-			
-			deleteButton.addEventListener('click', function(e) {
-				    if (Ti.App.Properties.getString('osname') != 'Android'){
-						getDelete(e);
-					}
-					
-			});	
-			
-			rightButton.addEventListener('click', function(e) {
-					    if (Ti.App.Properties.getString('osname') != 'Android'){
-							getRating(e);
-						}
-			});
-			
-            favRow.addEventListener('click', function(e) {
+                } else if (e.source.goDelete==true) {
 
-                if (Ti.App.Properties.getString('osname') == 'Android'){
-                   	if (e.source.goDetail==true) {
-           	        		getRating(e);
-                   		}
-                   		else if (e.source.goDelete==true)
-                   		{
-                   			getDelete(e);
-                   		}
-                   		else{
-                   			getFavRow(e);
-                   		}
-                   }
-                   else
-                   {
-                   	 if(e.source.goDetail != true && e.source.goDelete != true) {
-						getFavRow(e);
-                	}
-                  }
+                    var confirm = Titanium.UI.createAlertDialog({
+                        title:'Confirmation',
+                        message:'Please confirm that you would like to delete ' + e.rowData.venueName + ' from your favourites',
+                        buttonNames:['Cancel', 'Delete']
+                    });
+
+                    confirm.show();
+
+                    var vID = e.rowData.uniqueID;
+
+                    confirm.addEventListener('click', function(e) {
+
+                        if (e.index==1) {
+
+                            favRow.remove(rightButton);
+                            favRow.remove(deleteButton);
+                            var createDatabase = require('/builders/databaseFunctions/createDatabase');
+                            var db = createDatabase('/favourites.db', 'favourites');
+                            db.execute('DELETE FROM Favourites WHERE VenueID="' + vID + '"');
+                            db.close();
+                            favData = [];
+                            getData();
+                            tableview.setData(favData);
+
+                            favData = [];
+
+                            getSorting();
+                            getData();
+                            tableview.setData(favData);
+
+                        }
+
+                    });
+
+                } else {
+
+                    var createApplicationWindow = require('/builders/createApplicationWindow');
+                    var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.rowData.venueName, '#FFF', 'Favourites', e.rowData.venueName, null, null, e.rowData.uniqueID, null);
+
+                }
 
             });
 
@@ -638,7 +619,6 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
         top:0,
         bubbleParent:false
     });
-    
     
     if (Ti.App.Properties.getString('osname') == 'iPad'){
         tableview.setWidth(600);

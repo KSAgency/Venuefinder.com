@@ -88,7 +88,6 @@ function searchView(tabGroup, title, backgroundColor) {
         hintText:'Enter a venue name',
         ellipsize:true,
         returnKeyType:Titanium.UI.RETURNKEY_DONE
-//        bubbleParent: false,
     });
 
     buttonScroller.add(searchBar);
@@ -324,13 +323,9 @@ function searchView(tabGroup, title, backgroundColor) {
     });
     
     win.addEventListener('open', function(){
-   	searchBar.blur();
+    	searchBar.blur();
     });
-    
-	    searchView.home_button.addEventListener('click', function(e) {
-		        searchBar.blur();
-		    });
-	
+
     return win;
 
 }
