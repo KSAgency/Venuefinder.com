@@ -1,8 +1,7 @@
 {
-	"target": "device",
-	"deployType": "test",
+	"target": "simulator",
+	"deployType": "development",
 	"deviceFamily": "universal",
-	"developerName": "Rory Kee (9NUWPPDLJ2)",
 	"iosSdkPath": "/Library/Application Support/Titanium/mobilesdk/osx/3.2.2.GA/iphone",
 	"tiCoreHash": "77157e1ffaec640cf559356a147b6a4c",
 	"modulesHash": "cbb5169ab80ab275a7d8ac47d6da6849",
@@ -17,8 +16,8 @@
 	"description": "not specified",
 	"copyright": "2012 by SamJacob",
 	"guid": "891f315f-df12-4e31-8555-e2cb8b94974e",
-	"skipJSMinification": false,
+	"skipJSMinification": true,
 	"forceCopy": false,
 	"forceCopyAll": false,
-	"encryptJS": true
+	"encryptJS": false
 }
