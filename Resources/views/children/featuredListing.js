@@ -1,4 +1,5 @@
 function featuredListing(tabGroup, venueID, tabSelect, curWin) {
+
     var win = Ti.UI.createView({
         width:Ti.UI.FILL,
         height:Ti.UI.FILL
@@ -29,11 +30,10 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
     var venuePackage = getPackage.fieldByName('PackageCode');
     db.close();
 
-   
     //Load Tabs
 
     var createTabs = require('/views/children/listingElements/createTabs');
-    var tabs = createTabs();
+    var tabs = createTabs(win);
 
     //Specify Tabs
 
@@ -41,18 +41,6 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
 
     if (venuePackage!='FRE') {
         win.add(tabs);
-    }else{
-    	var tabs = Ti.UI.createView({
-	        width:'325',
-	        height:Ti.UI.SIZE,
-	        layout:'horizontal',
-	        top:'0',
-	        left:'0',
-	        zIndex:'7',
-	        backgroundColor:'#FFF'
-         });
-    
-    	win.add(tabs);
     }
 
     //Listings Listeners
@@ -75,7 +63,7 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
     });
     
     win.add(scroll);
-   
+    
     if (venuePackage=='FRE') {
     	scroll.setTop(0);	
     }
@@ -152,6 +140,7 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
 			selectedImage = e.source.selectedImage;
 			touchEnabled = e.source.touchEnabled;
 		}
+
         if (touchEnabled==true && tabName!=null) {
 	
             //Clear View
