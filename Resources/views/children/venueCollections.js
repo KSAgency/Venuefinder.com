@@ -501,7 +501,7 @@ function venueCollections(tabGroup) {
 
         var style = image6.venueStyle;
         var name = image6.styleName;
-        var banner = image6.getImage;
+        var banner = image6.getImage();
         getVenues(style, name, banner);
 
         var createEndActInd = require('/builders/endActInd');

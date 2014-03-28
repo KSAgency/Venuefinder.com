@@ -99,7 +99,6 @@ function azDirectory(tabGroup) {
 
 		var createResultsFormat = require('/builders/featuredResultsFormat');
 		var resultsFormat = createResultsFormat(venueName, venueID, imageUrl, bedrooms, bedroomAccess, venueDesc, venueTown, venueCountry, null, true);
-
 		rowIndex = rowIndex + 1;
 
 		if (lastLetter != firstLetter) {
@@ -148,7 +147,7 @@ function azDirectory(tabGroup) {
 	
 	tableView.addEventListener('click', function(e) {
 		var createApplicationWindow = require('/builders/createApplicationWindow');
-		var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.rowData.venueTitle, '#FFF', 'Search', 'Featured Venues', e.rowData.venueTitle, '', e.rowData.myid);
+		var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.rowData.venueTitle, '#FFF', 'Search', 'Featured Venues', e.rowData.venueTitle, '', e.rowData.uniqueID);//e.rowData.myid
 	});
 
 	if (Ti.App.Properties.getString('osname') == 'iPad') {
