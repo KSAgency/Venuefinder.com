@@ -231,6 +231,11 @@ function offersView(tabGroup, title, backgroundColor) {
     var advert = createAdvert();
     win.add(advert);
 
+	offersView.home_button.addEventListener('click', function(e) {
+		        venueTown[1].blur();
+		    });
+
+
     return win;
 
 }

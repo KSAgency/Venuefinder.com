@@ -1,10 +1,8 @@
 function featuredListing(tabGroup, venueID, tabSelect, curWin) {
-
     var win = Ti.UI.createView({
         width:Ti.UI.FILL,
         height:Ti.UI.FILL
     });
-
     if (Ti.App.Properties.getString('osname')!='iPad') {
         curWin.setTitle('Venue Info');
     }
@@ -30,10 +28,11 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
     var venuePackage = getPackage.fieldByName('PackageCode');
     db.close();
 
+   
     //Load Tabs
 
     var createTabs = require('/views/children/listingElements/createTabs');
-    var tabs = createTabs(win);
+    var tabs = createTabs();
 
     //Specify Tabs
 
@@ -75,7 +74,7 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
     });
     
     win.add(scroll);
-    
+   
     if (venuePackage=='FRE') {
     	scroll.setTop(0);	
     }
@@ -152,7 +151,6 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
 			selectedImage = e.source.selectedImage;
 			touchEnabled = e.source.touchEnabled;
 		}
-
         if (touchEnabled==true && tabName!=null) {
 	
             //Clear View

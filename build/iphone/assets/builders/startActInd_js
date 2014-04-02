@@ -1,0 +1,1 @@
+function startActInd(e){var t=Titanium.UI.createView({width:150,height:150,backgroundColor:"#000",opacity:.75,borderRadius:"15%",zIndex:20}),i=Titanium.UI.createActivityIndicator();return"Android"!=Ti.App.Properties.getString("osname")&&i.setStyle(Titanium.UI.iPhone.ActivityIndicatorStyle.DEFAULT),e.add(t),t.add(i),i.show(),e.setTouchEnabled(!1),[t,i]}module.exports=startActInd;
