@@ -41,6 +41,18 @@ function featuredListing(tabGroup, venueID, tabSelect, curWin) {
 
     if (venuePackage!='FRE') {
         win.add(tabs);
+    }else{
+    	var tabs = Ti.UI.createView({
+	        width:'325',
+	        height:Ti.UI.SIZE,
+	        layout:'horizontal',
+	        top:'0',
+	        left:'0',
+	        zIndex:'7',
+	        backgroundColor:'#FFF'
+         });
+    
+    	win.add(tabs);
     }
 
     //Listings Listeners
