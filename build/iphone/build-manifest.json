@@ -1,11 +1,12 @@
 {
-	"target": "simulator",
-	"deployType": "development",
+	"target": "dist-appstore",
+	"deployType": "production",
 	"deviceFamily": "universal",
+	"distributionName": "TechWeb (XL8EQR2CF9)",
 	"iosSdkPath": "/Library/Application Support/Titanium/mobilesdk/osx/3.2.2.GA/iphone",
 	"tiCoreHash": "77157e1ffaec640cf559356a147b6a4c",
-	"modulesHash": "cbb5169ab80ab275a7d8ac47d6da6849",
-	"modulesNativeHash": "4c303171d68559f1c227b0908571e8ea",
+	"modulesHash": "20b9ca3afad22f65ae1b77aaa07eb9a0",
+	"modulesNativeHash": "f5dcb6f20e46becb93df907465a6bf91",
 	"gitHash": "96e9a07",
 	"name": "Venue Finder",
 	"id": "com.ksagency.venuefinder",
@@ -16,8 +17,8 @@
 	"description": "not specified",
 	"copyright": "2012 by SamJacob",
 	"guid": "891f315f-df12-4e31-8555-e2cb8b94974e",
-	"skipJSMinification": true,
+	"skipJSMinification": false,
 	"forceCopy": false,
 	"forceCopyAll": false,
-	"encryptJS": false
+	"encryptJS": true
 }
