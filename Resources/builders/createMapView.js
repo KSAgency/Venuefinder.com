@@ -64,7 +64,7 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 				}
 
 				var pinCounter = 0;
-			
+
 				var row = db.execute(sqlString);
 				while (row.isValidRow() && pinCounter != 500) {
 
@@ -182,7 +182,7 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					regionFit : true,
 					userLocation : true,
 					zIndex : '1',
-		  			annotations : data
+					annotations : data
 				});
 				win.add(mapview);
 
@@ -222,15 +222,28 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					zIndex : 2
 				});
 
-				var mapkey = Ti.UI.createImageView({
-					image : '/images/mapkey.png',
-					bottom : 40,
+				var mapKeyView = Ti.UI.createView({
 					left : 0,
+					bottom : 40,
+					width : 50,
 					height : 38,
+					backgroundColor : 'transparent',
+					opacity : 0.8,
 					zIndex : 2
 				});
 
-				win.add(mapkey);
+				win.add(mapKeyView);
+
+				var mapkey = Ti.UI.createImageView({
+					image : '/images/mapkey.png',
+					color : '#666',
+					opacity : 1,
+					width : 50,
+					height : 38,
+					zIndex : 1
+				});
+
+				mapKeyView.add(mapkey);
 				win.add(leftMenu);
 
 				var key = Ti.UI.createImageView({
@@ -292,17 +305,20 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 							left : -250,
 							duration : 775
 						});
-						mapkey.animate({
+						mapKeyView.animate({
 							left : 0,
 							duration : 775
 						});
+
 						mapkey._left = false;
 					} else {
-						mapkey.animate({
+						mapKeyView.animate({
 							left : 250,
 							duration : 775
 						});
+
 						mapkey._left = true;
+
 						leftMenu.animate({
 							left : 0,
 							duration : 775
@@ -408,38 +424,38 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			row.next();
 
 		}
-			if (Ti.App.Properties.getString('osname') == 'Android') {
-					var rc = Map.isGooglePlayServicesAvailable();
-					switch (rc) {
-						case Map.SUCCESS:
-							Ti.API.info('Google Play services is installed.');
-							break;
-						case Map.SERVICE_MISSING:
-							alert('Google Play services is missing. Please install Google Play services from the Google Play store.');
-							break;
-						case Map.SERVICE_VERSION_UPDATE_REQUIRED:
-							alert('Google Play services is out of date. Please update Google Play services.');
-							break;
-						case Map.SERVICE_DISABLED:
-							alert('Google Play services is disabled. Please enable Google Play services.');
-							break;
-						case Map.SERVICE_INVALID:
-							alert('Google Play services cannot be authenticated. Reinstall Google Play services.');
-							break;
-						default:
-							alert('Unknown error.');
-							break;
-					}
-				}
-			var mapview = Map.createView({
-				mapType : Map.NORMAL_TYPE,
-				animate : true,
-				regionFit : true,
-				userLocation : true,
-				zIndex : 1,
-				annotations : data
-			});
-		
+		if (Ti.App.Properties.getString('osname') == 'Android') {
+			var rc = Map.isGooglePlayServicesAvailable();
+			switch (rc) {
+				case Map.SUCCESS:
+					Ti.API.info('Google Play services is installed.');
+					break;
+				case Map.SERVICE_MISSING:
+					alert('Google Play services is missing. Please install Google Play services from the Google Play store.');
+					break;
+				case Map.SERVICE_VERSION_UPDATE_REQUIRED:
+					alert('Google Play services is out of date. Please update Google Play services.');
+					break;
+				case Map.SERVICE_DISABLED:
+					alert('Google Play services is disabled. Please enable Google Play services.');
+					break;
+				case Map.SERVICE_INVALID:
+					alert('Google Play services cannot be authenticated. Reinstall Google Play services.');
+					break;
+				default:
+					alert('Unknown error.');
+					break;
+			}
+		}
+		var mapview = Map.createView({
+			mapType : Map.NORMAL_TYPE,
+			animate : true,
+			regionFit : true,
+			userLocation : true,
+			zIndex : 1,
+			annotations : data
+		});
+
 		win.add(mapview);
 
 		mapview.addEventListener('complete', function() {
@@ -484,15 +500,28 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			zIndex : 2
 		});
 
-		var mapkey = Ti.UI.createImageView({
-			image : '/images/mapkey.png',
-			bottom : 40,
+		var mapKeyView = Ti.UI.createView({
 			left : 0,
+			bottom : 40,
+			width : 50,
 			height : 38,
+			backgroundColor : 'transparent',
+			opacity : 0.8,
 			zIndex : 2
 		});
 
-		win.add(mapkey);
+		win.add(mapKeyView);
+
+		var mapkey = Ti.UI.createImageView({
+			image : '/images/mapkey.png',
+			color : '#666',
+			opacity : 1,
+			width : 50,
+			height : 38,
+			zIndex : 1
+		});
+
+		mapKeyView.add(mapkey);
 		win.add(leftMenu);
 
 		var key = Ti.UI.createImageView({
@@ -554,17 +583,20 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					left : -250,
 					duration : 775
 				});
-				mapkey.animate({
+				mapKeyView.animate({
 					left : 0,
 					duration : 775
 				});
+
 				mapkey._left = false;
 			} else {
-				mapkey.animate({
+				mapKeyView.animate({
 					left : 250,
 					duration : 775
 				});
+
 				mapkey._left = true;
+
 				leftMenu.animate({
 					left : 0,
 					duration : 775
