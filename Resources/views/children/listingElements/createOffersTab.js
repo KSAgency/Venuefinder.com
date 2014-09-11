@@ -5,7 +5,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
     var createDatabase = require('/builders/databaseFunctions/createDatabase');
     var db = createDatabase('/venuefinder.db', 'venuefinder');
-    var row = db.execute('SELECT * FROM Offers WHERE EntryID="' + venueID + '" AND validToDate>="' + today + '"');
+    var row = db.execute('SELECT * FROM Offers WHERE EntryID="' + venueID + '" AND validToDate>="' + today + '" ORDER BY CreatedDate DESC');
 
     var venueInfo = db.execute('SELECT * FROM Venue WHERE VenueID="' + venueID + '"');
     var venueName = venueInfo.fieldByName('VenueName');
@@ -102,7 +102,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
             var imageUrl = getImage.fieldByName('GraphicFileName');
 
             var image = Titanium.UI.createImageView({
-                image:'http://www.venuefinder.com/adverts/' + imageUrl,
+                image:'http://www.venuefinder.com/gallery/' + imageUrl,
                 defaultImage:'/images/icon.png',
                 hires:true,
                 width:'279',

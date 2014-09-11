@@ -128,6 +128,7 @@ function applicationDashboard(tabGroup) {
 	// Add the data
 
 	var data = [{
+		height:44,
 		title:'Venue Search',
 		hasChild:true,
 		index:0,
@@ -137,6 +138,7 @@ function applicationDashboard(tabGroup) {
 			fontWeight:'bold'
 		}
 	}, {
+		height:44,
 		title:'Map',
 		hasChild:true,
 		index:1,
@@ -146,6 +148,7 @@ function applicationDashboard(tabGroup) {
 			fontWeight:'bold'
 		}
 	}, {
+		height:44,
 		title:'Videos',
 		hasChild:true,
 		index:2,
@@ -155,6 +158,7 @@ function applicationDashboard(tabGroup) {
 			fontWeight:'bold'
 		}
 	}, {
+		height:44,
 		title:'Special Offers',
 		hasChild:true,
 		index:3,
@@ -164,6 +168,7 @@ function applicationDashboard(tabGroup) {
 			fontWeight:'bold'
 		}
 	}, {
+		height:44,
 		title:'My Favourites',
 		hasChild:true,
 		index:4,
@@ -173,6 +178,7 @@ function applicationDashboard(tabGroup) {
 			fontWeight:'bold'
 		}
 	}, {
+		height:44,
 		title:'About venuefinder.com',
 		hasChild:true,
 		index:5,

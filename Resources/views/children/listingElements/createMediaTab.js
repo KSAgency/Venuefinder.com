@@ -73,16 +73,22 @@ function mediaTab(tabGroup, win, scroll, venueID, tabs) {
             scroll.add(photoLabel);
 
             var photoScroll = Titanium.UI.createScrollView({
+                height:Ti.UI.SIZE,
                 width:320,
-                height:160,
                 top:5,
-                verticalBounce:false,
-                horizontalBounce:false,
                 layout:'horizontal',
-                showHorizontalScrollIndicator:true,
                 horizontalWrap:false,
+                showHorizontalScrollIndicator:true,
+                scrollType:'horizontal',
                 backgroundColor:'#FFF'
             });
+            
+            if (Ti.App.Properties.getString('osname') != 'Android'){
+            	photoScroll.setVerticalBounce(false),
+                photoScroll.setHorizontalBounce(false);
+            } else {
+            	photoScroll.setContentWidth(Ti.UI.FILL);
+            }
 
             scroll.add(photoScroll);
 
@@ -107,7 +113,7 @@ function mediaTab(tabGroup, win, scroll, venueID, tabs) {
                     });
 
                     var image = Titanium.UI.createImageView({
-                        image:'http://www.venuefinder.com/adverts/' + mediaURL,
+                        image:'http://www.venuefinder.com/gallery/' + mediaURL,
                         defaultImage:'/images/icon.png',
                         imageCode:mediaURL,
                         index:count

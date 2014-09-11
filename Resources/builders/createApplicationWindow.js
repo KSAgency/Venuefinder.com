@@ -4,7 +4,8 @@ function createApplicationWindow(tabGroup, view, name, backgroundColor, tab, tie
 		backgroundColor:backgroundColor,
 		title:name,
 		width:Ti.UI.FILL,
-        height:Ti.UI.FILL
+        height:Ti.UI.FILL,
+        modal:false
 	});
         
     if (Ti.App.Properties.getString('osname') == 'iPhone'){

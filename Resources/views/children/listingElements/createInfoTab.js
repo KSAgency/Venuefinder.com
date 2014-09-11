@@ -87,11 +87,7 @@ function infoTab(tabGroup, win, scroll, venueID, tabs) {
 			venueURL = venueURL.substr(7, 200);
 		}
 		
-		var ratingrow = db.execute('SELECT * FROM Ratings WHERE VenueID="' + venueID + '"');
-		if (ratingrow.isValidRow()) {
-			var venueRating = ratingrow.fieldByName('Text');
-
-		}
+		var ratings = db.execute('SELECT * FROM Ratings WHERE VenueID="' + venueID + '"');
 
 		var getgrouprow = db.execute('SELECT * FROM VenueToGroup WHERE VenueID="' + venueID + '"');
 		if (getgrouprow.isValidRow()) {
@@ -323,13 +319,17 @@ function infoTab(tabGroup, win, scroll, venueID, tabs) {
 		emailLine.addEventListener('click', function() {
 			
 			var createEmailer = require('/builders/createEmailer');
-			var emailer = createEmailer(tabGroup, venueEmail, null, null, venueName, null, null, null, null);
+			var emailer = createEmailer(tabGroup, venueEmail, null, null, venueName, 'Venue Listing', 'Email a Venue', null, null);
 
 			//Open window
 
 			var createApplicationWindow = require('/builders/createApplicationWindow');
-			var windowElements = createApplicationWindow(tabGroup, null, 'Email a Venue', '#d2e8f5', 'Venue Listing', 'Email A Venue', null, null, null, null);
+			var windowElements = createApplicationWindow(tabGroup, emailer, 'Email a Venue', '#d2e8f5', 'Venue Listing', 'Email A Venue', null, null, null, null);
 
+		});
+		
+		emailTitle.addEventListener('click', function(){
+			emailLine.fireEvent('click');
 		});
 
 		var urlTitle = Titanium.UI.createLabel({
@@ -372,31 +372,101 @@ function infoTab(tabGroup, win, scroll, venueID, tabs) {
 			tabGroup.activeTab.open(urlWin);
 		});
 
-		var ratingTitle = Titanium.UI.createLabel({
-			text:'Rating',
-			color:'#2195be',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial',
-				fontWeight:'bold'
-			},
-			left:'10',
-			top:'10'
+		urlTitle.addEventListener('click', function(){
+			urlLine.fireEvent('click');
 		});
 
-		var ratingLine = Titanium.UI.createLabel({
-			text:venueRating,
-			color:'#666',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial'
-			},
-			left:'10'
-		});
-
-		if (venueRating != null && venueRating != '') {
+		if (ratings.rowCount != 0){ // if there are ratings
+			
+			var ratingTitle = Titanium.UI.createLabel({
+				text:'Rating',
+				color:'#2195be',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial',
+					fontWeight:'bold'
+				},
+				left:'10',
+				top:'10'
+			});
+			
 			scroll.add(ratingTitle);
-			scroll.add(ratingLine);
+			
+			var ratings = db.execute('SELECT RatingsOrganisations.BookName, Ratings.NoSymbols, RatingSymbolGraphics.Graphic, RatingSymbols.Award, Ratings.Text FROM Ratings JOIN RatingsOrganisations ON RatingsOrganisations.OrganisationID = Ratings.OrganisationID JOIN RatingSymbols ON RatingSymbols.Id = RatingsOrganisations.SymbolId JOIN RatingSymbolGraphics ON RatingSymbols.GraphicId = RatingSymbolGraphics.Id WHERE VenueID="'+venueID+'" ORDER BY RatingsOrganisations.SortName');
+			while (ratings.isValidRow()){
+				
+				var ratingOrg = ratings.getFieldByName('BookName');
+				var noSymbols = ratings.getFieldByName('NoSymbols');
+				var ratingGraphic = ratings.getFieldByName('Graphic');
+				var ratingAward = ratings.getFieldByName('Award');
+				var ratingText = ratings.getFieldByName('Text');
+				
+				var ratingRow = Ti.UI.createView({
+					width:Ti.UI.SIZE,
+					height:20,
+					layout:'horizontal',
+					left:'10'
+				});
+				
+				var ratingOrgLabel = Titanium.UI.createLabel({
+					text:ratingOrg,
+					color:'#666',
+					font:{
+						fontSize:16,
+						fontFamily:'Arial'
+					},
+					left:0
+				});
+				
+				ratingRow.add(ratingOrgLabel);
+				
+				if (ratingGraphic != 'No Image'){
+				
+					for (var i=0; i < parseFloat(noSymbols); ++i) {
+					
+						var image = Ti.UI.createImageView({
+							image:'http://www.venuefinder.com/images/'+ratingGraphic,
+							height:16,
+							left:5
+						});
+						
+						ratingRow.add(image);
+						
+					}
+					
+				} else {
+					
+					var ratingAwardLabel = Titanium.UI.createLabel({
+						text:ratingAward,
+						color:'#666',
+						font:{
+							fontSize:16,
+							fontFamily:'Arial'
+						},
+						left:5
+					});
+					
+					ratingRow.add(ratingAwardLabel);
+				}
+				
+				var ratingTextLabel = Titanium.UI.createLabel({
+					text:ratingText,
+					color:'#666',
+					font:{
+						fontSize:16,
+						fontFamily:'Arial'
+					},
+					left:10
+				});
+				
+				ratingRow.add(ratingTextLabel);
+				
+				scroll.add(ratingRow);
+				
+				ratings.next();
+				
+			}
+			
 		}
 
 		var groupTitle = Titanium.UI.createLabel({
@@ -426,124 +496,128 @@ function infoTab(tabGroup, win, scroll, venueID, tabs) {
 			scroll.add(groupLine);
 		}
 
-		var delegateTitle = Titanium.UI.createLabel({
-			text:'Delegate Rates',
-			color:'#2195be',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial',
-				fontWeight:'bold'
-			},
-			left:'10',
-			top:'10'
-		});
-
-		var delegateLine = Titanium.UI.createLabel({
-			text:'Daily Rate: £' + dailyRate,
-			color:'#666',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial'
-			},
-			left:'10'
-		});
-
-		if (dailyRequest == 1) {
-			delegateLine.setText('Daily Rate: Available on request');
-		}
-
-		var delegateLine2 = Titanium.UI.createLabel({
-			text:'24hr Rate: £' + fullRate,
-			color:'#666',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial'
-			},
-			left:'10'
-		});
-
-		if (fullRequest == 1) {
-			delegateLine2.setText('24hr Rate: Available on request');
-		}
-
-		var delegateLine3 = Titanium.UI.createLabel({
-			text:'Rates are exclusive of sales tax (VAT)',
-			color:'#666',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial'
-			},
-			left:'10'
-		});
-
-		scroll.add(delegateTitle);
-		scroll.add(delegateLine);
-		scroll.add(delegateLine2);
-		scroll.add(delegateLine3);
-
-		var removeCount = 0;
-
-		if (dailyRate === '0.00' || dailyRate === '' || dailyRate === null) {
-			scroll.remove(delegateLine);
-			removeCount = removeCount + 1;
-		}
-
-		if (fullRate === '0.00' || fullRate === '' || fullRate === null) {
-			scroll.remove(delegateLine2);
-			removeCount = removeCount + 1;
-		}
-
-		if (removeCount == 2) {
-			scroll.remove(delegateTitle);
-			scroll.remove(delegateLine3);
-		}
-
-		var roomTitle = Titanium.UI.createLabel({
-			text:'Room Hire',
-			color:'#2195be',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial',
-				fontWeight:'bold'
-			},
-			left:'10',
-			top:'10'
-		});
-
-		var roomLine = Titanium.UI.createLabel({
-			text:'From: £' + roomRate,
-			color:'#666',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial'
-			},
-			left:'10'
-		});
-
-		if (roomRequest == 1) {
-			roomLine.setText('Rate: Available on request');
-		}
-
-		var roomLine2 = Titanium.UI.createLabel({
-			text:'Rates are exclusive of sales tax (VAT)',
-			color:'#666',
-			font:{
-				fontSize:'16',
-				fontFamily:'Arial'
-			},
-			left:'10'
-		});
-
-		if (roomRate !== '' && roomRate !== '0.00' && roomRate !== null) {
-			scroll.add(roomTitle);
-			scroll.add(roomLine);
-			scroll.add(roomLine2);
-		}
-
-		if (roomRate == '0.00' && roomRequest == 1) {
-			scroll.add(roomTitle);
-			scroll.add(roomLine);
-			scroll.add(roomLine2);
+		if (ratesRow.rowCount != 0){
+			var delegateTitle = Titanium.UI.createLabel({
+				text:'Delegate Rates',
+				color:'#2195be',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial',
+					fontWeight:'bold'
+				},
+				left:'10',
+				top:'10'
+			});
+	
+			var delegateLine = Titanium.UI.createLabel({
+				text:'Daily Rate: £' + dailyRate,
+				color:'#666',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial'
+				},
+				left:'10'
+			});
+	
+			if (dailyRequest == 1) {
+				delegateLine.setText('Daily Rate: Available on request');
+			}
+	
+			var delegateLine2 = Titanium.UI.createLabel({
+				text:'24hr Rate: £' + fullRate,
+				color:'#666',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial'
+				},
+				left:'10'
+			});
+	
+			if (fullRequest == 1) {
+				delegateLine2.setText('24hr Rate: Available on request');
+			}
+	
+			var delegateLine3 = Titanium.UI.createLabel({
+				text:'Rates are exclusive of sales tax (VAT)',
+				color:'#666',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial'
+				},
+				left:'10'
+			});
+	
+			scroll.add(delegateTitle);
+			scroll.add(delegateLine);
+			scroll.add(delegateLine2);
+			scroll.add(delegateLine3);
+	
+			var removeCount = 0;
+	
+			if (dailyRate === '0.00' || dailyRate === '' || dailyRate === null) {
+				scroll.remove(delegateLine);
+				removeCount = removeCount + 1;
+			}
+	
+			if (fullRate === '0.00' || fullRate === '' || fullRate === null) {
+				scroll.remove(delegateLine2);
+				removeCount = removeCount + 1;
+			}
+	
+			if (removeCount == 2) {
+				scroll.remove(delegateTitle);
+				scroll.remove(delegateLine3);
+			}
+		
+		
+			var roomTitle = Titanium.UI.createLabel({
+				text:'Room Hire',
+				color:'#2195be',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial',
+					fontWeight:'bold'
+				},
+				left:'10',
+				top:'10'
+			});
+	
+			var roomLine = Titanium.UI.createLabel({
+				text:'From: £' + roomRate,
+				color:'#666',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial'
+				},
+				left:'10'
+			});
+	
+			if (roomRequest == 1) {
+				roomLine.setText('Rate: Available on request');
+			}
+	
+			var roomLine2 = Titanium.UI.createLabel({
+				text:'Rates are exclusive of sales tax (VAT)',
+				color:'#666',
+				font:{
+					fontSize:'16',
+					fontFamily:'Arial'
+				},
+				left:'10'
+			});
+	
+			if (roomRate !== '' && roomRate !== '0.00' && roomRate !== null) {
+				scroll.add(roomTitle);
+				scroll.add(roomLine);
+				scroll.add(roomLine2);
+			}
+	
+			if (roomRate == '0.00' && roomRequest == 1) {
+				scroll.add(roomTitle);
+				scroll.add(roomLine);
+				scroll.add(roomLine2);
+			}
+		
 		}
 
 		var meetingTitle = Titanium.UI.createLabel({

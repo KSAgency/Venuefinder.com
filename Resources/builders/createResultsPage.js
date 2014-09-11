@@ -27,6 +27,13 @@ function createResultsPage(win, tabGroup, sqlString, hasInput, spinView, actInd,
 	} else {
 		var packageFilter = '';
 	}
+	
+	//Sort Offers Results
+	if (offersLayout == true){
+		var sortBy = ' ORDER BY Offers.CreatedDate DESC LIMIT ';
+	} else {
+		var sortBy = ' ORDER BY PackageOrder ASC, VenueSort ASC LIMIT ';
+	}
 
 	// Count Total Results
 
@@ -113,7 +120,7 @@ function createResultsPage(win, tabGroup, sqlString, hasInput, spinView, actInd,
 			var createDatabase = require('/builders/databaseFunctions/createDatabase'), db = createDatabase('/venuefinder.db', 'venuefinder');
 
 			// Load Results From DB
-			var row = db.execute(sqlString + packageFilter + 'ORDER BY PackageOrder ASC, VenueSort ASC LIMIT ' + limit + ' OFFSET ' + calOffset);
+			var row = db.execute(sqlString + packageFilter + sortBy + limit + ' OFFSET ' + calOffset);
 			while (row.isValidRow()) {( function() {
 
 						//Retrieve basic info & format for addressLine
@@ -410,8 +417,6 @@ function createResultsPage(win, tabGroup, sqlString, hasInput, spinView, actInd,
 		var createApplicationWindow = require('/builders/createApplicationWindow');
 		var searchResults = createApplicationWindow(tabGroup, null, 'Search Results (' + countAdded + ')', '#FFF', 'Search', 'Venue Search', 'Search Results', null);
 
-		Ti.API.info(searchResults);
-
 		searchResults.addEventListener('close', function() {
 			calOffset = 0;
 		});
@@ -422,6 +427,7 @@ function createResultsPage(win, tabGroup, sqlString, hasInput, spinView, actInd,
 
 			var resultsTable = Titanium.UI.createTableView({
 				data:searchData,
+				separatorColor:'#999'
 			});
 
 		} else {
@@ -458,7 +464,10 @@ function createResultsPage(win, tabGroup, sqlString, hasInput, spinView, actInd,
 			font:{
 				fontFamily:'Arial',
 				fontSize:18,
-			}
+			},
+			width:290,
+			left:15,
+			textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
 		});
 
 		if (countAdded == 0) {

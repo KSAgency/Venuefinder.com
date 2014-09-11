@@ -5,10 +5,6 @@ function createHeaderElements(tabGroup, win, scroll, venueID, tabs) {
 		height:Ti.UI.SIZE,
 		layout:'vertical'
 	});
-	
-	headerElements.addEventListener('click', function(e){
-		Ti.API.info(e.source);
-	});
 
 	// See If Favorited?
 
@@ -94,7 +90,7 @@ function createHeaderElements(tabGroup, win, scroll, venueID, tabs) {
 		db.close();
 
 		var image = Titanium.UI.createImageView({
-			image:'http://www.venuefinder.com/adverts/' + imageUrl,
+			image:'http://www.venuefinder.com/gallery/' + imageUrl,
 			defaultImage:'/images/icon.png',
 			hires:true,
 			width:'279.5',
@@ -111,7 +107,9 @@ function createHeaderElements(tabGroup, win, scroll, venueID, tabs) {
 		imageHolder.add(image);
 
 		var featuredImage = Titanium.UI.createImageView({
-			image:'/images/featuredbanner_big.png'
+			image:'/images/featuredbanner_big.png',
+			top:0,
+			left:0
 		});
 
 		imageHolder.add(featuredImage);
@@ -204,9 +202,11 @@ function createHeaderElements(tabGroup, win, scroll, venueID, tabs) {
 
 						var picker = Ti.UI.createPicker({
 							bottom:0,
+							width:Ti.UI.FILL,
 							selectionIndicator:true,
 							type:Ti.UI.PICKER_TYPE_PLAIN,
-							zIndex:20
+							zIndex:20,
+							backgroundColor:'#399ad4'
 						});
 
 						picker.add(pickerData);
@@ -231,10 +231,6 @@ function createHeaderElements(tabGroup, win, scroll, venueID, tabs) {
 								barColor:'#2195be',
 								zIndex:'10'
 							});
-	
-							if (Ti.App.Properties.getString('osname') == 'iPad') {
-								toolbar.setWidth('320');
-							}
 	
 							win.add(toolbar);
 	

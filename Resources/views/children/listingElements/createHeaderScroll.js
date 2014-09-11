@@ -65,7 +65,7 @@ function headerScroll(tabGroup, venueID) {
                 });
 
                 var image = Titanium.UI.createImageView({
-                    image:'http://www.venuefinder.com/adverts-hd/' + mediaURL,
+                    image:'http://www.venuefinder.com/gallery/' + mediaURL,
                     defaultImage:'/images/icon.png',
                     imageCode:mediaURL,
                     index:count,
@@ -116,7 +116,7 @@ function headerScroll(tabGroup, venueID) {
                 var videoID = videoURL.substring(29, 60);
                 
                 var videoImage = Titanium.UI.createImageView({
-                    image:'http://www.venuefinder.com/adverts/' + mediaURL,
+                    image:'http://www.venuefinder.com/gallery/' + mediaURL,
                     defaultImage:'/images/icon.png',
                     touchEnabled:false,
                     width:370,

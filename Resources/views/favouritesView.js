@@ -77,7 +77,8 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
                 fontFamily:'Arial',
                 fontWeight:'bold'
             },
-            left:15
+            left:15,
+            touchEnabled:false
         });
         
         if (Ti.App.Properties.getString('osname') == 'Android'){
@@ -87,7 +88,7 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
 		styleNameRow.add(styleNameLabel);
         favData.push(styleNameRow);
 
-        styleNameLabel.addEventListener('click', function(e) {
+        styleNameRow.addEventListener('click', function(e) {
 
             var sortData = [];
 
@@ -118,7 +119,8 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
                 bottom:0,
                 width:Ti.UI.FILL,
                 selectionIndicator:true,
-                zIndex:10
+                zIndex:10,
+                backgroundColor:'#399ad4'
             });
 
             picker.add(sortData);
@@ -469,8 +471,10 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
 
                         var picker = Ti.UI.createPicker({
                             bottom:0,
+                            width:Ti.UI.FILL,
                             selectionIndicator:true,
-                            zIndex:10
+                            zIndex:10,
+                            backgroundColor:'#399ad4'
                         });
 
                         picker.add(pickerData);
@@ -492,9 +496,8 @@ function favouritesView(tabGroup, title, backgroundColor, tab5) {
 	                            var selectedTitle = picker.getSelectedRow(0).title;
 	                            var update = db.execute('UPDATE Favourites SET StarRating="' + selectedRate + '" WHERE venueID="' + selectedRow + '"');
 	                            db.close();
-	                            if (Ti.Platform.osname!='android') {
-	                                childWin.setRightNavButton(null);
-	                            }
+	                            
+	                            childWin.setRightNavButton(null);
 	                            childWin.remove(picker);
 	                            childRow.setTitle(selectedTitle);
 	                            favData = [];

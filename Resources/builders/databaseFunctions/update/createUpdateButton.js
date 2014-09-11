@@ -23,7 +23,8 @@ function createUpdateButton(win, offersButton) {
 			zIndex:3,
 			top:25,
 			width:80,
-			dontShow:true
+			dontShow:true,
+			showCounter:0
 		});
 		
 		if (Ti.App.Properties.getString('osname') == 'iPad') {
@@ -54,6 +55,7 @@ function createUpdateButton(win, offersButton) {
 	setInterval(function(){
 		
 		exportTimestamp = getExportTimestamp("http://venuefindermobile.live.x-rm.com/webapi-v1/api/general/GetMainDatabaseModifiedDate");
+		lastUpdateTimestamp = getUpdateTimestamp(button, infoLine);
 
 		Ti.App.addEventListener('recievedDate', function(e){
 			
@@ -62,10 +64,11 @@ function createUpdateButton(win, offersButton) {
 			}
 			
 			exportTimestamp = e.date.toString();
-			Ti.API.info('exported@: '+e.date.toString());
 		});
 		
-		if (button.dontShow == false) {
+		if (button.dontShow == false && button.showCounter == 0) {
+			
+			button.showCounter = ++button.showCounter;
 			
 			win.add(button);
 			button.dontShow = true;
@@ -105,7 +108,9 @@ function createUpdateButton(win, offersButton) {
 	    			getUpdateTimestamp(button, infoLine);
 	    			
 	    			button.dontShow = true;
+	    			button.showCounter = 0;
 	    			win.remove(button);
+	    		
 				}
 	
 			});

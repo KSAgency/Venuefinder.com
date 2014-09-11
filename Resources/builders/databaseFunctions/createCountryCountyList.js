@@ -21,9 +21,7 @@ function createCountryCountyList(tabGroup, sqlString, sqlString2, sqlString3, sq
         var createStartActInd = require('/builders/startActInd');
         var startActInd = createStartActInd(tableWin);
 
-        if (Ti.App.Properties.getString('osname')!='Android') {
-            tableWin.setBackgroundColor('#d2e8f5');
-        }
+        tableWin.setBackgroundColor('#d2e8f5');
 
         tabGroup.activeTab.open(tableWin);
 
