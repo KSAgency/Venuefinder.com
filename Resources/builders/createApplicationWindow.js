@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function createApplicationWindow(tabGroup, view, name, backgroundColor, tab, tier1, tier2, tier3, venueID, tabSelect, flipWindow) {
 	var win = Titanium.UI.createWindow({
 		backgroundColor : backgroundColor,
@@ -6,16 +5,6 @@ function createApplicationWindow(tabGroup, view, name, backgroundColor, tab, tie
 		width : Ti.UI.FILL,
 		height : Ti.UI.FILL,
 		zIndex : 0,
-=======
-function createApplicationWindow(tabGroup, view, name, backgroundColor, tab, tier1, tier2, tier3, venueID, tabSelect){
-    
-    var win = Titanium.UI.createWindow({
-		backgroundColor:backgroundColor,
-		title:name,
-		width:Ti.UI.FILL,
-        height:Ti.UI.FILL,
-        modal:false
->>>>>>> FETCH_HEAD
 	});
 
 	if (Ti.App.Properties.getString('osname') == 'iPhone') {

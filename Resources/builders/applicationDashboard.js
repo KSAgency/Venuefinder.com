@@ -128,7 +128,6 @@ function applicationDashboard(tabGroup) {
 	// Add the data
 
 	var data = [{
-<<<<<<< HEAD
 		title : 'Venue Search',
 		hasChild : true,
 		index : 0,
@@ -181,66 +180,6 @@ function applicationDashboard(tabGroup) {
 		font : {
 			fontSize : '20',
 			fontWeight : 'bold'
-=======
-		height:44,
-		title:'Venue Search',
-		hasChild:true,
-		index:0,
-		color:'#2195be',
-		font:{
-			fontSize:'20',
-			fontWeight:'bold'
-		}
-	}, {
-		height:44,
-		title:'Map',
-		hasChild:true,
-		index:1,
-		color:'#2195be',
-		font:{
-			fontSize:'20',
-			fontWeight:'bold'
-		}
-	}, {
-		height:44,
-		title:'Videos',
-		hasChild:true,
-		index:2,
-		color:'#2195be',
-		font:{
-			fontSize:'20',
-			fontWeight:'bold'
-		}
-	}, {
-		height:44,
-		title:'Special Offers',
-		hasChild:true,
-		index:3,
-		color:'#2195be',
-		font:{
-			fontSize:'20',
-			fontWeight:'bold'
-		}
-	}, {
-		height:44,
-		title:'My Favourites',
-		hasChild:true,
-		index:4,
-		color:'#2195be',
-		font:{
-			fontSize:'20',
-			fontWeight:'bold'
-		}
-	}, {
-		height:44,
-		title:'About venuefinder.com',
-		hasChild:true,
-		index:5,
-		color:'#2195be',
-		font:{
-			fontSize:'20',
-			fontWeight:'bold'
->>>>>>> FETCH_HEAD
 		}
 	}];
 
