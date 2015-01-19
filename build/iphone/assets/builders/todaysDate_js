@@ -1,1 +1,0 @@
-function todaysDate(){var e=new Date,t=e.getDate(),i=e.getMonth()+1,a=e.getFullYear();return 10>t&&(t="0"+t),10>i&&(i="0"+i),e=a+"-"+i+"-"+t}module.exports=todaysDate;

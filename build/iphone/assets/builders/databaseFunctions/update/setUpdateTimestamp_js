@@ -1,1 +1,0 @@
-function setUpdateTimestamp(){var e=new Date;e=e.toDateString();{var t=e.substring(8,10),i=e.substring(4,7),a=e.substring(11,15),n=require("/builders/databaseFunctions/createDatabase"),o=n("/update.db","update");o.execute('INSERT INTO dateDB ("Year", "Month", "Day") VALUES ("'+a+'", "'+i+'", "'+t+'")')}o.close()}module.exports=setUpdateTimestamp;

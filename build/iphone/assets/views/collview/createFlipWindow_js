@@ -1,1 +1,0 @@
-function createFlipWindow(e,t,i,a,n,r,o,s,l,d,u,c,f,l,p){var m=Titanium.UI.createWindow({backgroundColor:a,title:i,width:Ti.UI.FILL,height:Ti.UI.FILL,url:t,tabGroup:e,styleID:u,windowsArray:c,venueID:l,win:p,startActInd:f,fullscreen:!0});return m.setNavBarHidden(!0),m}module.exports=createFlipWindow;

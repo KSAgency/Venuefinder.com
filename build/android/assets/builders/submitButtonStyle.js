@@ -1,1 +1,0 @@
-function submitButtonStyle(e){var t=Titanium.UI.createView({height:80}),i=Titanium.UI.createImageView({image:"/images/submit_bar.png",width:320,height:41});return null!=e&&""!=e&&i.setImage(e),"iPad"==Ti.App.Properties.getString("osname")&&(i.setWidth(216),i.setLeft(0),i.setImage("/images/submit_bar_single.png")),t.add(i),t}module.exports=submitButtonStyle;

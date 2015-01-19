@@ -1,1 +1,0 @@
-function firstSpreadView1(e,t){Ti.API.info("** venue detail "+venueNameDetail);var i=venueNameDetail.getVenueImage(t),a=Ti.UI.createImageView({backgroundColor:"#C0C0C0",width:"391",height:"540",top:"76",left:"44",image:i});return e.add(a),e}var venueNameDetail=require("/views/collview/flipPages/getVenueNameAndDetail");module.exports=firstSpreadView1;
