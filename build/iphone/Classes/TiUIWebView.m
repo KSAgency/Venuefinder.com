@@ -626,14 +626,11 @@ NSString *HTMLTextEncodingNameForStringEncoding(NSStringEncoding encoding)
 
 -(CGFloat)contentHeightForWidth:(CGFloat)value
 {
-    CGRect oldBounds = [[self webview] bounds];
-    BOOL oldVal = webview.scalesPageToFit;
-    [webview setScalesPageToFit:NO];
-    [webview setBounds:CGRectMake(0, 0, 10, 1)];
-    CGFloat ret = [webview sizeThatFits:CGSizeMake(10, 1)].height;
-    [webview setBounds:oldBounds];
-    [webview setScalesPageToFit:oldVal];
-    return ret;
+     CGRect oldBounds = [[self webview] bounds];
+     [webview setBounds:CGRectMake(0, 0, MAX(value,10), 1)];
+     CGFloat result = [[webview stringByEvaluatingJavaScriptFromString:@"document.height"] floatValue];
+     [webview setBounds:oldBounds];
+     return result;
 }
 
 -(CGFloat)contentWidthForWidth:(CGFloat)value

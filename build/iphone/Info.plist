@@ -32,9 +32,15 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
+<<<<<<< HEAD
 	<string>1.4.0.1417707416975</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.4.0.1417707416975</string>
+=======
+	<string>1.5.4</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.5.4</string>
+>>>>>>> FETCH_HEAD
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiresPersistentWiFi</key>

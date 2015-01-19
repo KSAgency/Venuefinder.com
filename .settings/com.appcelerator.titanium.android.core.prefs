@@ -2,6 +2,7 @@ android/ATTR_MINIFY=true
 android/ATTR_PROJECT_NAME=Venue Finder
 android/abi=armeabi
 android/distribute_path=/Users/SamJacob/Desktop
+android/key_password=
 android/keystore_alias=venuefinder.com
 android/keystore_password=KeeScott101
 android/keystore_path=/Users/SamJacob/Desktop/App Design/Keystores/com.ksagency.venuefinder

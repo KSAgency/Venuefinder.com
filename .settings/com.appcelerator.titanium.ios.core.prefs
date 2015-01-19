@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 iosLaunchConfigurationAttributes/ATTR_MINIFY=true
+<<<<<<< HEAD
 iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=Venuefinder.com-github
 iosLaunchConfigurationAttributes/appid=uk.co.nacon
 iosLaunchConfigurationAttributes/certificate=Pankaj Sharma (W9G9Y9MV6F)
@@ -42,6 +43,22 @@ provisioning_profiles/development/F196AB61-4D16-4A3B-B1C3-502E0AFCAAAE/uuid=F196
 provisioning_profiles/development/FDA5E2BA-BF6D-4E9D-9470-8C8CF2520D5B/appid=com.maximum.qrmagazin
 provisioning_profiles/development/FDA5E2BA-BF6D-4E9D-9470-8C8CF2520D5B/name=iOS Team Provisioning Profile\: com.maximum.qrmagazin
 provisioning_profiles/development/FDA5E2BA-BF6D-4E9D-9470-8C8CF2520D5B/uuid=FDA5E2BA-BF6D-4E9D-9470-8C8CF2520D5B
+=======
+iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=Venue Finder
+iosLaunchConfigurationAttributes/appid=com.ksagency.venuefinder
+iosLaunchConfigurationAttributes/certificate=Rory Kee (NQVW7522T3)
+iosLaunchConfigurationAttributes/distribute_path=/Users/SamJacob/Desktop
+iosLaunchConfigurationAttributes/keychain=/Users/SamJacob/Library/Keychains/login.keychain
+iosLaunchConfigurationAttributes/output_format=ipa
+iosLaunchConfigurationAttributes/sdk_version=7.0
+iosLaunchConfigurationAttributes/uuid=A7798D59-87E7-443C-AE57-1EA0CE078D24
+provisioning_profiles/adhoc/EF388EC1-DCF8-4B9C-ADD1-B3BEEE790889/appid=com.ksagency.*
+provisioning_profiles/adhoc/EF388EC1-DCF8-4B9C-ADD1-B3BEEE790889/name=Test Flight Distribution
+provisioning_profiles/adhoc/EF388EC1-DCF8-4B9C-ADD1-B3BEEE790889/uuid=EF388EC1-DCF8-4B9C-ADD1-B3BEEE790889
+provisioning_profiles/development/AB7B56E4-E868-4D02-9C68-40A2EA5B4481/appid=com.ksagency.*
+provisioning_profiles/development/AB7B56E4-E868-4D02-9C68-40A2EA5B4481/name=KS Dev
+provisioning_profiles/development/AB7B56E4-E868-4D02-9C68-40A2EA5B4481/uuid=AB7B56E4-E868-4D02-9C68-40A2EA5B4481
+>>>>>>> FETCH_HEAD
 provisioning_profiles/distribution/A7798D59-87E7-443C-AE57-1EA0CE078D24/appid=com.ksagency.venuefinder
 provisioning_profiles/distribution/A7798D59-87E7-443C-AE57-1EA0CE078D24/name=Venue Finder Distribution
 provisioning_profiles/distribution/A7798D59-87E7-443C-AE57-1EA0CE078D24/uuid=A7798D59-87E7-443C-AE57-1EA0CE078D24

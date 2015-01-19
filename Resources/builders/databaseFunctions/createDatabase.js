@@ -43,10 +43,6 @@ function createDatabase(url, sqlName, cleanDB) {
 			
 			var update = Ti.Database.install(url, sqlName);
 				
-				Ti.API.info('ATTACH DATABASE "'+dbPath+'" AS "OffersDB"');
-				
-				Ti.API.info(dbPath);
-				
 				update.execute('DROP TABLE IF EXISTS Offers');
 				update.execute('ATTACH DATABASE "'+dbPath+'" AS "OffersDB"');
 				update.execute('CREATE TABLE IF NOT EXISTS Offers AS SELECT * FROM OffersDB.Offers');

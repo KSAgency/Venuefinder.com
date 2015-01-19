@@ -41,13 +41,13 @@ function featuredResultsFormat(venueName, venueID, imageUrl, bedrooms, bedroomAc
 	}
 
 	var image = Titanium.UI.createImageView({
-		image:'http://www.venuefinder.com/adverts/' + imageUrl,
+		image:'http://www.venuefinder.com/gallery/' + imageUrl,
 		defaultImage:'/images/icon.png',
 		hires:true,
 		width:140,
 		touchEnabled:false
 	});
-
+	
 	if (imageUrl == null) {
 		image.setImage('/images/icon.png');
 	}
@@ -151,13 +151,19 @@ function featuredResultsFormat(venueName, venueID, imageUrl, bedrooms, bedroomAc
 	if (Ti.App.Properties.getString('osname') != 'Android'){
 		venueDescLabel.setLeft(125);
 		venueDescLabel.setWidth(180);
+	} else {
+		venueDescLabel.setHeight(34);
 	}
 	
 	if (venueName.length < 20){
 		title.setHeight(20);
 		subTitle.setTop(20);
 		venueDescLabel.setTop(43);
-		venueDescLabel.setHeight(55);
+		if (Ti.App.Properties.getString('osname') != 'Android'){
+			venueDescLabel.setHeight(55);
+		} else {
+			venueDescLabel.setHeight(52);
+		}
 	}
 
 	titleBox.add(title);

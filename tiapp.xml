@@ -11,7 +11,7 @@
     <sdk-version>3.2.2.GA</sdk-version>
     <id>uk.co.nacon</id>
     <name>Venue Finder</name>
-    <version>1.4</version>
+    <version>1.5.4</version>
     <publisher>SamJacob</publisher>
     <url>http://www.venuefinder.com</url>
     <description>not specified</description>
@@ -37,28 +37,19 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest>
-            <supports-screens android:anyDensity="false"/>
-            <!-- Allows the API to download data from Google Map servers -->
+        <manifest android:versionCode="5" android:versionName="1.5.4">
             <uses-permission android:name="android.permission.INTERNET"/>
-            <!-- Allows the API to cache data -->
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-            <!-- Use GPS for device location -->
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-            <!-- Use Wi-Fi or mobile connection for device location -->
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-            <!-- Allows the API to access Google web-based services -->
             <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-            <!-- Specify OpenGL ES 2.0 as a requirement -->
             <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
-            <!-- Replace com.domain.appid with your application ID -->
-            <uses-permission android:name="uk.co.nacon.permission.MAPS_RECEIVE"/>
+            <uses-permission android:name="com.ksagency.venuefinder.permission.MAPS_RECEIVE"/>
             <permission
-                android:name="uk.co.nacon.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+                android:name="com.ksagency.venuefinder.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
             <application>
-                <!-- Replace "PASTE YOUR GOOGLE MAPS API KEY HERE" with the Google API key you obtained -->
                 <meta-data
-                    android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBhJ3c2UYxYWGpuuZAlTpSJ5ZLJFdwNsi0"/>
+                    android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCDgXwKGbxJxhN4fgbDQ1Wom5HwG1E8_gY"/>
             </application>
         </manifest>
     </android>
@@ -77,5 +68,4 @@
         <module platform="android">ti.map</module>
         <module platform="iphone">ti.pageflip</module>
     </modules>
-    <property name="ti.deploytype">test</property>
 </ti:app>

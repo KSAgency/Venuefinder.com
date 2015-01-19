@@ -42,8 +42,6 @@ function createImageGallery(tabGroup, imageList, index) {
         imageViews.push(scrollView);
         
     }
-    
-    Ti.API.info(index);
 
     var imageScroller = Ti.UI.createScrollableView({
         views:imageViews,

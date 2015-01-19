@@ -17,27 +17,24 @@ function getExportTimestamp(url){
 			}
 			catch(e)
 			{
-				    var date = new Date();
-				if(date.getMonth().toString() < 9)
-				{
+				var date = new Date();
+				
+				if (date.getMonth().toString() < 9) {
 					var month = "0" + (date.getMonth() + 1).toString();
-				}
-				else
-				{
+				} else {
 					var month =  (date.getMonth() + 1).toString();
 				}
 				
-				if(date.getDate().toString() < 10)
-				{
+				if (date.getDate().toString() < 10) {
 					var day = "0"+ date.getDate().toString();
-				}
-				else
-				{
+				} else {
 					var day =  (date.getDate()).toString();
 				}
+				
 				var unformated = date.getFullYear().toString()+ month + day;
+				
 			}
-//				Ti.API.info("unformated date:"+unformated);	
+			
 				Ti.App.fireEvent('recievedDate', {date:unformated});
 				
 		};

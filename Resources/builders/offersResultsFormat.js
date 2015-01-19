@@ -29,7 +29,7 @@ function offersResultsFormat(venueName, venueID, imageUrl, venueTown, venueCount
     }
 
     var image = Titanium.UI.createImageView({
-        image:'http://www.venuefinder.com/adverts/' + imageUrl,
+        image:'http://www.venuefinder.com/gallery/' + imageUrl,
         hires:true,
         width:'280',
         height:'180',

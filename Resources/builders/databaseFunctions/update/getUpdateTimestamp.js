@@ -8,7 +8,7 @@ function getUpdateTimestamp(button, infoLine) {
 	//Get DB
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var checkDB = createDatabase('/update.db', 'update');
-	var queryDB = checkDB.execute('SELECT * FROM dateDB ORDER BY rowid ASC');
+	var queryDB = checkDB.execute('SELECT * FROM dateDB ORDER BY rowid DESC');
 
 	if (queryDB.rowCount == 0) {
 

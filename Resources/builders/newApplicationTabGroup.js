@@ -57,11 +57,11 @@ function newApplicationTabGroup() {
     tabGroup.tab5 = tab5;
     
     if (Ti.App.Properties.getString('osname') == 'Android'){
-    	tab1.setIcon('/images/searchAndroid.png');
-    	tab2.setIcon('/images/mapAndroid.png');
-    	tab3.setIcon('/images/mediaAndroid.png');
-    	tab4.setIcon('/images/offersAndroid.png');
-    	tab5.setIcon('/images/favouritesAndroid.png');
+    	tab1.setIcon(null);
+    	tab2.setIcon(null);
+    	tab3.setIcon(null);
+    	tab4.setIcon(null);
+    	tab5.setIcon(null);
     }
     
     tabGroup.addTab(tab1);
