@@ -6,7 +6,7 @@ function startActInd(curWin) {
         backgroundColor:'#000',
         opacity:0.75,
         borderRadius:'15%',
-        zIndex:20
+        zIndex:205,
     });
 
     var actInd = Titanium.UI.createActivityIndicator();

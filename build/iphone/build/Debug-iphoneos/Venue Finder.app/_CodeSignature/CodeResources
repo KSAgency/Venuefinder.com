@@ -98,7 +98,7 @@
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		zptcSV8FdtpE8gO9DLcDrD5oPAA=
+		3Gjgw17xHYZliXj/l3v6Ju+N8Bw=
 		</data>
 		<key>favourites.db</key>
 		<data>
@@ -116,6 +116,10 @@
 		<data>
 		9y1yTN/tHVFCnOq8/hEvHg9RQ/8=
 		</data>
+		<key>images/45StarHotels.jpg</key>
+		<data>
+		e1h2xiIy3GDuvIDiBuWcDSnguhE=
+		</data>
 		<key>images/4star.png</key>
 		<data>
 		Ow4zc6xrgRkz9rBD0f6H2BAx/2k=
@@ -123,6 +127,10 @@
 		<key>images/5star.png</key>
 		<data>
 		Q8XcfQ8SMOu6LDTTeZuwVrtzcJw=
+		</data>
+		<key>images/AcademicVenues.jpg</key>
+		<data>
+		Um1+QVXSzCYyaweLKO8UT0ahSYk=
 		</data>
 		<key>images/Amy.jpg</key>
 		<data>
@@ -236,6 +244,18 @@
 		<data>
 		4+yqagYG6KZSf6MfdZkYNAOdMWA=
 		</data>
+		<key>images/castleHistoricVenues.jpg</key>
+		<data>
+		m+mzoRi1Xhjcaaju80e5tkfecnQ=
+		</data>
+		<key>images/christmasVenues.jpg</key>
+		<data>
+		KoqBAeeceeKc8SLYpU/ml+Ptrxw=
+		</data>
+		<key>images/close.png</key>
+		<data>
+		XglzgFJsCGlZeUf7YiEaqvJFktM=
+		</data>
 		<key>images/col-4starhotels.jpg</key>
 		<data>
 		4TXi+m6GbEdh3n26+kUJYPgEa6w=
@@ -259,6 +279,14 @@
 		<key>images/col-weddings.jpg</key>
 		<data>
 		wLOzImtjFMhzjvoVWlmpewGOP5Y=
+		</data>
+		<key>images/collection-cover.png</key>
+		<data>
+		tIiJ4YeROM/GUXnBmRKT6JE7hyc=
+		</data>
+		<key>images/conferenceVenues.jpg</key>
+		<data>
+		6Cc0JW/u0mXXNSWO0bMvCLN3Mxs=
 		</data>
 		<key>images/deleteButton.png</key>
 		<data>
@@ -304,6 +332,10 @@
 		<data>
 		NW1z8NJXOWarr3GtuL4hD2HNe38=
 		</data>
+		<key>images/grey.jpg</key>
+		<data>
+		hYZEaTomtrx32CTqk2bi6b3oTic=
+		</data>
 		<key>images/has_access.png</key>
 		<data>
 		E6K3Vlbx9k0Rs/2ZF6tShjQVt9o=
@@ -315,6 +347,10 @@
 		<key>images/has_offers.png</key>
 		<data>
 		B5wz+CwiegjDP+hBa4DLF/E7oJM=
+		</data>
+		<key>images/header.png</key>
+		<data>
+		nU1OKHONnuHB55BpZBbiMDYlybs=
 		</data>
 		<key>images/icon.png</key>
 		<data>
@@ -419,6 +455,10 @@
 		<key>images/media_videos.png</key>
 		<data>
 		KtYuZFzqJcP+1ntwvHfEp6HH0Ns=
+		</data>
+		<key>images/meeting_room.png</key>
+		<data>
+		QJQUpEEC1GY5/s888OzL6VrNXqs=
 		</data>
 		<key>images/meeting_rooms.png</key>
 		<data>
@@ -568,6 +608,14 @@
 		<data>
 		jZyE+SUM3GCohnF3yeU+kmFsyqc=
 		</data>
+		<key>images/style-default-zoom.png</key>
+		<data>
+		hf45eXhoCwQwk2bEhblLHKJOP88=
+		</data>
+		<key>images/style-default.png</key>
+		<data>
+		/8NLHU6kM4gv2/AR6gs28ZaG1Q4=
+		</data>
 		<key>images/submit_bar.png</key>
 		<data>
 		LJzW5c0a6D5nBcdKgjhTw1DNCrI=
@@ -656,6 +704,10 @@
 		<data>
 		H5MS8DB6SmdnOmdPpR3rKgl+f74=
 		</data>
+		<key>images/unusualVeneus.jpg</key>
+		<data>
+		Ywr8x9+Y7jA1SkCvQTdIRJtdNoc=
+		</data>
 		<key>images/update.png</key>
 		<data>
 		Gw4XbFXVACEYdeEI5hJPNWq5CEw=
@@ -691,6 +743,10 @@
 		<key>images/venue_info_s.png</key>
 		<data>
 		ZnoD+aYVNBAh8+uvtA8MX53GdPQ=
+		</data>
+		<key>images/venuecollectionios.png</key>
+		<data>
+		YuPxidTPEM/c1r0yQ1isRJ/0+Ns=
 		</data>
 		<key>images/venues_near_me.png</key>
 		<data>
@@ -750,7 +806,7 @@
 		</data>
 		<key>venuefinder.db</key>
 		<data>
-		iWecxZ+Hz2Ov+P2QokIuJEXQ4/w=
+		pcnQEvHUDv3zXUhvH+iqrthi90M=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -849,7 +905,7 @@
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		zptcSV8FdtpE8gO9DLcDrD5oPAA=
+		3Gjgw17xHYZliXj/l3v6Ju+N8Bw=
 		</data>
 		<key>favourites.db</key>
 		<data>
@@ -867,6 +923,10 @@
 		<data>
 		9y1yTN/tHVFCnOq8/hEvHg9RQ/8=
 		</data>
+		<key>images/45StarHotels.jpg</key>
+		<data>
+		e1h2xiIy3GDuvIDiBuWcDSnguhE=
+		</data>
 		<key>images/4star.png</key>
 		<data>
 		Ow4zc6xrgRkz9rBD0f6H2BAx/2k=
@@ -874,6 +934,10 @@
 		<key>images/5star.png</key>
 		<data>
 		Q8XcfQ8SMOu6LDTTeZuwVrtzcJw=
+		</data>
+		<key>images/AcademicVenues.jpg</key>
+		<data>
+		Um1+QVXSzCYyaweLKO8UT0ahSYk=
 		</data>
 		<key>images/Amy.jpg</key>
 		<data>
@@ -987,6 +1051,18 @@
 		<data>
 		4+yqagYG6KZSf6MfdZkYNAOdMWA=
 		</data>
+		<key>images/castleHistoricVenues.jpg</key>
+		<data>
+		m+mzoRi1Xhjcaaju80e5tkfecnQ=
+		</data>
+		<key>images/christmasVenues.jpg</key>
+		<data>
+		KoqBAeeceeKc8SLYpU/ml+Ptrxw=
+		</data>
+		<key>images/close.png</key>
+		<data>
+		XglzgFJsCGlZeUf7YiEaqvJFktM=
+		</data>
 		<key>images/col-4starhotels.jpg</key>
 		<data>
 		4TXi+m6GbEdh3n26+kUJYPgEa6w=
@@ -1010,6 +1086,14 @@
 		<key>images/col-weddings.jpg</key>
 		<data>
 		wLOzImtjFMhzjvoVWlmpewGOP5Y=
+		</data>
+		<key>images/collection-cover.png</key>
+		<data>
+		tIiJ4YeROM/GUXnBmRKT6JE7hyc=
+		</data>
+		<key>images/conferenceVenues.jpg</key>
+		<data>
+		6Cc0JW/u0mXXNSWO0bMvCLN3Mxs=
 		</data>
 		<key>images/deleteButton.png</key>
 		<data>
@@ -1055,6 +1139,10 @@
 		<data>
 		NW1z8NJXOWarr3GtuL4hD2HNe38=
 		</data>
+		<key>images/grey.jpg</key>
+		<data>
+		hYZEaTomtrx32CTqk2bi6b3oTic=
+		</data>
 		<key>images/has_access.png</key>
 		<data>
 		E6K3Vlbx9k0Rs/2ZF6tShjQVt9o=
@@ -1066,6 +1154,10 @@
 		<key>images/has_offers.png</key>
 		<data>
 		B5wz+CwiegjDP+hBa4DLF/E7oJM=
+		</data>
+		<key>images/header.png</key>
+		<data>
+		nU1OKHONnuHB55BpZBbiMDYlybs=
 		</data>
 		<key>images/icon.png</key>
 		<data>
@@ -1170,6 +1262,10 @@
 		<key>images/media_videos.png</key>
 		<data>
 		KtYuZFzqJcP+1ntwvHfEp6HH0Ns=
+		</data>
+		<key>images/meeting_room.png</key>
+		<data>
+		QJQUpEEC1GY5/s888OzL6VrNXqs=
 		</data>
 		<key>images/meeting_rooms.png</key>
 		<data>
@@ -1319,6 +1415,14 @@
 		<data>
 		jZyE+SUM3GCohnF3yeU+kmFsyqc=
 		</data>
+		<key>images/style-default-zoom.png</key>
+		<data>
+		hf45eXhoCwQwk2bEhblLHKJOP88=
+		</data>
+		<key>images/style-default.png</key>
+		<data>
+		/8NLHU6kM4gv2/AR6gs28ZaG1Q4=
+		</data>
 		<key>images/submit_bar.png</key>
 		<data>
 		LJzW5c0a6D5nBcdKgjhTw1DNCrI=
@@ -1407,6 +1511,10 @@
 		<data>
 		H5MS8DB6SmdnOmdPpR3rKgl+f74=
 		</data>
+		<key>images/unusualVeneus.jpg</key>
+		<data>
+		Ywr8x9+Y7jA1SkCvQTdIRJtdNoc=
+		</data>
 		<key>images/update.png</key>
 		<data>
 		Gw4XbFXVACEYdeEI5hJPNWq5CEw=
@@ -1442,6 +1550,10 @@
 		<key>images/venue_info_s.png</key>
 		<data>
 		ZnoD+aYVNBAh8+uvtA8MX53GdPQ=
+		</data>
+		<key>images/venuecollectionios.png</key>
+		<data>
+		YuPxidTPEM/c1r0yQ1isRJ/0+Ns=
 		</data>
 		<key>images/venues_near_me.png</key>
 		<data>
@@ -1501,7 +1613,7 @@
 		</data>
 		<key>venuefinder.db</key>
 		<data>
-		iWecxZ+Hz2Ov+P2QokIuJEXQ4/w=
+		pcnQEvHUDv3zXUhvH+iqrthi90M=
 		</data>
 	</dict>
 	<key>rules</key>

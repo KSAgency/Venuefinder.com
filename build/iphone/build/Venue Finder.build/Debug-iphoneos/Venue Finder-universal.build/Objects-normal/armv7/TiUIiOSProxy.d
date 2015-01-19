@@ -24,6 +24,7 @@ dependencies: \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiBuffer.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiBlob.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/Webcolor.h \
+  /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiOSAttributedStringProxy.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiOSToolbarProxy.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiViewProxy.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIView.h \

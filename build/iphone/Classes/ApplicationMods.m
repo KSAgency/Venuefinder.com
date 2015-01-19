@@ -35,9 +35,23 @@
 			@"name",
 			@"ti.map",
 			@"moduleid",
-			@"2.0.1",
+			@"2.0.2",
 			@"version",
 			@"fee93b77-8eb3-418c-8f04-013664c4af83",
+			@"guid",
+			@"",
+			@"licensekey",
+			nil
+		]];
+		
+		[modules addObject:[NSDictionary
+			dictionaryWithObjectsAndKeys:@"pageflip",
+			@"name",
+			@"ti.pageflip",
+			@"moduleid",
+			@"1.8.3",
+			@"version",
+			@"43c25a5d-6947-45c6-8092-6b573f9d5222",
 			@"guid",
 			@"",
 			@"licensekey",

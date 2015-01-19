@@ -1,36 +1,54 @@
 function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, tier2, tier3, showOffers) {
-
 	if (venueName == null || venueName == '') {
 		venueName = 'Venue Map';
 	}
-
 	var win = Titanium.UI.createView({
 		backgroundColor : '#FFF',
 		title : venueName,
 		height : Ti.UI.FILL,
 		width : Ti.UI.FILL
 	});
-
 	//get todays date
 	var createTodaysDate = require('/builders/todaysDate');
 	var today = createTodaysDate();
-
 	//Create Array
 	var data = [];
-
 	//Create Query
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-
+	//Load Maps
+	var Map = require('ti.map');
+	//Check for Google Play Services
+	if (Ti.App.Properties.getString('osname') == 'Android') {
+		var rc = Map.isGooglePlayServicesAvailable();
+		switch (rc) {
+		case Map.SUCCESS:
+			Ti.API.info('Google Play services is installed.');
+			break;
+		case Map.SERVICE_MISSING:
+			alert('Google Play services is missing. Please install Google Play services from the Google Play store.');
+			break;
+		case Map.SERVICE_VERSION_UPDATE_REQUIRED:
+			alert('Google Play services is out of date. Please update Google Play services.');
+			break;
+		case Map.SERVICE_DISABLED:
+			alert('Google Play services is disabled. Please enable Google Play services.');
+			break;
+		case Map.SERVICE_INVALID:
+			alert('Google Play services cannot be authenticated. Reinstall Google Play services.');
+			break;
+		default:
+			alert('Unknown error.');
+			break;
+		}
+	}
 	if (geoLocation == true) {
-
 		Number.prototype.toDeg = function() {
 			return this * 180 / Math.PI;
 		};
 		Number.prototype.toRad = function() {
 			return this * Math.PI / 180;
 		};
-
 		function getDistance(lat1, lon1, lat2, lon2) {
 			var R = 6371;
 			// km
@@ -39,57 +57,34 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 			var d = R * c;
-
 			return d;
 		}
 
 
 		Titanium.Geolocation.getCurrentPosition(function(e) {
 			if (e.code != 1 && e.code != '1') {//e.code != 6 && e.code != '6'
-				Ti.API.info("e.code: " + e.code);
 				var createDatabase = require('/builders/databaseFunctions/createDatabase');
 				var db = createDatabase('/venuefinder.db', 'venuefinder');
-
 				var curLat = e.coords.latitude;
-				Ti.API.info("curLat" + curLat);
 				var curLon = e.coords.longitude;
-				Ti.API.info("curLon" + curLon);
-				var Map = require('ti.map');
-				// var sqlString = 'SELECT *, distance(VenueCoords.Latitude, VenueCoords.Longitude, ' + curLat + ', ' + curLon + ') AS CalcDistance FROM Venue JOIN VenueCoords ON Venue.VenueID=VenueCoords.VenueID WHERE CalcDistance <= 25  ORDER BY CalcDistance LIMIT 500';
-
 				var sqlString = 'SELECT * FROM Venue JOIN VenueCoords ON Venue.VenueID=VenueCoords.VenueID';
-
 				if (showOffers == true) {
 					sqlString = 'SELECT * FROM Venue JOIN VenueCoords ON Venue.VenueID=VenueCoords.VenueID JOIN Offers ON Venue.VenueID=Offers.EntryID WHERE Offers.EntryType="V" AND Offers.validToDate>="' + today + '" AND Venue.PackageCode!="FRE"';
 				}
-
 				var pinCounter = 0;
-
 				var row = db.execute(sqlString);
 				while (row.isValidRow() && pinCounter != 500) {
-
 					var id = row.fieldByName('VenueID');
-
 					var latitude = row.fieldByName('Latitude');
-
 					var longitude = row.fieldByName('Longitude');
-
 					if (getDistance(curLat, curLon, latitude, longitude) <= 10) {
-
 						pinCounter = pinCounter + 1;
-
 						var venueClass = row.fieldByName('PackageCode');
-
 						var name = row.fieldByName('VenueName');
-
 						var address = row.fieldByName('AddressLine1');
-
 						var town = row.fieldByName('Town');
-
 						var county = row.fieldByName('County');
-
 						var postcode = row.fieldByName('Postcode');
-
 						if (address != '' && address != null) {
 							var address = address + ', ';
 						} else {
@@ -110,7 +105,6 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 						} else {
 							var postcode = '';
 						}
-
 						var annotation = Map.createAnnotation({
 							latitude : latitude,
 							longitude : longitude,
@@ -118,57 +112,24 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 							subtitle : address + town + county + postcode,
 							myid : id
 						});
-
 						if (Ti.App.Properties.getString('osname') != 'Android') {
 							annotation.setRightButton(Titanium.UI.iPhone.SystemButton.DISCLOSURE);
-
 							if (venueClass != "FRE") {
 								annotation.setPincolor(Map.ANNOTATION_RED);
 							} else {
 								annotation.setPincolor(Map.ANNOTATION_GREEN);
 							}
-
 						} else {
-
 							if (venueClass != "FRE") {
 								annotation.setImage('/images/redPin.png');
 							} else {
 								annotation.setImage('/images/greenPin.png');
 							}
-
 						}
-
 						data.push(annotation);
-
 					}
-
 					// create loop
 					row.next();
-
-				}
-
-				if (Ti.App.Properties.getString('osname') == 'Android') {
-					var rc = Map.isGooglePlayServicesAvailable();
-					switch (rc) {
-						case Map.SUCCESS:
-							Ti.API.info('Google Play services is installed.');
-							break;
-						case Map.SERVICE_MISSING:
-							alert('Google Play services is missing. Please install Google Play services from the Google Play store.');
-							break;
-						case Map.SERVICE_VERSION_UPDATE_REQUIRED:
-							alert('Google Play services is out of date. Please update Google Play services.');
-							break;
-						case Map.SERVICE_DISABLED:
-							alert('Google Play services is disabled. Please enable Google Play services.');
-							break;
-						case Map.SERVICE_INVALID:
-							alert('Google Play services cannot be authenticated. Reinstall Google Play services.');
-							break;
-						default:
-							alert('Unknown error.');
-							break;
-					}
 				}
 				var mapview = Map.createView({
 					mapType : Map.NORMAL_TYPE,
@@ -185,10 +146,8 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					annotations : data
 				});
 				win.add(mapview);
-
 				mapview.addEventListener('click', function(e) {
 					if (e.clicksource == 'rightButton' || e.clicksource == 'title' || e.clicksource == 'subtitle') {
-
 						if (tier1 == null) {
 							tier1 = e.annotation.myid;
 						} else if (tier1 != null && tier2 == null) {
@@ -196,22 +155,16 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 						} else if (tier1 != null && tier2 != null && tier3 == null) {
 							tier3 = e.annotation.myid;
 						}
-
 						if (showOffers == false || showOffers == null) {
 							var createApplicationWindow = require('/builders/createApplicationWindow');
 							var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.annotation.title, '#FFF', tab, tier1, tier2, tier3, e.annotation.myid, null);
-
 						} else {
 							var createApplicationWindow = require('/builders/createApplicationWindow');
 							var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.annotation.title, '#FFF', tab, tier1, tier2, tier3, e.annotation.myid, 'Offers');
-
 						}
 					}
-
 				});
-
 				// Add Map Map Key
-
 				var leftMenu = Ti.UI.createView({
 					left : -360,
 					bottom : 40,
@@ -221,42 +174,26 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					opacity : 0.8,
 					zIndex : 2
 				});
-
-				var mapKeyView = Ti.UI.createView({
-					left : 0,
-					bottom : 40,
-					width : 50,
-					height : 38,
-					backgroundColor : 'transparent',
-					opacity : 0.8,
-					zIndex : 2
-				});
-
-				win.add(mapKeyView);
-
 				var mapkey = Ti.UI.createImageView({
 					image : '/images/mapkey.png',
-					color : '#666',
-					opacity : 1,
-					width : 50,
+					bottom : 40,
+					left : 0,
 					height : 38,
-					zIndex : 1
+					width : 60,
+					zIndex : 2
 				});
-
-				mapKeyView.add(mapkey);
+				win.add(mapkey);
 				win.add(leftMenu);
-
 				var key = Ti.UI.createImageView({
 					image : '/images/map_key.png',
 					color : '#666',
 					opacity : 1,
 					width : 250,
 					height : 233,
+					left : 0,
 					zIndex : 1
 				});
-
 				leftMenu.add(key);
-
 				var mapMode = Titanium.UI.createView({
 					width : '45%',
 					height : '10%',
@@ -264,13 +201,10 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					left : '5%',
 					zIndex : '3'
 				});
-
 				mapMode.addEventListener('click', function() {
 					mapview.setMapType(Map.NORMAL_TYPE);
 				});
-
 				leftMenu.add(mapMode);
-
 				var satelliteMode = Titanium.UI.createView({
 					width : '55%',
 					height : '10%',
@@ -278,13 +212,10 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					left : '5%',
 					zIndex : '3'
 				});
-
 				satelliteMode.addEventListener('click', function() {
 					mapview.setMapType(Map.SATELLITE_TYPE);
 				});
-
 				leftMenu.add(satelliteMode);
-
 				var hybridMode = Titanium.UI.createView({
 					width : '50%',
 					height : '10%',
@@ -292,77 +223,55 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 					left : '5%',
 					zIndex : '3'
 				});
-
 				hybridMode.addEventListener('click', function() {
 					mapview.setMapType(Map.HYBRID_TYPE);
 				});
-
 				leftMenu.add(hybridMode);
-
 				mapkey.addEventListener('click', function(e) {
 					if (mapkey._left == true) {
 						leftMenu.animate({
 							left : -250,
 							duration : 775
 						});
-						mapKeyView.animate({
+						mapkey.animate({
 							left : 0,
 							duration : 775
 						});
-
 						mapkey._left = false;
 					} else {
-						mapKeyView.animate({
+						mapkey.animate({
 							left : 250,
 							duration : 775
 						});
-
 						mapkey._left = true;
-
 						leftMenu.animate({
 							left : 0,
 							duration : 775
 						});
 					}
 				});
-
 			} else {
 				var noConnectionDialog = Ti.UI.createAlertDialog({
 					title : 'Could not connect',
 					message : 'We could not determine your current location, please ensure that you are connected to the internet and have location services turned on, in your phone settings'
 				});
-
 				noConnectionDialog.show();
 			}
-
 		});
-
 	} else {
-
 		var lastLat = 0;
 		var lastLon = 0;
-		var Map = require('ti.map');
 		var row = db.execute(sqlString);
 		while (row.isValidRow()) {
-
 			var id = row.fieldByName('VenueID');
-
 			var latitude = row.fieldByName('Latitude');
-
 			var longitude = row.fieldByName('Longitude');
-
 			var venueClass = row.fieldByName('PackageCode');
-
 			var name = row.fieldByName('VenueName');
-
 			var address = row.fieldByName('AddressLine1');
-
 			var town = row.fieldByName('Town');
-
 			var county = row.fieldByName('County');
-
 			var postcode = row.fieldByName('Postcode');
-
 			if (address != '' && address != null) {
 				var address = address + ', ';
 			} else {
@@ -383,7 +292,6 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			} else {
 				var postcode = '';
 			}
-
 			var annotation = Map.createAnnotation({
 				latitude : latitude,
 				longitude : longitude,
@@ -391,61 +299,27 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 				subtitle : address + town + county + postcode,
 				myid : id
 			});
-
 			if (Ti.App.Properties.getString('osname') != 'Android') {
 				annotation.setRightButton(Titanium.UI.iPhone.SystemButton.DISCLOSURE);
-
 				if (venueClass != "FRE") {
 					annotation.setPincolor(Map.ANNOTATION_RED);
 				} else {
 					annotation.setPincolor(Map.ANNOTATION_GREEN);
 				}
-
 			} else {
 				annotation.setRightButton(Titanium.UI.iPhone.SystemButton.DISCLOSURE);
-
 				if (venueClass != "FRE") {
 					annotation.setImage('/images/redPin.png');
 				} else {
 					annotation.setImage('/images/greenPin.png');
 				}
-
 			}
-
 			data.push(annotation);
-
 			//Update Delta Position
-
 			lastLat = latitude.toString();
 			lastLon = longitude.toString();
-
 			//Create Loop
-
 			row.next();
-
-		}
-		if (Ti.App.Properties.getString('osname') == 'Android') {
-			var rc = Map.isGooglePlayServicesAvailable();
-			switch (rc) {
-				case Map.SUCCESS:
-					Ti.API.info('Google Play services is installed.');
-					break;
-				case Map.SERVICE_MISSING:
-					alert('Google Play services is missing. Please install Google Play services from the Google Play store.');
-					break;
-				case Map.SERVICE_VERSION_UPDATE_REQUIRED:
-					alert('Google Play services is out of date. Please update Google Play services.');
-					break;
-				case Map.SERVICE_DISABLED:
-					alert('Google Play services is disabled. Please enable Google Play services.');
-					break;
-				case Map.SERVICE_INVALID:
-					alert('Google Play services cannot be authenticated. Reinstall Google Play services.');
-					break;
-				default:
-					alert('Unknown error.');
-					break;
-			}
 		}
 		var mapview = Map.createView({
 			mapType : Map.NORMAL_TYPE,
@@ -455,9 +329,7 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			zIndex : 1,
 			annotations : data
 		});
-
 		win.add(mapview);
-
 		mapview.addEventListener('complete', function() {
 			mapview.setRegion({
 				latitude : lastLat,
@@ -465,16 +337,11 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 				latitudeDelta : 0.5,
 				longitudeDelta : 0.5
 			});
-
 			mapview.removeEventListener('complete', function() {
 			});
-
 		});
-
 		mapview.addEventListener('click', function(e) {
-
 			if (e.clicksource == 'rightButton' || e.clicksource == 'title' || e.clicksource == 'subtitle') {
-
 				if (tier1 == null) {
 					tier1 = e.annotation.myid;
 				} else if (tier1 != null && tier2 == null) {
@@ -482,14 +349,11 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 				} else if (tier1 != null && tier2 != null && tier3 == null) {
 					tier3 = e.annotation.myid;
 				}
-
 				var createApplicationWindow = require('/builders/createApplicationWindow');
 				var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.annotation.title, '#FFF', tab, tier1, tier2, tier3, e.annotation.myid, null);
 			}
 		});
-
 		// Add Map Map Key
-
 		var leftMenu = Ti.UI.createView({
 			left : -360,
 			bottom : 40,
@@ -499,31 +363,16 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			opacity : 0.8,
 			zIndex : 2
 		});
-
-		var mapKeyView = Ti.UI.createView({
-			left : 0,
-			bottom : 40,
-			width : 50,
-			height : 38,
-			backgroundColor : 'transparent',
-			opacity : 0.8,
-			zIndex : 2
-		});
-
-		win.add(mapKeyView);
-
 		var mapkey = Ti.UI.createImageView({
 			image : '/images/mapkey.png',
-			color : '#666',
-			opacity : 1,
-			width : 50,
+			bottom : 40,
+			left : 0,
 			height : 38,
-			zIndex : 1
+			width : 60,
+			zIndex : 2
 		});
-
-		mapKeyView.add(mapkey);
+		win.add(mapkey);
 		win.add(leftMenu);
-
 		var key = Ti.UI.createImageView({
 			image : '/images/map_key.png',
 			color : '#666',
@@ -532,9 +381,7 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			height : 233,
 			zIndex : 1
 		});
-
 		leftMenu.add(key);
-
 		var mapMode = Titanium.UI.createView({
 			width : '45%',
 			height : '10%',
@@ -542,13 +389,10 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			left : '5%',
 			zIndex : '3'
 		});
-
 		mapMode.addEventListener('click', function() {
 			mapview.setMapType(Map.NORMAL_TYPE);
 		});
-
 		leftMenu.add(mapMode);
-
 		var satelliteMode = Titanium.UI.createView({
 			width : '55%',
 			height : '10%',
@@ -556,13 +400,10 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			left : '5%',
 			zIndex : 3
 		});
-
 		satelliteMode.addEventListener('click', function() {
 			mapview.setMapType(Map.SATELLITE_TYPE);
 		});
-
 		leftMenu.add(satelliteMode);
-
 		var hybridMode = Titanium.UI.createView({
 			width : '50%',
 			height : '10%',
@@ -570,45 +411,36 @@ function createMapView(tabGroup, sqlString, venueName, geoLocation, tab, tier1, 
 			left : '5%',
 			zIndex : 3
 		});
-
 		hybridMode.addEventListener('click', function() {
 			mapview.setMapType(Map.HYBRID_TYPE);
 		});
-
 		leftMenu.add(hybridMode);
-
 		mapkey.addEventListener('click', function(e) {
 			if (mapkey._left == true) {
 				leftMenu.animate({
 					left : -250,
 					duration : 775
 				});
-				mapKeyView.animate({
+				mapkey.animate({
 					left : 0,
 					duration : 775
 				});
-
 				mapkey._left = false;
 			} else {
-				mapKeyView.animate({
+				mapkey.animate({
 					left : 250,
 					duration : 775
 				});
-
 				mapkey._left = true;
-
 				leftMenu.animate({
 					left : 0,
 					duration : 775
 				});
 			}
 		});
-
 	}
-
 	db.close();
-
 	return win;
 }
 
-module.exports = createMapView;
+module.exports = createMapView; 

@@ -41,4 +41,5 @@ dependencies: \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/KrollBridge.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/XHRBridge.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiRootViewController.h \
-  /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiControllerProtocols.h
+  /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiControllerProtocols.h \
+  /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiOSAttributedStringProxy.h

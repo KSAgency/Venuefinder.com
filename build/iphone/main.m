@@ -7,8 +7,8 @@
 #define _QUOTEME(x) #x
 #define STRING(x) _QUOTEME(x)
 
-NSString * const TI_APPLICATION_DEPLOYTYPE = @"production";
-NSString * const TI_APPLICATION_ID = @"com.ksagency.venuefinder";
+NSString * const TI_APPLICATION_DEPLOYTYPE = @"test";
+NSString * const TI_APPLICATION_ID = @"uk.co.nacon";
 NSString * const TI_APPLICATION_PUBLISHER = @"SamJacob";
 NSString * const TI_APPLICATION_URL = @"http://www.venuefinder.com";
 NSString * const TI_APPLICATION_NAME = @"Venue Finder";

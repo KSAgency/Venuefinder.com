@@ -57,7 +57,7 @@ function createDoubleField(title, hint, spacing, numberKeys) {
 
 	var textLabel = Titanium.UI.createLabel({
 		text:title,
-		left:5,
+		left:15,
 		color:'#399ad4',
 		backgroundColor:'#f7f7f7',
 		font:{
@@ -68,9 +68,9 @@ function createDoubleField(title, hint, spacing, numberKeys) {
 		zIndex:10
 	});
 	
-	if (Ti.App.Properties.getString('osname') != 'Android'){
+	/*if (Ti.App.Properties.getString('osname') != 'Android'){
 		textLabel.setLeft(15);
-	}
+	}*/
 
 	tableRow.add(textLabel);
 	tableRow.add(textField);

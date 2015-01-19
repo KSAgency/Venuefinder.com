@@ -44,4 +44,5 @@ dependencies: \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiPhoneSystemButtonStyleProxy.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiPhoneSystemButtonProxy.h \
   /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiPhoneActivityIndicatorStyleProxy.h \
-  /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiPhoneTableViewStyleProxy.h
+  /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiPhoneTableViewStyleProxy.h \
+  /Users/bhuppi/Documents/dev_env/mobile_work/venuefinderRepo/KSAgency/Venuefinder.com/build/iphone/Classes/TiUIiPhoneTableViewSeparatorStyleProxy.h

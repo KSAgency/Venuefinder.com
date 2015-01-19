@@ -9,7 +9,7 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <sdk-version>3.2.2.GA</sdk-version>
-    <id>com.ksagency.venuefinder</id>
+    <id>uk.co.nacon</id>
     <name>Venue Finder</name>
     <version>1.4</version>
     <publisher>SamJacob</publisher>
@@ -75,6 +75,7 @@
         <module platform="android">ti.compression</module>
         <module platform="iphone">ti.map</module>
         <module platform="android">ti.map</module>
+        <module platform="iphone">ti.pageflip</module>
     </modules>
     <property name="ti.deploytype">test</property>
 </ti:app>

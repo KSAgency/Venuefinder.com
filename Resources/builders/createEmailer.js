@@ -218,10 +218,10 @@ function createEmailer(tabGroup, sendTo, bodyText, fromWin, venueName, tab, tier
     win.add(tableview);
 
     // Require & Create advert space
-    var createAdvert = require('/builders/createAdvert');
+   /* var createAdvert = require('/builders/createAdvert');
     var advert = createAdvert();
     win.add(advert);
-
+	*/
     return win;
 
 }
