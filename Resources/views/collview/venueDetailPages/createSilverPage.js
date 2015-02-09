@@ -4,17 +4,41 @@ var createHeaderElements = require('/views/collview/listingElements/createHeader
 var createDatabase = require('/builders/databaseFunctions/createDatabase');
 var dbUtil = require('/builders/databaseFunctions/dbUtil');
 
-function createDetailPage(thisVenueId, currentWin, windowsArray) {
+function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
+	var view;
+
+	if(currentWin[2]){
+		currentWin = currentWin[2];
+		view = 'map';
+	}
 
 	var venueObj = dbUtil.getVenueForId(thisVenueId);
+	
+	var nextVenueId;
+	var previousVenueId;
+	
+	for (var i=0; i < loadList.length; i++) {
+		if(thisVenueId == loadList[i]['venueID']){
+			if (loadList[i+1]){
+				nextVenueId = loadList[i+1]['venueID'];
+			} else {
+				nextVenueId = '0';
+			}
+			
+			if (loadList[i-1]){
+				previousVenueId = loadList[i-1]['venueID'];
+			} else {
+				previousVenueId = '0';
+			}
+		}
+	};
 
 	var page = createViewBackground(venueObj);
 
 	page.add(createGallery(venueObj));
 
 	var titleLocation = createTitleLocation(venueObj);
-	page.add(titleLocation[0]);
-	page.add(titleLocation[1]);
+	page.add(titleLocation);
 
 	var logoDescText = logoAndDescText(venueObj);
 	page.add(logoDescText[0]);
@@ -35,6 +59,88 @@ function createDetailPage(thisVenueId, currentWin, windowsArray) {
 	}
 	
 	page.add(seeMoreInfoButton());
+	
+	//Buttons
+	
+	var next = Ti.UI.createImageView({
+		image:'/images/pageTurnButton',
+		width:'34',
+		right:'0',
+	});
+
+	if (nextVenueId != '0' && view!='map'){
+		currentWin.add(next);
+	}
+	
+	var previous = Ti.UI.createImageView({
+		image:'/images/pageTurnButton',
+		width:'34',
+		left:'0',
+		transform:Ti.UI.create2DMatrix({rotate:180})
+	});
+
+	if (previousVenueId != '0' && view!='map'){
+		currentWin.add(previous);
+	}
+	
+	next.addEventListener('click', function(){
+		var nextPackage = dbUtil.getVenueForId(nextVenueId)['PackageCode'];
+		
+		if (nextPackage == 'GLD') {
+			currentWin.remove(page);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			page.parent.remove(page);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createGoldPage');
+			var goldPage = venueDetailPage.createDetailPage(nextVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(goldPage);
+		} else if (nextPackage == 'SIL') {
+			currentWin.remove(page);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			page.parent.remove(page);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
+			var silverPage = venueDetailPage.createDetailPage(nextVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(silverPage);
+		} else if (nextPackage == 'BRZ') {
+			currentWin.remove(page);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			page.parent.remove(page);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createBronzePage');
+			var bronzePage = venueDetailPage.createDetailPage(nextVenueId, nextVenueId, previousVenueId, currentWin, windowsArray);
+			currentWin.add(bronzePage);
+		}
+		
+	});
+	
+	previous.addEventListener('click', function(){
+		var previousPackage = dbUtil.getVenueForId(previousVenueId)['PackageCode'];
+		
+		if (previousPackage == 'GLD') {
+			currentWin.remove(page);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createGoldPage');
+			var goldPage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(goldPage);
+		} else if (previousPackage == 'SIL') {
+			currentWin.remove(page);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
+			var silverPage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(silverPage);
+		} else if (previousPackage == 'BRZ') {
+			currentWin.remove(page);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createBronzePage');
+			var bronzePage = venueDetailPage.createDetailPage(previousVenueId, loadlist, currentWin, windowsArray);
+			currentWin.add(bronzePage);
+		}
+		
+	});
 
 	return page;
 }
@@ -55,17 +161,17 @@ function createViewBackground(venueObj) {
 	}
 
 	var townPostcode = Ti.UI.createLabel({
-		color : '#000000',
-		top : '6',
-		right : '18',
-		font : {
-			fontSize : '14',
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		color:'#000000',
+		top:'6',
+		right:'18',
+		font:{
+			fontSize:'14',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
-		text : location,
-		width : '300',
-		height : '35',
-		textAlign : Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+		text:location,
+		width:'300',
+		height:'35',
+		textAlign:Titanium.UI.TEXT_ALIGNMENT_RIGHT,
 	});
 	page.add(townPostcode);
 	return page;
@@ -75,14 +181,14 @@ function createGallery(venueObj) {
 
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\') ORDER BY OptionCode, OrderKey, GraphicFileName DESC');
+	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'TOP\' OR OptionCode = \'PIC\' OR OptionCode=\'MID\' OR OptionCode=\'MIL\' OR OptionCode=\'MIR\') ORDER BY OptionCode, OrderKey, GraphicFileName DESC');
 	var imageArray = [];
 
 	var galleryView = Ti.UI.createView({
-		width : 410,
-		height : 214,
-		left : 36,
-		top : 70,
+		width:410,
+		height:214,
+		left:36,
+		top:70,
 	});
 
 	var imgCount = 0;
@@ -92,23 +198,23 @@ function createGallery(venueObj) {
 
 		if (imgCount == 0) {
 			var imgContainer = Ti.UI.createScrollView({
-				width : '265',
-				height : '214',
-				top : '0',
-				left : '0',
-				borderRadius : '0',
-				contentWidth : Ti.UI.FILL,
-				contentHeight : Ti.UI.FILL,
-				scrollingEnabled : false,
+				width:'265',
+				height:'214',
+				top:'0',
+				left:'0',
+				borderRadius:'0',
+				contentWidth:Ti.UI.FILL,
+				contentHeight:Ti.UI.FILL,
+				scrollingEnabled:false,
 			});
 			var topImage = Titanium.UI.createImageView({
-				image : 'http://www.venuefinder.com/adverts/' + mediaURL,
-				defaultImage : '/images/icon.png',
-				index : imgCount,
-				width : Ti.UI.FILL,
-				height : Ti.UI.FILL,
-				left : 0,
-				top : 0,
+				image:'http://www.venuefinder.com/adverts/' + mediaURL,
+				defaultImage:'/images/icon.png',
+				index:imgCount,
+				width:Ti.UI.FILL,
+				height:Ti.UI.FILL,
+				left:0,
+				top:0,
 			});
 
 			imgContainer.add(topImage);
@@ -126,24 +232,24 @@ function createGallery(venueObj) {
 			}
 
 			var imgContainer = Ti.UI.createScrollView({
-				width : '130',
-				height : '102',
-				top : imgTop,
-				left : imgLeft,
-				borderRadius : '0',
-				contentWidth : Ti.UI.FILL,
-				contentHeight : Ti.UI.FILL,
-				scrollingEnabled : false,
+				width:'130',
+				height:'102',
+				top:imgTop,
+				left:imgLeft,
+				borderRadius:'0',
+				contentWidth:Ti.UI.FILL,
+				contentHeight:Ti.UI.FILL,
+				scrollingEnabled:false,
 			});
 
 			var imageView = Titanium.UI.createImageView({
-				image : 'http://www.venuefinder.com/adverts/' + mediaURL,
-				defaultImage : '/images/icon.png',
-				index : imgCount,
-				width : Ti.UI.FILL,
-				height : Ti.UI.FILL,
-				left : 0,
-				top : 0,
+				image:'http://www.venuefinder.com/adverts/' + mediaURL,
+				defaultImage:'/images/icon.png',
+				index:imgCount,
+				width:Ti.UI.FILL,
+				height:Ti.UI.FILL,
+				left:0,
+				top:0,
 			});
 
 			imgContainer.add(imageView);
@@ -162,35 +268,43 @@ function createGallery(venueObj) {
 
 function createTitleLocation(venueObj) {
 
+	var titleCont = Ti.UI.createView({
+		top:'326',
+		left:'98',
+		width:Ti.UI.SIZE,
+		height:Ti.UI.SIZE,
+		layout:'vertical'
+	});
+
 	var titleLbl = Titanium.UI.createLabel({
-		text : venueObj['VenueName'],
-		ellipsize : true,
-		color : '#000000',
-		width : "350",
-		height : "24",
-		top : "326",
-		left : "98",
-		font : {
-			fontSize : "28",
+		text:venueObj['VenueName'],
+		ellipsize:true,
+		color:'#000000',
+		top:0,
+		width:380,
+		height:Ti.UI.SIZE,
+		font:{
+			fontSize:'28',
 		}
 	});
 
 	//Venue location
 	var locationLbl = Titanium.UI.createLabel({
-		text : venueObj['Town'] + ", " + venueObj['Country'],
-		ellipsize : true,
-		color : '#000000',
-		width : "350",
-		height : "16",
-		top : "362",
-		left : "98",
-		font : {
-			fontSize : "24",
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		text:venueObj['Town'] + ', ' + venueObj['Country'],
+		ellipsize:true,
+		color:'#000000',
+		width:'380',
+		top:'0',
+		font:{
+			fontSize:'24',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		}
 	});
+	
+	titleCont.add(titleLbl);
+	titleCont.add(locationLbl);
 
-	return [titleLbl, locationLbl];
+	return [titleCont];
 }
 
 function logoAndDescText(venueObj) {
@@ -209,41 +323,40 @@ function logoAndDescText(venueObj) {
 	descText.replace('/<(?:.|\n)*?>/gm', '');
 
 	var descriptionWV = Titanium.UI.createWebView({
-		html : '<span style="font-family:Arial; color:#000; font-size:14px; line-height:20pts; font-size:15px;">' + descText + '</span>',
-		width : '225',
-		height : '235',
-		bottom : '10',
-		left : '240',
+		html:'<span style="font-family:Arial; color:#000; font-size:14px; line-height:20pts; font-size:15px;">' + descText + '</span>',
+		width:'225',
+		height:'200',
+		bottom:'20',
+		left:'240',
 	});
 
-	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode = \'LG1\' ) ORDER BY OptionCode DESC');
-	var logoUrl;
+	//logo
+	var db = createDatabase('/venuefinder.db', 'venuefinder');
+	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'LG1\' OR OptionCode = \'GR1\') ORDER BY OptionCode DESC');
+	
+	var logoContainer = Ti.UI.createView({
+		width:Ti.UI.SIZE,
+		height:Ti.UI.SIZE,
+		bottom:'50',
+		left:'50',
+		borderRadius:'0',
+		layout:'horizontal'
+	});
+	
 	while (logoMedia.isValidRow()) {
-		logoUrl = logoMedia.fieldByName('GraphicFileName');
+		
+		var logoImage = Titanium.UI.createImageView({
+			image:'http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'),
+			defaultImage:'/images/icon.png',
+			width:100,
+			left:10
+		});
+
+		logoContainer.add(logoImage);
+
 		logoMedia.next();
 	}
-
-	var logoContainer = Ti.UI.createScrollView({
-		width : '150',
-		height : '80',
-		bottom : '80',
-		left : '50',
-		borderRadius : '0',
-		contentWidth : Ti.UI.FILL,
-		contentHeight : Ti.UI.FILL,
-		scrollingEnabled : false,
-	});
-
-	var logoImage = Titanium.UI.createImageView({
-		image : 'http://www.venuefinder.com/adverts/' + logoUrl,
-		defaultImage : '/images/icon.png',
-		width : "auto",
-		height : Ti.UI.FILL,
-		left : 0,
-		top : 0,
-	});
-	logoContainer.add(logoImage);
-
+	
 	db.close();
 
 	return [logoContainer, descriptionWV];
@@ -254,17 +367,17 @@ function side2Gallery(venueObj) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 
 	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='MIL' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName ASC");
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode=\'TOP\' OR OptionCode = \'PIC\' OR OptionCode=\'MID\' OR OptionCode=\'MIL\' OR OptionCode=\'MIR\') ORDER BY OrderKey, GraphicFileName ASC LIMIT 20 OFFSET 3");
 	var picCount = 0;
 	var imageArray = [];
 	var imgCount = 0;
 
 	var galleryView = Ti.UI.createView({
-		width : 265,
-		height : 214,
-		left : 506,
-		top : 70,
-		layout : "horizontal",
+		width:265,
+		height:214,
+		left:506,
+		top:70,
+		layout:"horizontal",
 	});
 
 	while (getMedia.isValidRow()) {
@@ -300,24 +413,24 @@ function side2Gallery(venueObj) {
 				imgT = 10;
 			}
 			var imgContainer = Ti.UI.createScrollView({
-				width : imgW,
-				height : imgH,
-				top : imgT,
-				left : imgL,
-				borderRadius : '0',
-				contentWidth : Ti.UI.FILL,
-				contentHeight : Ti.UI.FILL,
-				scrollingEnabled : false,
+				width:imgW,
+				height:imgH,
+				top:imgT,
+				left:imgL,
+				borderRadius:'0',
+				contentWidth:Ti.UI.FILL,
+				contentHeight:Ti.UI.FILL,
+				scrollingEnabled:false,
 			});
 
 			var venueImage = Titanium.UI.createImageView({
-				image : 'http://www.venuefinder.com/adverts/' + mediaURL,
-				defaultImage : '/images/icon.png',
-				index : imgCount,
-				width : Ti.UI.FILL,
-				height : Ti.UI.FILL,
-				left : 0,
-				top : 0,
+				image:'http://www.venuefinder.com/adverts/' + mediaURL,
+				defaultImage:'/images/icon.png',
+				index:imgCount,
+				width:Ti.UI.FILL,
+				height:Ti.UI.FILL,
+				left:0,
+				top:0,
 			});
 			imgContainer.add(venueImage);
 			galleryView.add(imgContainer);
@@ -338,129 +451,60 @@ function side2Gallery(venueObj) {
 
 function createVenueDetail(venueObj) {
 	var detailView = Ti.UI.createView({
-		width : '230',
-		height : '300',
-		bottom : '20',
-		right : '192',
+		width:'230',
+		height:'300',
+		bottom:'20',
+		right:'192',
 	});
 
 	var detailTitleText = Titanium.UI.createLabel({
-		width : '172',
-		height : '23',
-		top : '0',
-		left : '32',
-		backgroundColor : 'transparent',
-		text : 'Venue Details',
-		font : {
-			fontSize : "24",
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		width:'172',
+		height:'23',
+		top:'0',
+		left:'32',
+		backgroundColor:'transparent',
+		text:'Venue Details',
+		font:{
+			fontSize:"24",
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		}
 	});
 	detailView.add(detailTitleText);
 
 	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + venueObj['Tel'] + "</div>";
 	var addressWV = Ti.UI.createWebView({
-		html : '<div style="text-align:left;font-family:' + Ti.App.Properties.getString('fontFamily') + '; color:#000; line-height:18pts; font-size:14px;">' + venueAddress + '</div>',
-		top : '33',
-		left : '26',
-		width : '200',
-		height : '100',
-		disableBounce : true,
+		html:'<div style="text-align:left;font-family:' + Ti.App.Properties.getString('fontFamily') + '; color:#000; line-height:18pts; font-size:14px;">' + venueAddress + '</div>',
+		top:'33',
+		left:'28',
+		width:'200',
+		height:'100',
+		disableBounce:true,
 	});
 	detailView.add(addressWV);
-
-	var urlText = 'Visit website';
-
-	var urlLineAttr = Titanium.UI.iOS.createAttributedString({
-		text : urlText,
-	});
-
-	// Underlines text
-	urlLineAttr.addAttribute({
-		type : Titanium.UI.iOS.ATTRIBUTE_UNDERLINES_STYLE,
-		value : Titanium.UI.iOS.ATTRIBUTE_UNDERLINE_STYLE_SINGLE,
-		range : [0, urlText.length]
-	});
-
-	var urlLine = Titanium.UI.createLabel({
-		color : '#2195be',
-		font : {
-			fontSize : '14',
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
-		},
-		left : '32',
-		top : '143',
-		height : '18',
-		attributedString : urlLineAttr,
-	});
-
-	detailView.add(urlLine);
-
-	urlLine.addEventListener('click', function() {
-
-		var urlWin = Titanium.UI.createWindow({
-			backgroundColor : 'rgba(0,0,0,0.8)',
-		});
-
-		var close = Titanium.UI.createButton({
-			right : '5%',
-			top : '5%',
-			height : '20',
-			zIndex : 1,
-			title : "X",
-			color : "#FFF",
-			font : {
-				fontSize : "28",
-				fontWeight : "bold"
-			},
-		});
-
-		urlWin.add(close);
-		close.addEventListener('click', function(e) {
-			urlWin.close();
-		});
-
-		var websiteContainer = Ti.UI.createView({
-			width : '80%',
-			height : '80%',
-			top : '10%',
-			left : '10%',
-		});
-
-		var webview = Titanium.UI.createWebView({
-			url : venueObj['URL'],
-		});
-
-		websiteContainer.add(webview);
-
-		urlWin.add(websiteContainer);
-		urlWin.open();
-
-	});
-
+	
 	var emailText = 'Email this venue';
 	var emailLineAttr = Titanium.UI.iOS.createAttributedString({
-		text : emailText,
+		text:emailText,
 	});
 
 	// Underlines text
 	emailLineAttr.addAttribute({
-		type : Titanium.UI.iOS.ATTRIBUTE_UNDERLINES_STYLE,
-		value : Titanium.UI.iOS.ATTRIBUTE_UNDERLINE_STYLE_SINGLE,
-		range : [0, emailText.length]
+		type:Titanium.UI.iOS.ATTRIBUTE_UNDERLINES_STYLE,
+		value:Titanium.UI.iOS.ATTRIBUTE_UNDERLINE_STYLE_SINGLE,
+		range:[0, emailText.length]
 	});
 
 	var emailLine = Titanium.UI.createLabel({
-		text : emailText,
-		color : '#2195be',
-		font : {
-			fontSize : '14',
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		text:emailText,
+		color:'#2195be',
+		font:{
+			fontSize:'14',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
-		left : '32',
-		top : '171',
-		height : '18',
-		attributedString : emailLineAttr
+		left:'38',
+		top:'143',
+		height:'18',
+		attributedString:emailLineAttr
 	});
 
 	detailView.add(emailLine);
@@ -472,19 +516,19 @@ function createVenueDetail(venueObj) {
 
 		//Open window
 		var emailerWin = Titanium.UI.createWindow({
-			backgroundColor : 'rgba(0,0,0,0.8)',
+			backgroundColor:'rgba(0,0,0,0.8)',
 		});
 
 		var close = Titanium.UI.createButton({
-			right : '5%',
-			top : '5%',
-			height : '20',
-			zIndex : 1,
-			title : "X",
-			color : "#FFF",
-			font : {
-				fontSize : "28",
-				fontWeight : "bold"
+			right:'5%',
+			top:'5%',
+			height:'20',
+			zIndex:1,
+			title:"X",
+			color:"#FFF",
+			font:{
+				fontSize:"28",
+				fontWeight:"bold"
 			},
 		});
 
@@ -494,10 +538,10 @@ function createVenueDetail(venueObj) {
 		});
 
 		var websiteContainer = Ti.UI.createView({
-			width : '80%',
-			height : '80%',
-			top : '10%',
-			left : '10%',
+			width:'80%',
+			height:'80%',
+			top:'10%',
+			left:'10%',
 		});
 
 		websiteContainer.add(emailer);
@@ -506,18 +550,87 @@ function createVenueDetail(venueObj) {
 		emailerWin.open();
 	});
 
+	var urlText = 'Visit website';
+
+	var urlLineAttr = Titanium.UI.iOS.createAttributedString({
+		text:urlText,
+	});
+
+	// Underlines text
+	urlLineAttr.addAttribute({
+		type:Titanium.UI.iOS.ATTRIBUTE_UNDERLINES_STYLE,
+		value:Titanium.UI.iOS.ATTRIBUTE_UNDERLINE_STYLE_SINGLE,
+		range:[0, urlText.length]
+	});
+
+	var urlLine = Titanium.UI.createLabel({
+		color:'#2195be',
+		font:{
+			fontSize:'14',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
+		},
+		left:'38',
+		top:'171',
+		height:'18',
+		attributedString:urlLineAttr,
+	});
+
+	detailView.add(urlLine);
+
+	urlLine.addEventListener('click', function() {
+
+		var urlWin = Titanium.UI.createWindow({
+			backgroundColor:'rgba(0,0,0,0.8)',
+		});
+
+		var close = Titanium.UI.createButton({
+			right:'5%',
+			top:'5%',
+			height:'20',
+			zIndex:1,
+			title:"X",
+			color:"#FFF",
+			font:{
+				fontSize:"28",
+				fontWeight:"bold"
+			},
+		});
+
+		urlWin.add(close);
+		close.addEventListener('click', function(e) {
+			urlWin.close();
+		});
+
+		var websiteContainer = Ti.UI.createView({
+			width:'80%',
+			height:'80%',
+			top:'10%',
+			left:'10%',
+		});
+
+		var webview = Titanium.UI.createWebView({
+			url:venueObj['URL'],
+		});
+
+		websiteContainer.add(webview);
+
+		urlWin.add(websiteContainer);
+		urlWin.open();
+
+	});
+
 	var venueCapcityText = "<div style='width:195px'>Max catering capacity<span style='float:right;font-weight:bold'>" + venueObj['MaxCateringCapacity'] + "</span></div>";
 	venueCapcityText += "<div style='width:195px'>Max meeting capacity<span style='float:right;font-weight:bold'>" + venueObj['MaxMeetingCapacity'] + "</span></div>";
 	venueCapcityText += "<div style='width:195px'>Number of meeting rooms<span style='float:right;font-weight:bold'>" + venueObj['MeetingRoomsNo'] + "</span></div>";
 	venueCapcityText += "<div style='width:195px'>Number of bedrooms<span style='float:right;font-weight:bold'>" + venueObj['BedroomsNo'] + "</span></div>";
 
 	var capacityWV = Ti.UI.createWebView({
-		html : '<div style="left:0px;text-align:left;font-family:' + Ti.App.Properties.getString('fontFamily') + '; color:#000; font-size:13px; line-height:22pts;">' + venueCapcityText + '</div>',
-		top : '199',
-		left : '15',
-		width : '210',
-		height : '100',
-		disableBounce : true,
+		html:'<div style="left:0px;text-align:left;font-family:' + Ti.App.Properties.getString('fontFamily') + '; color:#000; font-size:13px; line-height:22pts;">' + venueCapcityText + '</div>',
+		top:'199',
+		left:'28',
+		width:'230',
+		height:'100',
+		disableBounce:true,
 	});
 	detailView.add(capacityWV);
 
@@ -526,36 +639,36 @@ function createVenueDetail(venueObj) {
 
 function seeMoreInfoButton() {
 	var moreContainer = Ti.UI.createView({
-		width : 130,
-		height : 64,
-		bottom : 20,
-		right : 12,
-		backgroundColor : '#EEEEEE',
+		width:130,
+		height:64,
+		bottom:20,
+		right:12,
+		backgroundColor:'#FFFFFF',
 	});
 
 	var seeMoreButton = Ti.UI.createLabel({
-		width : '102',
-		height : '54',
-		left : '14',
-		bottom : '5',
-		backgroundColor : '#399ad4',
-		color : '#FFFFFF',
-		font : {
-			fontSize : "12",
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		width:'102',
+		height:'54',
+		left:'14',
+		bottom:'5',
+		backgroundColor:'#399ad4',
+		color:'#FFFFFF',
+		font:{
+			fontSize:"12",
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		}
 	});
 	
 	var seeMoreTextLabel = Ti.UI.createLabel({
-		width : '86',
-		height : '44',
-		left : '8',
-		text : 'See more information on venuefinder.com',
-		bottom : '5',
-		backgroundColor : 'tranparent',
-		color : '#FFFFFF',
-		font : {
-			fontSize : "11",
+		width:'86',
+		height:'44',
+		left:'8',
+		text:'See more information on venuefinder.com',
+		bottom:'5',
+		backgroundColor:'tranparent',
+		color:'#FFFFFF',
+		font:{
+			fontSize:"11",
 		}
 	});
 	
@@ -570,19 +683,19 @@ function seeMoreInfoButton() {
 
 		//Open window
 		var websiteWin = Titanium.UI.createWindow({
-			backgroundColor : 'rgba(0,0,0,0.8)',
+			backgroundColor:'rgba(0,0,0,0.8)',
 		});
 
 		var close = Titanium.UI.createButton({
-			right : '5%',
-			top : '5%',
-			height : '20',
-			zIndex : 1,
-			title : "X",
-			color : "#FFF",
-			font : {
-				fontSize : "28",
-				fontWeight : "bold"
+			right:'5%',
+			top:'5%',
+			height:'20',
+			zIndex:1,
+			title:"X",
+			color:"#FFF",
+			font:{
+				fontSize:"28",
+				fontWeight:"bold"
 			},
 		});
 
@@ -592,14 +705,14 @@ function seeMoreInfoButton() {
 		});
 
 		var websiteContainer = Ti.UI.createView({
-			width : '80%',
-			height : '80%',
-			top : '10%',
-			left : '10%',
+			width:'80%',
+			height:'80%',
+			top:'10%',
+			left:'10%',
 		});
 
 		var websiteWV = Titanium.UI.createWebView({
-			url : 'http://www.venuefinder.com',
+			url:'http://www.venuefinder.com',
 		});
 
 		websiteContainer.add(websiteWV);
@@ -626,19 +739,19 @@ function createSilverSpeOfferBtn(venueObj) {
 	var offerBtnContainer = null;
 	if(hasOffer){
 		offerBtnContainer = Ti.UI.createView({
-			right : 12,
+			right:12,
 			bottom: 94,
-			width : 130,
-			height : 50,
-			backgroundColor:"#EEEEEE",
+			width:130,
+			height:50,
+			backgroundColor:"#FFFFFF",
 		});
 				
 		var offersButton = Titanium.UI.createImageView({
-			image : '/images/listing_offers.png',
-			left : 12,
+			image:'/images/listing_offers.png',
+			left:12,
 			top:10,
-			width : 102,
-			height : 'auto',			
+			width:102,
+			height:'auto',			
 		});	
 		
 		offerBtnContainer.add(offersButton);
@@ -646,17 +759,17 @@ function createSilverSpeOfferBtn(venueObj) {
 		offersButton.addEventListener('click', function() {
 			
 			var offerScroll = Titanium.UI.createScrollView({
-				top : '0%',
-				zIndex : 5,
-				layout : 'vertical',
-				backgroundColor : '#FFF'
+				top:'0%',
+				zIndex:5,
+				layout:'vertical',
+				backgroundColor:'#FFF'
 			});		
 	
 			var createTab = require('/views/children/listingElements/createOffersTab');
 			createTab(null, null, offerScroll, venueObj['VenueID'], null);
 			
 			var offerWin = Titanium.UI.createWindow({
-				backgroundColor : 'rgba(0,0,0,0.8)',
+				backgroundColor:'rgba(0,0,0,0.8)',
 			});
 						
 			var offerContainer = Ti.UI.createView({
@@ -668,33 +781,33 @@ function createSilverSpeOfferBtn(venueObj) {
 			});
 			
 			var upperView = Ti.UI.createView({
-				top : 0,
+				top:0,
 				left:0,
-				height : '15%',
-				width : '100%',
-				backgroundColor : '#e6a723',
+				height:'15%',
+				width:'100%',
+				backgroundColor:'#e6a723',
 				layout:'horizontal',			
 			});
 			
 			var specialOffersLbl = Titanium.UI.createLabel({
-				text : 'Special Offers',
-				left : '5%',
-				width : '85%',
-				height : '40',
-				top : '20',
-				ellipsize : true,
-				color : '#ffffff',
-				font : {
-					fontSize : '34',
-					fontFamily : Ti.App.Properties.getString('fontFamily'),
+				text:'Special Offers',
+				left:'5%',
+				width:'85%',
+				height:'40',
+				top:'20',
+				ellipsize:true,
+				color:'#ffffff',
+				font:{
+					fontSize:'34',
+					fontFamily:Ti.App.Properties.getString('fontFamily'),
 				}
 			});
 			upperView.add(specialOffersLbl);
 
 			var close = Titanium.UI.createButton({		
-				right : '0',
-				top : '0',
-				height : '80',
+				right:'0',
+				top:'0',
+				height:'80',
 				width: '60',				
 				title: "X",
 				color:"#FFF",

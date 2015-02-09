@@ -55,16 +55,16 @@ function createFavBtn(venueID, currentView){
 	}
 	
 	var favText = Titanium.UI.createLabel({
-		text : 'Add to favourites',
-		color : '#000000',		
-		top : 2,
+		text:'Add to favourites',
+		color:'#000000',		
+		top:2,
 		height :20,
 		width:90,
-		font : {
-			fontSize : '11',
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		font:{
+			fontSize:'11',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
-		left : 0,
+		left:0,
 		textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT, 
 	});
 
@@ -72,20 +72,20 @@ function createFavBtn(venueID, currentView){
 	
 	var favBtnWrapper = Titanium.UI.createView({
 		
-		width : 40,
+		width:40,
 		height :24,
-		top : 0,
-		left : 6,
-		backgroundColor:'#EEEEEE',
+		top:0,
+		left:6,
+		backgroundColor:'#FFF',
 	});
 	
 	
 	var favImage = Titanium.UI.createImageView({
-		image : '/images/add_favourites_dslctd.png',
-		width : 20,
+		image:'/images/add_favourites_dslctd.png',
+		width:20,
 		height :18,
-		top : 3,
-		left : 10,		
+		top:3,
+		left:10,		
 	});	
 	favBtnWrapper.add(favImage);
 	favContainer.add(favBtnWrapper);
@@ -98,8 +98,8 @@ function createFavBtn(venueID, currentView){
 		function newFavourite() {
 			if (isFavourited != venueID) {
 				var rateAlert = Titanium.UI.createAlertDialog({
-					message : 'Would you like to rate this venue?',
-					buttonNames : ['Not Now', 'Rate']
+					message:'Would you like to rate this venue?',
+					buttonNames:['Not Now', 'Rate']
 				});
 
 				rateAlert.show();
@@ -117,35 +117,35 @@ function createFavBtn(venueID, currentView){
 
 						var pickerData = [];
 						pickerData[0] = Ti.UI.createPickerRow({
-							title : 'Please select a rating',
-							value : '0'
+							title:'Please select a rating',
+							value:'0'
 						});
 						pickerData[1] = Ti.UI.createPickerRow({
-							title : '5 - Excellent',
-							value : '5'
+							title:'5 - Excellent',
+							value:'5'
 						});
 						pickerData[2] = Ti.UI.createPickerRow({
-							title : '4 - Very Good',
-							value : '4'
+							title:'4 - Very Good',
+							value:'4'
 						});
 						pickerData[3] = Ti.UI.createPickerRow({
-							title : '3 - Good',
-							value : '3'
+							title:'3 - Good',
+							value:'3'
 						});
 						pickerData[4] = Ti.UI.createPickerRow({
-							title : '2 - Average',
-							value : '2'
+							title:'2 - Average',
+							value:'2'
 						});
 						pickerData[5] = Ti.UI.createPickerRow({
-							title : '1 - Poor',
-							value : '1'
+							title:'1 - Poor',
+							value:'1'
 						});
 
 						var picker = Ti.UI.createPicker({
-							bottom : 0,
-							selectionIndicator : true,
-							type : Ti.UI.PICKER_TYPE_PLAIN,
-							zIndex : 20
+							bottom:0,
+							selectionIndicator:true,
+							type:Ti.UI.PICKER_TYPE_PLAIN,
+							zIndex:20
 						});
 
 						picker.add(pickerData);
@@ -154,21 +154,21 @@ function createFavBtn(venueID, currentView){
 						if (Ti.App.Properties.getString('osname') != 'Android') {
 
 							var pickerClose = Titanium.UI.createLabel({
-								text : 'Done',
-								color : '#FFF'
+								text:'Done',
+								color:'#FFF'
 							});
 
 							var flexSpace = Titanium.UI.createButton({
-								systemButton : Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
+								systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
 							});
 
 							var toolbar = Titanium.UI.iOS.createToolbar({
-								items : [flexSpace, pickerClose],
-								bottom : '215',
-								borderTop : true,
-								borderBottom : true,
-								barColor : '#2195be',
-								zIndex : '10'
+								items:[flexSpace, pickerClose],
+								bottom:'215',
+								borderTop:true,
+								borderBottom:true,
+								barColor:'#2195be',
+								zIndex:'10'
 							});
 
 							if (Ti.App.Properties.getString('osname') == 'iPad') {
@@ -249,36 +249,36 @@ function createMapBtn(venueID, currentView, windowsArray){
 	});
 	
 	var mapText = Titanium.UI.createLabel({
-		text : 'Map',
-		color : '#000000',		
-		top : 2,
+		text:'Map',
+		color:'#000000',		
+		top:2,
 		height :20,
 		width:90,
-		font : {
-			fontSize : '11',
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		font:{
+			fontSize:'11',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
-		left : 0,
+		left:0,
 		textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT, 
 	});
 
 	mapBtnContainer.add(mapText);
 	
 	var mapBtnWrapper = Titanium.UI.createView({		
-		width : 40,
+		width:40,
 		height :24,
-		top : 0,
-		left : 6,
-		backgroundColor:'#EEEEEE',
+		top:0,
+		left:6,
+		backgroundColor:'#FFFFFF',
 	});
 	
 	
 	var mapImage = Titanium.UI.createImageView({
-		image : '/images/show_on_map.png',
-		width : 20,
+		image:'/images/show_on_map.png',
+		width:20,
 		height :18,
-		top : 3,
-		left : 10,				
+		top:3,
+		left:10,				
 	});	
 	mapBtnWrapper.add(mapImage);
 	mapBtnContainer.add(mapBtnWrapper);
@@ -309,14 +309,14 @@ function createMapBtn(venueID, currentView, windowsArray){
 			//var windowElements = createApplicationWindow(null, mapView, 'Venue Map', '#d2e8f5', 'Venue Listing', 'Show On Map', '', '');
 			
 			var mapWin = Titanium.UI.createWindow({
-				backgroundColor : 'rgba(0,0,0,0.8)',
+				backgroundColor:'rgba(0,0,0,0.8)',
 			});	
 			
 			var close = Titanium.UI.createButton({		
-				right : '5%',
-				top : '5%',
-				height : '20',
-				zIndex : 1,
+				right:'5%',
+				top:'5%',
+				height:'20',
+				zIndex:1,
 				title: "X",
 				color:"#FFF",
 				font:{fontSize: "28",fontWeight:"bold"},
@@ -374,36 +374,36 @@ function createVenueAdviceBtn(){
 	});
 	
 	var adviceText = Titanium.UI.createLabel({
-		text : 'Venue Advice',
-		color : '#000000',		
-		top : 2,
+		text:'Venue Advice',
+		color:'#000000',		
+		top:2,
 		height :20,
 		width:90,
-		font : {
-			fontSize : '11',
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		font:{
+			fontSize:'11',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
-		left : 0,
+		left:0,
 		textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT, 
 	});
 
 	adviceBtnContainer.add(adviceText);
 	
 	var adviceBtnWrapper = Titanium.UI.createView({		
-		width : 40,
+		width:40,
 		height :24,
-		top : 0,
-		left : 6,
-		backgroundColor:'#EEEEEE',
+		top:0,
+		left:6,
+		backgroundColor:'#FFFFFF',
 	});
 	
 	
 	var adviceImage = Titanium.UI.createImageView({
-		image : '/images/venue_advice.png',
-		width : 20,
+		image:'/images/venue_advice.png',
+		width:20,
 		height :18,
-		top : 3,
-		left : 10,			
+		top:3,
+		left:10,			
 	});	
 	adviceBtnWrapper.add(adviceImage);
 	adviceBtnContainer.add(adviceBtnWrapper);
@@ -415,14 +415,14 @@ function createVenueAdviceBtn(){
 		*/	
 		
 		var advWin = Titanium.UI.createWindow({
-			backgroundColor : 'rgba(0,0,0,0.8)',
+			backgroundColor:'rgba(0,0,0,0.8)',
 		});	
 		
 		var close = Titanium.UI.createButton({		
-			right : '5%',
-			top : '5%',
-			height : '20',
-			zIndex : 1,
+			right:'5%',
+			top:'5%',
+			height:'20',
+			zIndex:1,
 			title: "X",
 			color:"#FFF",
 			font:{fontSize: "28",fontWeight:"bold"},
@@ -485,35 +485,35 @@ function createShareBtn(venueID, currentView){
 	});
 	
 	var shareText = Titanium.UI.createLabel({
-		text : 'Share',
-		color : '#000000',		
-		top : 2,
+		text:'Share',
+		color:'#000000',		
+		top:2,
 		height :20,
 		width:90,
-		font : {
-			fontSize : '11',
-			fontFamily : Ti.App.Properties.getString('fontFamily'),
+		font:{
+			fontSize:'11',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
-		left : 0,
+		left:0,
 		textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT, 
 	});
 
 	shareBtnContainer.add(shareText);
 	
 	var shareBtnWrapper = Titanium.UI.createView({		
-		width : 40,
+		width:40,
 		height :24,
-		top : 0,
-		left : 6,
-		backgroundColor:'#EEEEEE',
+		top:0,
+		left:6,
+		backgroundColor:'#FFFFFF',
 	});
 	
 	var shareImage = Titanium.UI.createImageView({
-		image : '/images/share_button.png',
-		width : 20,
+		image:'/images/share_button.png',
+		width:20,
 		height :18,
-		top : 3,
-		left : 10,			
+		top:3,
+		left:10,			
 	});	
 	shareBtnWrapper.add(shareImage);
 	shareBtnContainer.add(shareBtnWrapper);
@@ -531,14 +531,14 @@ function createShareBtn(venueID, currentView){
 		*/
 		
 		var shareWin = Titanium.UI.createWindow({
-			backgroundColor : 'rgba(0,0,0,0.8)',
+			backgroundColor:'rgba(0,0,0,0.8)'
 		});	
 		
 		var close = Titanium.UI.createButton({		
-			right : '5%',
-			top : '5%',
-			height : '20',
-			zIndex : 1,
+			right:'5%',
+			top:'5%',
+			height:'20',
+			zIndex:1,
 			title: "X",
 			color:"#FFF",
 			font:{fontSize: "28",fontWeight:"bold"},
@@ -553,7 +553,7 @@ function createShareBtn(venueID, currentView){
 			width:'80%',
 			height:'80%',
 			top:'10%',
-			left:'10%',
+			left:'10%'
 		});	
 		
 		shareContainer.add(emailer);
@@ -587,30 +587,30 @@ function createSpeOfferBtn(venueID) {
 	if(hasOffer){
 		
 		offerBtnContainer = Ti.UI.createView({
-			right : 25,
+			right:25,
 			bottom: 150,
-			width : 130,
-			height : 50,
-			backgroundColor:"#EEEEEE",
+			width:130,
+			height:50,
+			backgroundColor:"#FFFFFF",
 		});
 				
 		var offersButton = Titanium.UI.createImageView({
-			image : '/images/listing_offers.png',
-			left : 12,
+			image:'/images/listing_offers.png',
+			left:12,
 			top:10,
-			width : 102,
-			height : 'auto',			
-		});	
+			width:102,
+			height:'auto',			
+		});
 		
 		offerBtnContainer.add(offersButton);
 		
 		offersButton.addEventListener('click', function() {
 			
 			var offerScroll = Titanium.UI.createScrollView({
-				top : '0%',
-				zIndex : 5,
-				layout : 'vertical',
-				backgroundColor : '#FFF'
+				top:'0%',
+				zIndex:5,
+				layout:'vertical',
+				backgroundColor:'#FFFFFF'
 			});		
 	
 			var createTab = require('/views/children/listingElements/createOffersTab');
@@ -618,7 +618,7 @@ function createSpeOfferBtn(venueID) {
 			//var parentwindow = Ti.UI.currentWindow;
 			
 			var offerWin = Titanium.UI.createWindow({
-				backgroundColor : 'rgba(0,0,0,0.8)',
+				backgroundColor:'rgba(0,0,0,0.8)',
 			});
 						
 			var offerContainer = Ti.UI.createView({
@@ -630,34 +630,34 @@ function createSpeOfferBtn(venueID) {
 			});
 			
 			var upperView = Ti.UI.createView({
-				top : 0,
+				top:0,
 				left:0,
-				height : '15%',
-				width : '100%',
-				backgroundColor : '#e6a723',
+				height:'15%',
+				width:'100%',
+				backgroundColor:'#FFFFFF',
 				layout:'horizontal',			
 			});
 			
 			var specialOffersLbl = Titanium.UI.createLabel({
-				text : 'Special Offers',
-				left : '5%',
-				width : '85%',
-				height : '40',
-				top : '20',
-				ellipsize : true,
-				color : '#ffffff',
-				font : {
-					fontSize : '34',
-					fontFamily : Ti.App.Properties.getString('fontFamily'),
-					//fontWeight : 'bold'
+				text:'Special Offers',
+				left:'5%',
+				width:'85%',
+				height:'40',
+				top:'20',
+				ellipsize:true,
+				color:'#ffffff',
+				font:{
+					fontSize:'34',
+					fontFamily:Ti.App.Properties.getString('fontFamily'),
+					//fontWeight:'bold'
 				}
 			});
 			upperView.add(specialOffersLbl);
 
 			var close = Titanium.UI.createButton({		
-				right : '0',
-				top : '0',
-				height : '80',
+				right:'0',
+				top:'0',
+				height:'80',
 				width: '60',				
 				title: "X",
 				color:"#FFF",

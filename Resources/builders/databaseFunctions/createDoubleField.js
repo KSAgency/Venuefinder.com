@@ -36,8 +36,7 @@ function createDoubleField(title, hint, spacing, numberKeys) {
 		clearButtonMode:Titanium.UI.INPUT_BUTTONMODE_ALWAYS,
 		returnKeyType:Titanium.UI.RETURNKEY_DONE,
 		keyboardType:numberKeys,
-		autocapitalization:Ti.UI.TEXT_AUTOCAPITALIZATION_NONE,
-		bubbleParent:false
+		autocapitalization:Ti.UI.TEXT_AUTOCAPITALIZATION_NONE
 	});
 	
 	if (Ti.App.Properties.getString('osname') == 'Android'){

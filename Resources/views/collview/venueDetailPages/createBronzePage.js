@@ -4,9 +4,34 @@ var createHeaderElements = require('/views/collview/listingElements/createHeader
 var createDatabase = require('/builders/databaseFunctions/createDatabase');
 var dbUtil = require('/builders/databaseFunctions/dbUtil');
 
-function createDetailPage(thisVenueId, nextVenueId, currentWin, windowsArray) {
+function createDetailPage(thisVenueId, nextVenueId, previousVenueId, currentWin, windowsArray) {
+	var view;
 
+	if(currentWin[2]){
+		currentWin = currentWin[2];
+		view = 'map';
+	}
+	
 	var venueObj = dbUtil.getVenueForId(thisVenueId);
+	
+	var nextVenueId;
+	var previousVenueId;
+	
+	for (var i=0; i < loadList.length; i++) {
+		if(thisVenueId == loadList[i]['venueID']){
+			if (loadList[i+1]){
+				nextVenueId = loadList[i+1]['venueID'];
+			} else {
+				nextVenueId = '0';
+			}
+			
+			if (loadList[i-1]){
+				previousVenueId = loadList[i-1]['venueID'];
+			} else {
+				previousVenueId = '0';
+			}
+		}
+	};
 
 	var pageView = createViewBackground();
 
@@ -16,6 +41,85 @@ function createDetailPage(thisVenueId, nextVenueId, currentWin, windowsArray) {
 	var bronze2View = createBronzeView(venueObj2);
 	bronze2View.setLeft(469);
 	pageView.add(bronze2View);
+	
+	//Buttons
+	
+	var next = Ti.UI.createImageView({
+		image:'/images/pageTurnButton',
+		width:'34',
+		right:'0',
+	});
+
+	if (nextVenueId != '0' && view!='map'){
+		currentWin.add(next);
+	}
+	
+	var previous = Ti.UI.createImageView({
+		image:'/images/pageTurnButton',
+		width:'34',
+		left:'0',
+		transform:Ti.UI.create2DMatrix({rotate:180})
+	});
+
+	if (previousVenueId != '0' && view!='map'){
+		currentWin.add(previous);
+	}
+	
+	next.addEventListener('click', function(){
+		var nextPackage = dbUtil.getVenueForId(nextVenueId)['PackageCode'];
+		
+		if (nextPackage == 'GLD') {
+			currentWin.remove(pageView);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createGoldPage');
+			var goldPage = venueDetailPage.createDetailPage(nextVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(goldPage);
+		} else if (nextPackage == 'SIL') {
+			currentWin.remove(pageView);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
+			var silverPage = venueDetailPage.createDetailPage(nextVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(silverPage);
+		} else if (nextPackage == 'BRZ') {
+			currentWin.remove(pageView);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createBronzePage');
+			var bronzePage = venueDetailPage.createDetailPage(nextVenueId, nextVenueId, previousVenueId, currentWin, windowsArray);
+			currentWin.add(bronzePage);
+		}
+		
+	});
+	
+	previous.addEventListener('click', function(){
+		var previousPackage = dbUtil.getVenueForId(previousVenueId)['PackageCode'];
+		
+		if (previousPackage == 'GLD') {
+			currentWin.remove(pageView);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createGoldPage');
+			var goldPage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(goldPage);
+		} else if (previousPackage == 'SIL') {
+			currentWin.remove(pageView);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
+			var silverPage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
+			currentWin.add(silverPage);
+		} else if (previousPackage == 'BRZ') {
+			currentWin.remove(pageView);
+			currentWin.remove(next);
+			currentWin.remove(previous);
+			var venueDetailPage = require('/views/collview/venueDetailPages/createBronzePage');
+			var bronzePage = venueDetailPage.createDetailPage(previousVenueId, loadlist, currentWin, windowsArray);
+			currentWin.add(bronzePage);
+		}
+		
+	});
 	
 	return pageView;
 }
@@ -61,7 +165,7 @@ function createGallery(venueObj) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 
 	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='MIL' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName ASC");
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='TOP' OR OptionCode = 'PIC' OR OptionCode='MID' OR OptionCode='MIL' OR OR OptionCode='MIR') ORDER BY OrderKey, GraphicFileName ASC");
 	var picCount = 0;
 	var imgCount = 0;
 
@@ -276,7 +380,7 @@ function createVenueDetail(venueObj) {
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		left : '0',
-		top : '143',
+		top : '168',
 		height : '15',
 		attributedString : urlLineAttr,
 	});
@@ -345,7 +449,7 @@ function createVenueDetail(venueObj) {
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		left : '0',
-		top : '168',
+		top : '143',
 		height : '15',
 		attributedString : emailLineAttr
 	});

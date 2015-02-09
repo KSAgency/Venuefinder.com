@@ -27,7 +27,13 @@ function searchMapView2(tabGroup, win, flipView, styleID, win) {
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 
-	var getCoords = db.execute('SELECT * FROM VenueCoords WHERE VenueID in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ')');
+	var londonFilter = ''; 
+	
+	if (styleID == '3' || styleID == '15' || styleID == '39'){
+		londonFilter = 'AND Town="London"';
+	}
+
+	var getCoords = db.execute('SELECT VenueCoords.VenueID, VenueCoords.Latitude, VenueCoords.Longitude FROM VenueCoords JOIN VenueToVenueStyles ON VenueCoords.VenueID=VenueToVenueStyles.VenueID JOIN Venue ON VenueCoords.VenueID=Venue.VenueID WHERE VenueStyleID="'+styleID+'" '+londonFilter);
 	while (getCoords.isValidRow()) {
 		var latitude = getCoords.fieldByName('Latitude');
 		var longitude = getCoords.fieldByName('Longitude');

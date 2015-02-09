@@ -1,6 +1,6 @@
 function searchView(tabGroup, title, backgroundColor) {
 	var win = Titanium.UI.createWindow({
-		backgroundColor : backgroundColor,
+		backgroundColor : '#FFF',
 		title : title,
 		width : Ti.UI.FILL,
 		height : Ti.UI.FILL
@@ -54,20 +54,12 @@ function searchView(tabGroup, title, backgroundColor) {
 
 	toggleButton.addEventListener('click', function() {
 		if (hidden == true) {
-			buttonScroller.scrollTo(0, 0);
+			searchBar.show();
 			hidden = false;
 		} else {
-			buttonScroller.scrollTo(0, 40);
+			searchBar.hide();
 			hidden = true;
 		}
-	});
-
-	// Create Scroll
-
-	var buttonScroller = Titanium.UI.createScrollView({
-		layout : 'vertical',
-		height : '89.5%',
-		top : 0
 	});
 
 	//Search Bar
@@ -93,9 +85,9 @@ function searchView(tabGroup, title, backgroundColor) {
 		//        bubbleParent: false,
 	});
 
-	buttonScroller.add(searchBar);
+	win.add(searchBar);
 
-	buttonScroller.addEventListener('cancel', function() {
+	win.addEventListener('cancel', function() {
 		searchBar.blur();
 	});
 
@@ -135,120 +127,223 @@ function searchView(tabGroup, title, backgroundColor) {
 		win.setTouchEnabled(true);
 
 	});
-
-	if (Ti.App.Properties.getString('osname') == 'iPad') {
-		var imageBanner = Titanium.UI.createImageView({
-			image : '/images/imageBanner.png',
-			width : 600,
-			top : 50,
-		});
-
-		buttonScroller.add(imageBanner);
+	
+	//Load Images
+	
+	var imagesToLoad = ['images/searchPage/0219590PIC.jpg', 
+		'images/searchPage/0220828PIC.jpg',
+		'images/searchPage/0220834PIC.jpg', 
+		'images/searchPage/0218631PIC.jpg', 
+		'images/searchPage/0218254PIC.jpg', 
+		'images/searchPage/0221729PIC.jpg',
+		'images/searchPage/0222859PIC.jpg',
+		'images/searchPage/0222437PIC.jpg',
+		'images/searchPage/0218810PIC.jpg',
+		'images/searchPage/0219719PIC.jpg'];
+	
+	function imageResize (imageSize){
+		if (imageSize.width>=imageSize.height){
+			var ratio = imageSize.height/768;
+			imageUnderlay.setHeight(768);
+			imageUnderlay.setWidth(imageSize.width/ratio);
+		} else {
+			var ratio = imageSize.width/1024;
+			imageUnderlay.setHeight(1024);
+			imageUnderlay.setWidth(imageSize.height/ratio);
+		}
 	}
+	
+	var currentDisplay = 1;
+	
+	var imageUnderlay = Ti.UI.createImageView({
+		width:Ti.UI.FILL,
+		height:Ti.UI.FILL,
+		opacity:1,
+		image:imagesToLoad[0],
+		isVis:true
+	});
+	
+	var imageUnderlayFade = Ti.UI.createImageView({
+		width:Ti.UI.FILL,
+		height:Ti.UI.FILL,
+		image:imagesToLoad[1],
+		opacity:0,
+		isVis:false
+	});
+	
+	win.add(imageUnderlay);
+	win.add(imageUnderlayFade);
 
-	var button1 = Titanium.UI.createImageView({
-		image : '/images/button_quick_search.png',
-		width : 288,
-		height : 52,
-		top : 10
+	setInterval(function(){
+		
+		currentDisplay = currentDisplay+1;
+			
+		if (imageUnderlay.isVis){
+			
+			imageUnderlayFade.animate({
+				duration:2000,
+				opacity:1
+			});
+			
+			imageUnderlay.animate({
+				duration:2000,
+				opacity:0
+			});
+			
+			imageUnderlay.isVis = false;
+			imageUnderlayFade.isVis = true;
+			imageResize(imageUnderlayFade.toImage());
+			
+			setTimeout(function(){
+				if (currentDisplay+1 == 10){
+					currentDisplay = 0;
+					imageUnderlay.setImage(imagesToLoad[0]);
+				} else {
+					imageUnderlay.setImage(imagesToLoad[currentDisplay+1]);
+				}
+			}, 2000);
+			
+		} else {
+			
+			imageUnderlay.animate({
+				duration:2000,
+				opacity:1
+			});
+			
+			imageUnderlayFade.animate({
+				duration:2000,
+				opacity:0
+			});
+			
+			imageUnderlay.isVis = true;
+			imageUnderlayFade.isVis = false;
+			imageResize(imageUnderlay.toImage());
+			
+			setTimeout(function(){
+				if (currentDisplay+1 == 10){
+					currentDisplay = 0;
+					imageUnderlayFade.setImage(imagesToLoad[0]);
+				} else {
+					imageUnderlayFade.setImage(imagesToLoad[currentDisplay+1]);
+				}
+			}, 2000);
+		}
+		
+	}, 10000);
+	
+	
+	//Menu
+
+	var buttonBox = Ti.UI.createView({
+		width:Ti.UI.SIZE,
+		height:Ti.UI.SIZE,
+		top:100,
+		left:20,
+		backgroundColor:backgroundColor
+	});
+	
+	var tableData = [{
+		title:'Venue Search', 
+		toLoad:'children/quickSearch',
+		leftImage:'images/searchPage/icons/search.png',
+		color : '#2195be',
+		font : {
+			fontSize : '20',
+			fontWeight : 'bold'
+		}
+	}, {
+		title:'Search by Location', 
+		toLoad:'children/searchLocation',
+		leftImage:'images/searchPage/icons/map.png',
+		color : '#2195be',
+		font : {
+			fontSize : '20',
+			fontWeight : 'bold'
+		}
+	}, {
+		title:'Featured Venues', 
+		toLoad:'children/azDirectory',
+		leftImage:'images/searchPage/icons/favourites.png',
+		color : '#2195be',
+		font : {
+			fontSize : '20',
+			fontWeight : 'bold'
+		}
+	}, {
+		title:'Venue Collections', 
+		toLoad:null,
+		leftImage:'images/searchPage/icons/collectionsIcon.png',
+		color : '#2195be',
+		font : {
+			fontSize : '20',
+			fontWeight : 'bold'
+		}
+	}, {
+		title:'Special Offers', 
+		toLoad:'children/specialOffers',
+		leftImage:'images/searchPage/icons/offers.png',
+		color : '#2195be',
+		font : {
+			fontSize : '20',
+			fontWeight : 'bold'
+		}
+	}, {
+		title:'Free Venue Finding Service', 
+		toLoad:'children/venueFindingService',
+		leftImage:'images/searchPage/icons/freeVenueFindingServiceIcon.png',
+		color : '#2195be',
+		font : {
+			fontSize : '20',
+			fontWeight : 'bold'
+		}
+	}];
+	
+	var tableView = Ti.UI.createTableView({
+		width:'330',
+		height:'263',
+		data:tableData,
+		scrollable:false
 	});
 
-	buttonScroller.add(button1);
-
-	var button2 = Titanium.UI.createImageView({
-		image : '/images/button_search_near.png',
-		width : 288,
-		height : 52,
-		top : 10
-	});
-
-	buttonScroller.add(button2);
-
-	var button3 = Titanium.UI.createImageView({
-		image : '/images/button_az_directory.png',
-		width : 288,
-		height : 52,
-		top : 10
-	});
-
-	buttonScroller.add(button3);
-
-	var button4 = Titanium.UI.createImageView({
-		image : '/images/button_venue_collections.png',
-		width : 288,
-		height : 52,
-		top : 10
-	});
-
-	buttonScroller.add(button4);
-
-	var button5 = Titanium.UI.createImageView({
-		image : '/images/button_special_offers.png',
-		width : 288,
-		height : 52,
-		top : 10
-	});
-
-	buttonScroller.add(button5);
-
-	var button6 = Titanium.UI.createImageView({
-		image : '/images/button_speak_advisor.png',
-		width : 288,
-		height : 52,
-		top : 10
-	});
-
-	buttonScroller.add(button6);
-
-	var buttonSpace = Titanium.UI.createButton({
-		width : 288,
-		height : 25,
-		top : 10,
-		opacity : 0
-	});
-
-	buttonScroller.add(buttonSpace);
-
-	win.add(buttonScroller);
+	buttonBox.add(tableView);
+	win.add(buttonBox);
+	buttonBox.setWidth(buttonBox.toImage().width+30);
+	buttonBox.setHeight(buttonBox.toImage().height+30);
 
 	//iPad Styling
-	if (Ti.App.Properties.getString('osname') == 'iPad') {
-		//Resize and disable Scroll View
-		buttonScroller.setWidth(600);
-		buttonScroller.setHeight(Titanium.UI.SIZE);
-		searchBar.setWidth(600);
+	// if (Ti.App.Properties.getString('osname') == 'iPad') {
+		// //Resize and disable Scroll View
+		// buttonScroller.setWidth(600);
+		// buttonScroller.setHeight(Titanium.UI.SIZE);
+		// searchBar.setWidth(600);
+// 
+		// //Repostion Buttons
+		// button1.setLeft(0), button1.setTop(50), button2.setLeft(0), button3.setLeft(0), button4.setRight(0), button4.setTop(-175), button5.setRight(0), button6.setRight(0);
+	// }
 
-		//Repostion Buttons
-		button1.setLeft(0), button1.setTop(50), button2.setLeft(0), button3.setLeft(0), button4.setRight(0), button4.setTop(-175), button5.setRight(0), button6.setRight(0);
-	}
-
-	// Require & Create advert space
-	var createAdvert = require('/builders/createAdvert');
-	var advert = createAdvert();
-	win.add(advert);
-
-	button1.addEventListener('click', function() {
-		var createApplicationWindow = require('/builders/createApplicationWindow');
-		var windowElements = createApplicationWindow(tabGroup, 'children/quickSearch', 'Venue Search', '#d2e8f5', 'Search', 'Venue Search', '', '');
+	tableView.addEventListener('click', function(e){
+		if (e.rowData.toLoad == null){
+			if (Ti.App.Properties.getString('osname') == 'iPad') {
+				var allWindowsBackgroundColor = '#CACACA';
+				Ti.App.Properties.setString('allWindowsBackgroundColor', allWindowsBackgroundColor);
+				Ti.App.Properties.setString('fontFamily', 'Helvetica-Light');
+				var createApplicationWindow = require('/builders/createApplicationWindow');
+				var windowElements = createApplicationWindow(tabGroup, 'collview/venueCollectionsIos', 'Venuefinder.com collections', allWindowsBackgroundColor, '/images/loading_page.png', 'Search', 'Venue Collections', '', '', '', 'forflipwindow');
+			} else {
+				var createApplicationWindow = require('/builders/createApplicationWindow');
+				var windowElements = createApplicationWindow(tabGroup, 'children/venueCollections', 'Venue Collections', '#FFF', '/images/loading_page.png', 'Search', 'Venue Collections', '', '');
+			}
+		} else {
+			var createStartActInd = require('/builders/startActInd');
+			var startActInd = createStartActInd(win);
+			var createApplicationWindow = require('/builders/createApplicationWindow');
+			var windowElements = createApplicationWindow(tabGroup, e.rowData.toLoad, e.rowData.title, '#d2e8f5', 'Search', e.rowData.title, '', '');
+			var createEndActInd = require('/builders/endActInd');
+			var endActInd = createEndActInd(win, startActInd[0], startActInd[1]);
+		}
 	});
-
-	button2.addEventListener('click', function() {
-		var createApplicationWindow = require('/builders/createApplicationWindow');
-		var windowElements = createApplicationWindow(tabGroup, 'children/searchLocation', 'By Location', '#d2e8f5', 'Search', 'Search By Location', '', '');
-	});
-
-	button3.addEventListener('click', function() {
-		var createStartActInd = require('/builders/startActInd');
-		var startActInd = createStartActInd(win);
-		var createApplicationWindow = require('/builders/createApplicationWindow');
-		var windowElements = createApplicationWindow(tabGroup, 'children/azDirectory', 'Venue Search', '#FFF', 'Search', 'Featured Venues', '', '');
-
-		var createEndActInd = require('/builders/endActInd');
-		var endActInd = createEndActInd(win, startActInd[0], startActInd[1]);
-
-	});
-
-	button4.addEventListener('click', function() {
+	
+	tableView.addEventListener('collections', function(){
 		if (Ti.App.Properties.getString('osname') == 'iPad') {
 			var allWindowsBackgroundColor = '#CACACA';
 			Ti.App.Properties.setString('allWindowsBackgroundColor', allWindowsBackgroundColor);
@@ -261,19 +356,9 @@ function searchView(tabGroup, title, backgroundColor) {
 		}
 	});
 
-	button5.addEventListener('click', function() {
-		var createApplicationWindow = require('/builders/createApplicationWindow');
-		var windowElements = createApplicationWindow(tabGroup, 'children/specialOffers', 'Special Offers', '#d2e8f5', 'Search', 'Special Offers', '', '');
-	});
-
-	button6.addEventListener('click', function() {
-		var createApplicationWindow = require('/builders/createApplicationWindow');
-		var windowElements = createApplicationWindow(tabGroup, 'children/venueFindingService', 'Venue Finding Service', '#d2e8f5', 'Search', 'Free Venue Finding Service', '', '');
-	});
-
 	win.addEventListener('postlayout', function() {
 		if (Ti.App.Properties.getString('osname') != 'Android') {
-			buttonScroller.scrollTo(0, 40);
+			searchBar.hide();
 		}
 	});
 

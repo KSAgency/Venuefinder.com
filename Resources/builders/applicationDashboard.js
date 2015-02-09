@@ -136,6 +136,15 @@ function applicationDashboard(tabGroup) {
 			fontSize : '20',
 			fontWeight : 'bold'
 		}
+	},{
+		title : 'Venue Collections',
+		hasChild : true,
+		index : 0,
+		color : '#2195be',
+		font : {
+			fontSize : '20',
+			fontWeight : 'bold'
+		}
 	}, {
 		title : 'Map',
 		hasChild : true,
@@ -329,8 +338,10 @@ function applicationDashboard(tabGroup) {
 	}
 
 	//Create click listeners
+    
 
 	tableview.addEventListener('click', function(e) {
+				
 		if (e.rowData.index == 5) {
 
 			if (Ti.Platform.osname != 'android') {
@@ -341,6 +352,12 @@ function applicationDashboard(tabGroup) {
 				aboutWin.open();
 			}
 
+		} else if (e.rowData.index == 0 && e.rowData.title == 'Venue Collections' && Ti.App.Properties.getString('osname') == 'iPad'){
+			
+			tabGroup.setActiveTab(e.rowData.index);
+			tabGroup.getActiveTab().getWindow().getChildren()[4].getChildren()[0].fireEvent('collections');
+			home_screen.hide();
+						
 		} else {
 
 			if (Ti.Platform.osname == 'android') {
@@ -356,6 +373,7 @@ function applicationDashboard(tabGroup) {
 			}
 
 		}
+		
 	});
 
 	// Require & Create advert space

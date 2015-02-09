@@ -92,10 +92,8 @@ function createEmailer(tabGroup, sendTo, bodyText, fromWin, venueName, tab, tier
 		messageText.setLeft(10);
 	}
 
-	messageText.addEventListener('focus', function() {
-		setTimeout(function() {
-			messageText.focus();
-		}, 500);
+	emailMessage.addEventListener('click', function() {
+		messageText.focus();
 	});
 
     emailMessage.add(messageText);
@@ -152,8 +150,6 @@ function createEmailer(tabGroup, sendTo, bodyText, fromWin, venueName, tab, tier
         };
 
         emailData = JSON.stringify(emailData);
-
-		alert(emailData.toString());
 
         var xhr = Ti.Network.createHTTPClient();
         xhr.open("POST", "http://venuefindermobile.live.x-rm.com/webapi-v1/api/mail/SendVenueRecommendation");

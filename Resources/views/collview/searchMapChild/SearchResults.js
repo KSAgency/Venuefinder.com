@@ -7,44 +7,42 @@ function SearchResults(tabGroup, parentView, sql, styleID, windowsArray) {
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 
-	for (var i = 0; i < sql.length; i++) {
-		var row = db.execute(sql[i]);
-		while (row.isValidRow()) {
-			if (row.fieldByName('VenueName') != undefined) {
-				var top = 0;
-				var left = 0;
+	var row = db.execute(sql);
+	while (row.isValidRow()) {
+		if (row.fieldByName('VenueName') != undefined) {
+			var top = 0;
+			var left = 0;
 
-				var venueArray = [];
-				venueArray['venueID'] = row.fieldByName('VenueID');
-				venueArray['venueName'] = row.fieldByName('VenueName');
-				venueArray['venueTown'] = row.fieldByName('Town');
-				venueArray['bedroomsNo'] = row.fieldByName('BedroomsNo');
-				venueArray['postCode'] = row.fieldByName('Postcode');
-				venueArray['meetingRoomsNo'] = row.fieldByName('MeetingRoomsNo');
-				venueArray['packageCode'] = row.fieldByName('PackageCode');
+			var venueArray = [];
+			venueArray['venueID'] = row.fieldByName('VenueID');
+			venueArray['venueName'] = row.fieldByName('VenueName');
+			venueArray['venueTown'] = row.fieldByName('Town');
+			venueArray['bedroomsNo'] = row.fieldByName('BedroomsNo');
+			venueArray['postCode'] = row.fieldByName('Postcode');
+			venueArray['meetingRoomsNo'] = row.fieldByName('MeetingRoomsNo');
+			venueArray['packageCode'] = row.fieldByName('PackageCode');
 
-				var getImage = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID="' + venueArray['venueID'] + '" AND (OptionCode="TOP" OR OptionCode="PIC")');
-				var imageUrl = '';
-				if (getImage.isValidRow()) {
-					imageUrl = getImage.fieldByName('GraphicFileName');
-				}
-				venueArray['imageUrl'] = imageUrl;
-
-				var location = '';
-				if (venueArray['venueTown'] != '') {
-					if (venueArray['postCode'] != '') {
-						location = venueArray['venueTown'] + ', ' + venueArray['postCode'];
-					} else {
-						location = venueArray['venueTown'];
-					}
-				} else if (venueArray['postCode'] != '') {
-					location = venueArray['postCode'];
-				}
-				venueArray['location'] = location;
-				dataArray.push(venueArray);
+			var getImage = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID="' + venueArray['venueID'] + '" AND (OptionCode="TOP" OR OptionCode="PIC")');
+			var imageUrl = '';
+			if (getImage.isValidRow()) {
+				imageUrl = getImage.fieldByName('GraphicFileName');
 			}
-			row.next();
+			venueArray['imageUrl'] = imageUrl;
+
+			var location = '';
+			if (venueArray['venueTown'] != '') {
+				if (venueArray['postCode'] != '') {
+					location = venueArray['venueTown'] + ', ' + venueArray['postCode'];
+				} else {
+					location = venueArray['venueTown'];
+				}
+			} else if (venueArray['postCode'] != '') {
+				location = venueArray['postCode'];
+			}
+			venueArray['location'] = location;
+			dataArray.push(venueArray);
 		}
+		row.next();
 	}
 
 	db.close();

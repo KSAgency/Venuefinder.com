@@ -1,0 +1,1 @@
+/Users/SamJacob/Documents/AppDesign/Venue Finder/Resources/views/collview/flipPages/a-zVenuesList.js

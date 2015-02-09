@@ -181,17 +181,36 @@ function venueCollectionsIos(tabGroup, window) {
 
 				if (viewArray[i].collection == 'venue') {
 					var labelObj = viewArray[i].getChildren();
-					var image = Titanium.UI.createImageView({
-						image : venueDetailArray[walk].image,
-						defaultImage : '/images/icon.png',
+					
+					var imageHolder = Ti.UI.createView({
 						width : Ti.UI.FILL,
 						height : viewArray[i].size.height - labelObj[0].size.height - 5, 
 						top : labelObj[0].size.height + 10,
 						left : 0,
 						right : 0,
+						touchEnabled:false
 					});
-					viewArray[i].add(image);
-										
+					
+					var image = Titanium.UI.createImageView({
+						image : venueDetailArray[walk].image,
+						defaultImage : '/images/icon.png'
+					});
+					
+					var imageSize = image.toImage();
+	
+					if (imageSize.width>=imageSize.height){
+						var ratio = imageSize.height/imageHolder.height;
+						image.setHeight(imageHolder.height);
+						image.setWidth(imageSize.width/ratio);
+					} else {
+						var ratio = imageSize.width/imageHolder.width;
+						image.setHeight(imageHolder.width);
+						image.setWidth(imageSize.height/ratio);
+					}
+					
+					imageHolder.add(image);
+					viewArray[i].add(imageHolder);
+								
 					walk++;
 				}
 			}

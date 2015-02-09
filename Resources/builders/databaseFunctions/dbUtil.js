@@ -2,7 +2,7 @@ var createDatabase = require('/builders/databaseFunctions/createDatabase');
 
 function getVenueForId(venueID){
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var venueRows = db.execute('select * from Venue where VenueID = ' + venueID);
+	var venueRows = db.execute('select * from Venue where VenueID = "' + venueID +'"');
 	var venueObj = [];
 	
 	while (venueRows.isValidRow()) {		

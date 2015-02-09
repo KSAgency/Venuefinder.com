@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.9.0
+architectures: armv7 i386 x86_64 arm64
+description: Display pages of data to your users. Comes stock with easy to turn pages, multiple transition effects (fade, flip, and slide), a quick PDF mode, and a view-based mode.
+author: Dawson Toth
+license: Apache License, Version 2.0
+copyright: Copyright (c) 2010-2013 by Appcelerator, Inc.
+
+
+# these should not be edited
+name: pageflip
+moduleid: ti.pageflip
+guid: 43c25a5d-6947-45c6-8092-6b573f9d5222
+platform: iphone
+minsdk: 3.4.1.GA

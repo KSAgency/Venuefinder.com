@@ -1,20 +1,34 @@
 function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, venueatozScrollView, isSearchPage) {
 
+	var buttonCont = Ti.UI.createView({
+		left:18,
+		top:0,
+		height:Ti.UI.SIZE,
+		width:Ti.UI.SIZE,
+		backgroundColor:'transparent',
+		bubbleParent:true
+	});
+
 	var collectionLabel = Ti.UI.createButton({
-		left : '18',
-		top : '6',
-		height : '20',
+		height:Ti.UI.SIZE,
+		width:Ti.UI.SIZE,
 		color : '#000000',
+		backgroundColor:'transparent',
 		font : {
 			fontSize : 18,
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
-		title : '< All collections',
-		backgroundColor : 'rgba(255,255,255,0)',
-		style : Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+		title:'All collections',
+		bubbleParent:true,
+		touchEnabled:false
 	});
+	
+	buttonCont.add(collectionLabel);
 
-	collectionLabel.addEventListener('click', function(e) {
+	buttonCont.setWidth(buttonCont.toImage().width+(buttonCont.toImage().width/10*2));
+	buttonCont.setHeight(buttonCont.toImage().height+(buttonCont.toImage().height/10*2+2));
+
+	buttonCont.addEventListener('click', function(e) {
 		var createStartActInd = require('/builders/startActInd');
 		var startActInd = createStartActInd(win);
 		for (var i = 0; i < windowsArray.length; i++) {
@@ -26,21 +40,36 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 	});
 
 	//Add back button
+	
+	var backButtonCont = Ti.UI.createView({
+		left:18,
+		top:0,
+		height:Ti.UI.SIZE,
+		width:Ti.UI.SIZE,
+		backgroundColor:'transparent',
+		bubbleParent:true
+	});
+	
 	var backButton = Ti.UI.createButton({
-		left : '18',
-		top : '6',
-		height : '20',
+		height:Ti.UI.SIZE,
+		width:Ti.UI.SIZE,
 		color : '#000000',
+		backgroundColor:'transparent',
 		font : {
 			fontSize : 18,
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
-		title : '< Back',
-		backgroundColor : 'rgba(255,255,255,0)',
-		style : Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+		title : 'Back',
+		bubbleParent:true,
+		touchEnabled:false
 	});
+	
+	backButtonCont.add(backButton);
 
-	backButton.addEventListener('click', function(e) {
+	backButtonCont.setWidth(backButtonCont.toImage().width+(backButtonCont.toImage().width/10*2));
+	backButtonCont.setHeight(backButtonCont.toImage().height+(backButtonCont.toImage().height/10*2+2));
+
+	backButtonCont.addEventListener('click', function(e) {
 		var i = 2;
 		if (isSearchPage != undefined && isSearchPage) {
 			i = 3;
@@ -68,12 +97,12 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 		top : '0',
 		left : '723',
 		backgroundColor : '#F0EEEE',
-		zIndex : 15,
+		zIndex : 15
 	});
 
 	var searchViewDetail = Ti.UI.createView({
 		width : '197',
-		height : '135',
+		height : '186',
 		top : '30',
 		left : '723',
 		backgroundColor : '#F0EEEE',
@@ -107,7 +136,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 
 	var Cover = Ti.UI.createButton({
 		left : '10%',
-		top : '2%',
+		top : '0',
 		title : 'Cover',
 		color : '#000000',
 		backgroundImage : 'none',
@@ -116,6 +145,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		style : Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+		height:'44'
 	});
 
 	Cover.addEventListener('click', function(e) {
@@ -133,7 +163,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 
 	var eLetter = Ti.UI.createButton({
 		left : '10%',
-		top : '21%',
+		top : '44',
 		title : 'Editors letter',
 		color : '#000000',
 		backgroundImage : 'none',
@@ -142,6 +172,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		style : Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+		height:'44'
 	});
 
 	eLetter.addEventListener('click', function(e) {
@@ -165,7 +196,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 
 	var sMap = Ti.UI.createButton({
 		left : '10%',
-		top : '38%',
+		top : '88',
 		title : 'Search & Map',
 		color : '#000000',
 		backgroundImage : 'none',
@@ -174,6 +205,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		style : Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+		height:'44'
 	});
 
 	sMap.addEventListener('click', function(e) {
@@ -194,7 +226,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 
 	var venues = Ti.UI.createButton({
 		left : '10%',
-		top : '56%',
+		top : '134',
 		title : 'Venues A-Z',
 		color : '#000000',
 		backgroundImage : 'none',
@@ -203,6 +235,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		style : Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+		height:'44'
 	});
 
 	venues.addEventListener('click', function(e) {
@@ -245,7 +278,7 @@ function searchView(tabGroup, win, leftView, styleID, rightView, windowsArray, v
 		});
 	}
 
-	return [searchLabel, searchView, searchViewDetail, collectionLabel, backButton];
+	return [searchLabel, searchView, searchViewDetail, buttonCont, backButtonCont];
 }
 
 module.exports = searchView;

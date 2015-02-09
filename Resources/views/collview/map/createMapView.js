@@ -6,19 +6,19 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 	var win;
 	if (isVenueDeatil) {
 		win = Titanium.UI.createView({
-			backgroundColor : '#FFF',
-			title : venueName,
-			height : Ti.UI.FILL,
-			width : Ti.UI.FILL
+			backgroundColor:'#FFF',
+			title:venueName,
+			height:Ti.UI.FILL,
+			width:Ti.UI.FILL
 		});
 	} else {
 		win = Titanium.UI.createView({
-			title : venueName,
-			width : '340',
-			height : '440',
-			top : '77',
-			left : '20',
-			clipMode : Titanium.UI.iOS.CLIP_MODE_ENABLED ,
+			title:venueName,
+			width:Ti.UI.FILL,
+			height:Ti.UI.FILL,
+			top:'77',
+			left:'0',
+			clipMode:Titanium.UI.iOS.CLIP_MODE_ENABLED ,
 		});
 	}
 
@@ -80,12 +80,12 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 		}
 
 		var annotation = Map.createAnnotation({
-			latitude : latitude,
-			longitude : longitude,
-			title : name,
-			subtitle : address + town + county + postcode,
-			myid : id,
-			packageCode : venueClass,
+			latitude:latitude,
+			longitude:longitude,
+			title:name,
+			subtitle:address + town + county + postcode,
+			myid:id,
+			packageCode:venueClass,
 		});
 
 		annotation.setRightButton(Titanium.UI.iPhone.SystemButton.DISCLOSURE);
@@ -106,19 +106,19 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 	}
 
 	var mapview = Map.createView({
-		mapType : Map.NORMAL_TYPE,
-		animate : true,
-		userLocation : true,
-		zIndex : 1,
-		annotations : data,
+		mapType:Map.NORMAL_TYPE,
+		animate:true,
+		userLocation:true,
+		zIndex:1,
+		annotations:data,
 	});
 
 	mapview.addEventListener('complete', function() {
 		mapview.setRegion({
-			latitude : lastLat,
-			longitude : lastLon,
-			latitudeDelta : 20.11,
-			longitudeDelta : 20.11,
+			latitude:lastLat,
+			longitude:lastLon,
+			latitudeDelta:20.11,
+			longitudeDelta:20.11,
 		});
 		
 
@@ -186,13 +186,13 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 
 	if (isVenueDeatil) {
 		var leftMenu = Ti.UI.createView({
-			left : -250,
-			bottom : 40,
-			width : 250,
-			height : 233,
-			backgroundColor : '#000',
-			opacity : 0.8,
-			zIndex : 2
+			left:-250,
+			bottom:40,
+			width:250,
+			height:233,
+			backgroundColor:'#000',
+			opacity:0.8,
+			zIndex:2
 		});
 
 		if (isVenueDeatil) {
@@ -200,22 +200,22 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 		}
 
 		var key = Ti.UI.createImageView({
-			image : '/images/map_key.png',
-			color : '#666',
-			opacity : 1,
-			width : 250,
-			height : 233,
-			zIndex : 1
+			image:'/images/map_key.png',
+			color:'#666',
+			opacity:1,
+			width:250,
+			height:233,
+			zIndex:1
 		});
 
 		leftMenu.add(key);
 
 		var mapMode = Titanium.UI.createView({
-			width : '45%',
-			height : '10%',
-			top : '60%',
-			left : '5%',
-			zIndex : '3'
+			width:'45%',
+			height:'10%',
+			top:'60%',
+			left:'5%',
+			zIndex:'3'
 		});
 
 		mapMode.addEventListener('click', function() {
@@ -225,11 +225,11 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 		leftMenu.add(mapMode);
 
 		var satelliteMode = Titanium.UI.createView({
-			width : '55%',
-			height : '10%',
-			top : '72%',
-			left : '5%',
-			zIndex : 3
+			width:'55%',
+			height:'10%',
+			top:'72%',
+			left:'5%',
+			zIndex:3
 		});
 
 		satelliteMode.addEventListener('click', function() {
@@ -239,11 +239,11 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 		leftMenu.add(satelliteMode);
 
 		var hybridMode = Titanium.UI.createView({
-			width : '50%',
-			height : '10%',
-			top : '85%',
-			left : '5%',
-			zIndex : 3
+			width:'50%',
+			height:'10%',
+			top:'85%',
+			left:'5%',
+			zIndex:3
 		});
 
 		hybridMode.addEventListener('click', function() {
@@ -254,50 +254,50 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 
 		// Add Map Key Button
 		var mapKeyView = Ti.UI.createView({
-			left : 0,
-			bottom : 40,
-			width : 50,
-			height : 38,
-			backgroundColor : 'transparent',
-			opacity : 0.8,
-			zIndex : 2,
+			left:0,
+			bottom:40,
+			width:50,
+			height:38,
+			backgroundColor:'transparent',
+			opacity:0.8,
+			zIndex:2,
 		});
 
 		var mapkey = Ti.UI.createImageView({
-			image : '/images/mapkey.png',
-			color : '#666',
-			opacity : 1,
-			width : 50,
-			height : 38,
-			zIndex : 100,
-			left : "0",
-			top : "0",
-			_left : false,
+			image:'/images/mapkey.png',
+			color:'#666',
+			opacity:1,
+			width:50,
+			height:38,
+			zIndex:100,
+			left:"0",
+			top:"0",
+			_left:false,
 		});
 
 		mapkey.addEventListener('click', function(e) {
 			if (mapkey._left == true) {
 				leftMenu.animate({
-					left : -250,
-					duration : 775
+					left:-250,
+					duration:775
 				});
 				mapKeyView.animate({
-					left : 0,
-					duration : 775
+					left:0,
+					duration:775
 				});
 
 				mapkey._left = false;
 			} else {
 				mapKeyView.animate({
-					left : 250,
-					duration : 775
+					left:250,
+					duration:775
 				});
 
 				mapkey._left = true;
 
 				leftMenu.animate({
-					left : 0,
-					duration : 775
+					left:0,
+					duration:775
 				});
 			}
 		});

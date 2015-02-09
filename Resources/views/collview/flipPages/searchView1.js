@@ -33,6 +33,8 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 		height : '25',
 		left : '25',
 		top : '68',
+		paddingLeft:'5',
+		paddingRight:'5'
 	});
 
 	nameSearch.add(nameSearchField);
@@ -57,13 +59,16 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 			var startActInd = createStartActInd(win);
 
 			var SearchResults = require('/views/collview/searchMapChild/SearchResults');
-			var sql = [];
-			var sql1 = 'SELECT * FROM venue where venuename like "%' + nameSearchField.value + '%" and venueid in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') and packagecode = "gld" ORDER BY venueid ASC';
-			var sql2 = 'SELECT * FROM venue where venuename like "%' + nameSearchField.value + '%" and venueid in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') and packagecode = "sil" ORDER BY venueid ASC';
-			var sql3 = 'SELECT * FROM venue where venuename like "%' + nameSearchField.value + '%" and venueid in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') and packagecode = "brz" ORDER BY venueid ASC';
-			sql.push(sql1);
-			sql.push(sql2);
-			sql.push(sql3);
+			
+			var londonQuery = '';
+		
+			if (styleID == '3' || styleID == '15' || styleID == '39'){
+				londonQuery = 'AND Venue.Town = "London"';
+			}
+			
+			Ti.API.info('SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") '+londonQuery+' ORDER BY VenueID ASC');
+			
+			var sql = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") '+londonQuery+' ORDER BY VenueID ASC';
 			var createApplicationWindow = require('/builders/createApplicationWindow');
 			var winView = createApplicationWindow(tabGroup, null, 'Venue Result', Ti.App.Properties.getString('allWindowsBackgroundColor'), '/images/loading_page.png', 'Search', 'Venue Collections', '', '', '', 'forflipwindow');
 			windowsArray.push(winView);
@@ -165,7 +170,7 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		text : 'Meeting capacity',
-		color : '#919191',
+		color : '#000000',
 	});
 
 	slideSearch.add(meetCapacityLabel);
@@ -180,6 +185,8 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 		height : '24',
 		left : '244',
 		top : '68',
+		paddingLeft:'5',
+		paddingRight:'5'
 	});
 
 	slideSearch.add(meetCapacityRightLabel);
@@ -187,14 +194,14 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 	var cateringCapacityLabel = Ti.UI.createLabel({
 		width : '210',
 		height : '24',
-		top : '121',
+		top : '116',
 		left : '25',
 		font : {
 			fontSize : 18,
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		text : 'Catering capacity',
-		color : '#919191',
+		color : '#000000',
 	});
 
 	slideSearch.add(cateringCapacityLabel);
@@ -208,7 +215,9 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 		width : '118',
 		height : '24',
 		left : '244',
-		top : '121',
+		top : '116',
+		paddingLeft:'5',
+		paddingRight:'5'
 	});
 	slideSearch.add(cateringCapacityRightLabel);
 
@@ -222,7 +231,7 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		text : 'Number of meeting rooms',
-		color : '#919191',
+		color : '#000000',
 	});
 
 	slideSearch.add(meetroomCapacityLabel);
@@ -237,20 +246,22 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 		height : '24',
 		left : '244',
 		top : '164',
+		paddingLeft:'5',
+		paddingRight:'5'
 	});
 	slideSearch.add(meetroomCapacityRightLabel);
 
 	var bedroomCapacityLabel = Ti.UI.createLabel({
 		width : '210',
 		height : '24',
-		top : '207',
+		top : '212',
 		left : '25',
 		font : {
 			fontSize : 18,
 			fontFamily : Ti.App.Properties.getString('fontFamily'),
 		},
 		text : 'Number of bedrooms',
-		color : '#919191',//'#9D9A9D',
+		color : '#000000',//'#9D9A9D',
 	});
 
 	slideSearch.add(bedroomCapacityLabel);
@@ -264,7 +275,9 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 		width : '118',
 		height : '24',
 		left : '244',
-		top : '207',
+		top : '212',
+		paddingLeft:'5',
+		paddingRight:'5'
 	});
 	slideSearch.add(bedroomCapacityRightLabel);
 
@@ -275,7 +288,7 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 		style : Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
 		width : '163',
 		height : '44',
-		top : '330',
+		top : '322',
 		left : '101',
 
 	});
@@ -284,7 +297,6 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 	showVenuesButton.addEventListener('click', function() {
 		var createStartActInd = require('/builders/startActInd');
 		var startActInd = createStartActInd(win);
-		var sql = [];
 		var meetingCapecity = 0;
 		var catering = 0;
 		var meetingRoom = 0;
@@ -310,12 +322,13 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 			bedroom = Number(input);
 		}
 
-		var sql1 = 'SELECT * FROM venue where venueid in (select venueid from venuetovenuestyles where venuestyleid =' + styleID + ') and MaxMeetingCapacity >= ' + meetingCapecity + ' and MaxCateringCapacity >=' + catering + ' and MeetingRoomsNo >= ' + meetingRoom + ' and BedroomsNo >= ' + bedroom + ' and packagecode = \'gld\' ORDER BY venueid ASC';
-		var sql2 = 'SELECT * FROM venue where venueid in (select venueid from venuetovenuestyles where venuestyleid =' + styleID + ') and MaxMeetingCapacity >= ' + meetingCapecity + ' and MaxCateringCapacity >=' + catering + ' and MeetingRoomsNo >= ' + meetingRoom + ' and BedroomsNo >= ' + bedroom + ' and packagecode = \'sil\' ORDER BY venueid ASC';
-		var sql3 = 'SELECT * FROM venue where venueid in (select venueid from venuetovenuestyles where venuestyleid =' + styleID + ') and MaxMeetingCapacity >= ' + meetingCapecity + ' and MaxCateringCapacity >=' + catering + ' and MeetingRoomsNo >= ' + meetingRoom + ' and BedroomsNo >= ' + bedroom + ' and packagecode = \'brz\' ORDER BY venueid ASC';
-		sql.push(sql1);
-		sql.push(sql2);
-		sql.push(sql3);
+		var londonQuery = '';
+		
+		if (styleID == '3' || styleID == '15' || styleID == '39'){
+			londonQuery = 'AND Venue.Town = "London"';
+		}
+		
+		var sql = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") '+londonQuery+' ORDER BY VenueID ASC';
 
 		var createApplicationWindow = require('/builders/createApplicationWindow');
 		var winView = createApplicationWindow(tabGroup, null, 'Venue Result', Ti.App.Properties.getString('allWindowsBackgroundColor'), '/images/loading_page.png', 'Search', 'Venue Collections', '', '', '', 'forflipwindow');

@@ -135,13 +135,12 @@ pageflip.addEventListener('flipStarted', function(evt) {
 
 var i = 1;
 
-var previous = Ti.UI.createButton({
-	title : '<',
-	font : {
-		fontSize : '24',
-	},
-	color : '#000000',
-	backgroundImage : 'none',
+var previous = Ti.UI.createImageView({
+	image:'/images/pageTurnButton',
+	width:'34',
+	left:'0',
+	backgroundColor:'transparent',
+	transform:Ti.UI.create2DMatrix({rotate:180})
 });
 
 previous.addEventListener('click', function() {
@@ -153,27 +152,31 @@ previous.addEventListener('click', function() {
 		for (var i = 1; i < win.windowsArray.length; i++) {
 			win.windowsArray[i].close();
 		}
+		
 		var createEndActInd = require('/builders/endActInd');
 		var endActInd = createEndActInd(win, startActInd[0], startActInd[1]);
+		
 	} else {
+		
 		//venueatozScrollView.setVisible(false);
 		searchView[2].hide();
 		var offsetLandscape = pageflip.landscapeShowsTwoPages && win.size.width > win.size.height;
 		var previousPage = pageflip.currentPage - ( offsetLandscape ? 2 : 1);
+		
 		if (offsetLandscape && previousPage < 0 && pageflip.currentPage == 1) {
 			return;
 		}
+		
 		pageflip.changeCurrentPage(previousPage, true);
+		
 	}
 });
 
-var next = Ti.UI.createButton({
-	title : '>',
-	font : {
-		fontSize : '24',
-	},
-	color : '#000000',
-	backgroundImage : 'none',
+var next = Ti.UI.createImageView({
+	image:'/images/pageTurnButton',
+	width:'34',
+	right:'0',
+	backgroundColor:'transparent'
 });
 
 next.addEventListener('click', function() {
@@ -188,17 +191,8 @@ next.addEventListener('click', function() {
 	Ti.App.fireEvent('toolBarButtonClick');
 });
 
-var flexSpace = Titanium.UI.createButton({
-	systemButton : Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
-});
-
-var toolbar = Titanium.UI.iOS.createToolbar({
-	items : [previous, flexSpace, next],
-	bottom : '0',
-	borderTop : true,
-	borderBottom : false
-});
-win.add(toolbar);
+win.add(next);
+win.add(previous);
 
 pageflip.addEventListener('change', function(evt) {
 	if (venueatozScrollView != undefined) {
@@ -206,11 +200,10 @@ pageflip.addEventListener('change', function(evt) {
 		venueatozScrollView = undefined;
 	}
 	searchView[2].hide();
-	toolbar.removeAllChildren();
 	if (pageflip.pageCount == pageflip.currentPage + 2) {
-		toolbar.setItems([previous, flexSpace]);
+		next.hide();
 	} else {
-		toolbar.setItems([previous, flexSpace, next]);
+		next.show();
 	}
 
 	if (pageflip.currentPage == 4) {

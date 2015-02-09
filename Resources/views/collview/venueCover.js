@@ -25,7 +25,6 @@ function venueCover(tabGroup, style, name, coverWindow, collectionWindow) {
 		coverWindow.close();
 	});
 
-
 	var image;
 	if (style == 39) {
 		//image = '/images/collection-cover.png';
@@ -49,6 +48,7 @@ function venueCover(tabGroup, style, name, coverWindow, collectionWindow) {
 		left : '285',
 		backgroundColor : '#2696BE',
 	});
+	
 	win.add(venueView);
 
 	var venueTitleLabel = Ti.UI.createLabel({
@@ -77,31 +77,18 @@ function venueCover(tabGroup, style, name, coverWindow, collectionWindow) {
 	
 	coverWindow.add(win);
 	
-	var next = Ti.UI.createButton({
-		title : '>',
-		font : {
-			fontSize : '24',
-		},
-		color : '#000000',
-		backgroundImage : 'none',
-
+	var next = Ti.UI.createImageView({
+		image:'/images/pageTurnButton',
+		width:'34',
+		right:'0',
+		backgroundColor:'transparent'
 	});
 
 	next.addEventListener('click', function() {
 		venueView.fireEvent('click');
 	});
-
-	var flexSpace = Titanium.UI.createButton({
-		systemButton : Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
-	});
 	
-	var toolbar = Titanium.UI.iOS.createToolbar({
-		items : [flexSpace, next],
-		bottom : '0',
-		borderTop : true,
-		borderBottom : false
-	});
-	win.add(toolbar);
+	win.add(next);
 
 	var viewChildren = win.getChildren();
 	var labelObj;
@@ -113,17 +100,35 @@ function venueCover(tabGroup, style, name, coverWindow, collectionWindow) {
 		labelObj = viewChildren[1].getChildren();
 		viewChildren = viewChildren[1];
 	}
-	var image = Titanium.UI.createImageView({
-		image : image,
-		defaultImage : '/images/icon.png',
+	
+	var imageHolder = Ti.UI.createView({
+		top : labelObj[0].size.height + 63,
 		width : Ti.UI.FILL,
 		height : viewChildren.size.height - labelObj[0].size.height - 10, 
 		venueStyle : style,
 		styleName : name,
-		top : labelObj[0].size.height + 63 ,
+		touchEnabled:false
 	});
+	
+	var image = Titanium.UI.createImageView({
+		image : image,
+		defaultImage : '/images/icon.png'
+	});
+	
+	var imageSize = image.toImage();
+	
+	if (imageSize.width>=imageSize.height){
+		var ratio = imageSize.height/imageHolder.height;
+		image.setHeight(imageHolder.height);
+		image.setWidth(imageSize.width/ratio);
+	} else {
+		var ratio = imageSize.width/imageHolder.width;
+		image.setHeight(imageHolder.width);
+		image.setWidth(imageSize.height/ratio);
+	}
 
-	viewChildren.add(image);
+	imageHolder.add(image);
+	viewChildren.add(imageHolder);
 }
 
 module.exports = venueCover;
