@@ -11,7 +11,7 @@
     <sdk-version>3.5.0.GA</sdk-version>
     <id>com.ksagency.venuefinder</id>
     <name>Venue Finder</name>
-    <version>1.6.3</version>
+    <version>1.6.4</version>
     <publisher>SamJacob</publisher>
     <url>http://www.venuefinder.com</url>
     <description>not specified</description>
@@ -62,10 +62,10 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-    <module platform="iphone" version="1.1.1">ti.compression</module>
-    <module platform="android" version="2.0.3">ti.compression</module>
-    <module platform="iphone" version="2.2.0">ti.map</module>
-    <module platform="android" version="2.2.5">ti.map</module>
-    <module platform="iphone" version="1.9.0">ti.pageflip</module>
-  </modules>
+        <module platform="iphone" version="1.1.1">ti.compression</module>
+        <module platform="android" version="2.0.3">ti.compression</module>
+        <module platform="iphone" version="2.2.0">ti.map</module>
+        <module platform="android" version="2.2.5">ti.map</module>
+        <module platform="iphone" version="1.9.0">ti.pageflip</module>
+    </modules>
 </ti:app>

@@ -1,1 +1,0 @@
-/Users/SamJacob/Documents/AppDesign/Venue Finder/Resources/s_code.js

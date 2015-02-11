@@ -139,11 +139,11 @@ function SearchResults(tabGroup, parentView, sql, styleID, windowsArray) {
 							left = left + pageGap - hMarzin;
 						}
 						var nextVenueId = 0;
-						//using for BRZ venues
+						//using for PRE venues
 
-						if (venueDataArray['packageCode'] == 'BRZ') {
+						if (venueDataArray['packageCode'] == 'PRE') {
 							for (var j = venueCount + 1; j < dataArray.length; j++) {
-								if (dataArray[j]['packageCode'] != undefined && dataArray[j]['packageCode'] == 'BRZ') {
+								if (dataArray[j]['packageCode'] != undefined && dataArray[j]['packageCode'] == 'PRE') {
 									nextVenueId = dataArray[j]['venueID'];
 									break;
 								}

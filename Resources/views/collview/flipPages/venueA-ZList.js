@@ -49,9 +49,9 @@ function venueList(win, windowsArray, venueatozScrollView) {
 	
 		var query;
 		if (atomDict[i] == '#') {
-			query = 'SELECT Venue.VenueID FROM Venue WHERE VenueSort < "A%" and VenueID in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') AND PackageCode in ("GLD","SIL","BRZ") '+londonQuery+' ORDER BY venuesort ASC';
+			query = 'SELECT * FROM Venue WHERE VenueSort < "A" and VenueID in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') AND PackageCode in ("GLD","SIL","PRE") '+londonQuery+' ORDER BY venuesort ASC';
 		} else {
-			query = 'SELECT Venue.VenueID FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueToVenueStyles.VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") AND VenueSort LIKE "'+atomDict[i]+'%" '+londonQuery+' ORDER BY VenueSort ASC';
+			query = 'SELECT Venue.VenueID FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueToVenueStyles.VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="PRE") AND VenueSort LIKE "'+atomDict[i]+'%" '+londonQuery+' ORDER BY VenueSort ASC';
 		}
 		
 		var rows = db.execute(query);
@@ -149,9 +149,9 @@ function venueList(win, windowsArray, venueatozScrollView) {
 	
 		var query;
 		if (ntozDict[i] == '#') {
-			query = 'SELECT * FROM Venue WHERE VenueSort < "A%" and VenueID in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') AND PackageCode in ("GLD","SIL","BRZ") '+londonQuery+' ORDER BY venuesort ASC';
+			query = 'SELECT * FROM Venue WHERE VenueSort < "A" and VenueID in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') AND PackageCode in ("GLD","SIL","PRE") '+londonQuery+' ORDER BY venuesort ASC';
 		} else {
-			query = 'SELECT Venue.VenueID FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueToVenueStyles.VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") AND VenueSort LIKE "'+ntozDict[i]+'%" '+londonQuery+' ORDER BY VenueSort ASC';
+			query = 'SELECT Venue.VenueID FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueToVenueStyles.VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="PRE") AND VenueSort LIKE "'+ntozDict[i]+'%" '+londonQuery+' ORDER BY VenueSort ASC';
 		}
 		
 		var rows = db.execute(query);
@@ -241,9 +241,9 @@ function getVenues(venueStarts, styleID, windowsArray) {
 
 	var query;
 	if (venueStarts == '#') {
-		query = 'SELECT * FROM Venue WHERE VenueSort < "A%" and VenueID in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') AND PackageCode in ("GLD","SIL","BRZ") '+londonQuery+' ORDER BY venuesort ASC';
+		query = 'SELECT * FROM Venue WHERE VenueSort < "A" and VenueID in (select venueid from venuetovenuestyles where venuestyleid = ' + styleID + ') AND PackageCode in ("GLD","SIL","PRE") '+londonQuery+' ORDER BY venuesort ASC';
 	} else {
-		query = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueToVenueStyles.VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") AND VenueSort LIKE "'+venueStarts+'%" '+londonQuery+' ORDER BY VenueSort ASC';
+		query = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueToVenueStyles.VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="PRE") AND VenueSort LIKE "'+venueStarts+'%" '+londonQuery+' ORDER BY VenueSort ASC';
 	}
 
 	var rows = db.execute(query);

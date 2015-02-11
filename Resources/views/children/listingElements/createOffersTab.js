@@ -2,6 +2,8 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
     var createTodaysDate = require('/builders/todaysDate');
     var today = createTodaysDate();
+    
+    var reCalcDate = require('/builders/reCalcDate');
 
     var createDatabase = require('/builders/databaseFunctions/createDatabase');
     var db = createDatabase('/venuefinder.db', 'venuefinder');
@@ -14,7 +16,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
     var venueTitle = Titanium.UI.createLabel({
         text:venueName,
-        left:'10',
+        left:'15',
         width:'90%',
         top:'20',
         ellipsize:true,
@@ -27,7 +29,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
     var venueLocation = Titanium.UI.createLabel({
         text:venueTown + ', ' + venueCountry,
-        left:'10',
+        left:'15',
         width:'90%',
         top:'0',
         ellipsize:true,
@@ -39,8 +41,11 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
     
     scroll.add(venueTitle);
     scroll.add(venueLocation);
+    
+    
 
     while (row.isValidRow()) {
+    	
         var offerVenue = row.fieldByName('EntryID');
 
         var secondData = db.execute('SELECT * FROM Venue WHERE VenueID="' + offerVenue + '"');
@@ -56,44 +61,14 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
         var offerBody = row.fieldByName('bodyText');
 
         var validFrom = row.fieldByName('validFromDate');
-
-        validForm = validFrom.toString();
-
-        validFrom = validFrom.substr(0, 10);
-
-        validFrom = validFrom.split('-');
-
-        var validFromYear = validFrom[0].toString();
-
-        var validFromMonth = validFrom[1].toString() - 1;
-
-        var validFromDay = validFrom[2].toString();
-
-        validFrom = new Date(validFromYear, validFromMonth, validFromDay);
-
-        validFrom = validFrom.toString();
-
-        validFrom = validFrom.substr(0, 15);
-
+        validFrom = reCalcDate(validFrom);
+        
         var validTo = row.fieldByName('validToDate');
+		validTo = reCalcDate(validTo);
+		
+		var dayRate = row.fieldByName('dayRate');
 
-        validTo = validTo.toString();
-
-        validTo = validTo.substr(0, 10);
-
-        validTo = validTo.split('-');
-
-        var validToYear = validTo[0].toString();
-
-        var validToMonth = validTo[1].toString() - 1;
-
-        var validToDay = validTo[2].toString();
-
-        validTo = new Date(validToYear, validToMonth, validToDay);
-
-        validTo = validTo.toString();
-
-        validTo = validTo.substr(0, 15);
+		var tfHrRate = row.fieldByName('tfHrRate');
 
         if (Ti.App.Properties.getString('osname')!='iPad') {
 
@@ -117,7 +92,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
             var imageHolder = Titanium.UI.createView({
                 width:'40%',
-                left:'10',
+                left:'15',
                 height:'125',
                 top:'20',
             });
@@ -133,7 +108,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
         var offerTitle = Titanium.UI.createLabel({
             text:offerName,
-            left:'10',
+            left:'15',
             width:'90%',
             top:'10',
             ellipsize:true,
@@ -146,7 +121,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
         var offerDate = Titanium.UI.createLabel({
             text:'From ' + validFrom,
-            left:'10',
+            left:'15',
             width:'90%',
             top:'10',
             ellipsize:true,
@@ -158,7 +133,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
         var offertoDate = Titanium.UI.createLabel({
             text:'To ' + validTo,
-            left:'10',
+            left:'15',
             width:'90%',
             top:'0',
             ellipsize:true,
@@ -170,7 +145,7 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
 
         var offerDesc = Titanium.UI.createLabel({
             text:offerBody,
-            left:'10',
+            left:'15',
             width:'90%',
             top:'10',
             ellipsize:true,
@@ -179,16 +154,68 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
                 fontSize:'14'
             }
         });
-
+        
         scroll.add(offerTitle);
         scroll.add(offerDate);
         scroll.add(offertoDate);
         scroll.add(offerDesc);
+        
+        if (dayRate != null && dayRate != '0'){
+			
+			//Remove points in string
+			
+			dayRate = dayRate.toString().split('.');
+			dayRate = dayRate[0];
+			
+			//Label
+			
+			var delegateRate = Titanium.UI.createLabel({
+            	text:'Daily Delegate Rate: £'+dayRate,
+	            left:'15',
+	            width:'90%',
+	            top:'10',
+	            ellipsize:true,
+	            color:'#666666',
+	            font: {
+	                fontSize:'14'
+	            }
+	        });
+	        
+	        scroll.add(delegateRate);
+			
+		}
+		
+		if (tfHrRate != null && tfHrRate != '0'){
+			
+			//Remove points in string
+			
+			tfHrRate = tfHrRate.toString().split('.');
+			tfHrRate = tfHrRate[0];
+			
+			//Label
+			
+			var delegateRate = Titanium.UI.createLabel({
+            	text:'24 Hour Delegate Rate: £'+tfHrRate,
+	            left:'15',
+	            width:'90%',
+	            top:'10',
+	            ellipsize:true,
+	            color:'#666666',
+	            font: {
+	                fontSize:'14'
+	            }
+	        });
+	        
+	        scroll.add(delegateRate);
+			
+		}
 
         // Loop
         row.next();
 
     }
+    
+    db.close();
 
 }
 

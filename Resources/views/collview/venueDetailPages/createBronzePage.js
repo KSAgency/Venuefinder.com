@@ -4,7 +4,7 @@ var createHeaderElements = require('/views/collview/listingElements/createHeader
 var createDatabase = require('/builders/databaseFunctions/createDatabase');
 var dbUtil = require('/builders/databaseFunctions/dbUtil');
 
-function createDetailPage(thisVenueId, nextVenueId, previousVenueId, currentWin, windowsArray) {
+function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
 	var view;
 
 	if(currentWin[2]){
@@ -82,7 +82,7 @@ function createDetailPage(thisVenueId, nextVenueId, previousVenueId, currentWin,
 			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
 			var silverPage = venueDetailPage.createDetailPage(nextVenueId, loadList, currentWin, windowsArray);
 			currentWin.add(silverPage);
-		} else if (nextPackage == 'BRZ') {
+		} else if (nextPackage == 'PRE') {
 			currentWin.remove(pageView);
 			currentWin.remove(next);
 			currentWin.remove(previous);
@@ -110,12 +110,12 @@ function createDetailPage(thisVenueId, nextVenueId, previousVenueId, currentWin,
 			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
 			var silverPage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
 			currentWin.add(silverPage);
-		} else if (previousPackage == 'BRZ') {
+		} else if (previousPackage == 'PRE') {
 			currentWin.remove(pageView);
 			currentWin.remove(next);
 			currentWin.remove(previous);
 			var venueDetailPage = require('/views/collview/venueDetailPages/createBronzePage');
-			var bronzePage = venueDetailPage.createDetailPage(previousVenueId, loadlist, currentWin, windowsArray);
+			var bronzePage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
 			currentWin.add(bronzePage);
 		}
 		
@@ -165,7 +165,7 @@ function createGallery(venueObj) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 
 	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='TOP' OR OptionCode = 'PIC' OR OptionCode='MID' OR OptionCode='MIL' OR OR OptionCode='MIR') ORDER BY OrderKey, GraphicFileName ASC");
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='TOP' OR OptionCode = 'PIC' OR OptionCode='MID' OR OptionCode='MIL' OR OptionCode='MIR') ORDER BY OrderKey, GraphicFileName ASC");
 	var picCount = 0;
 	var imgCount = 0;
 

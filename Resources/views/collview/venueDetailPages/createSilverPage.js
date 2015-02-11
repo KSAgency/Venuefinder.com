@@ -102,7 +102,7 @@ function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
 			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
 			var silverPage = venueDetailPage.createDetailPage(nextVenueId, loadList, currentWin, windowsArray);
 			currentWin.add(silverPage);
-		} else if (nextPackage == 'BRZ') {
+		} else if (nextPackage == 'PRE') {
 			currentWin.remove(page);
 			currentWin.remove(next);
 			currentWin.remove(previous);
@@ -131,12 +131,12 @@ function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
 			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
 			var silverPage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
 			currentWin.add(silverPage);
-		} else if (previousPackage == 'BRZ') {
+		} else if (previousPackage == 'PRE') {
 			currentWin.remove(page);
 			currentWin.remove(next);
 			currentWin.remove(previous);
 			var venueDetailPage = require('/views/collview/venueDetailPages/createBronzePage');
-			var bronzePage = venueDetailPage.createDetailPage(previousVenueId, loadlist, currentWin, windowsArray);
+			var bronzePage = venueDetailPage.createDetailPage(previousVenueId, loadList, currentWin, windowsArray);
 			currentWin.add(bronzePage);
 		}
 		
@@ -181,7 +181,7 @@ function createGallery(venueObj) {
 
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'TOP\' OR OptionCode = \'PIC\' OR OptionCode=\'MID\' OR OptionCode=\'MIL\' OR OptionCode=\'MIR\') ORDER BY OptionCode, OrderKey, GraphicFileName DESC');
+	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'TOP\' OR OptionCode = \'PIC\' OR OptionCode=\'MID\' OR OptionCode=\'MIL\' OR OptionCode=\'MIR\') ORDER BY OptionCode ASC LIMIT 3');
 	var imageArray = [];
 
 	var galleryView = Ti.UI.createView({
@@ -281,7 +281,8 @@ function createTitleLocation(venueObj) {
 		ellipsize:true,
 		color:'#000000',
 		top:0,
-		width:380,
+		width:360,
+		left:0,
 		height:Ti.UI.SIZE,
 		font:{
 			fontSize:'28',
@@ -295,6 +296,7 @@ function createTitleLocation(venueObj) {
 		color:'#000000',
 		width:'380',
 		top:'0',
+		left:0,
 		font:{
 			fontSize:'24',
 			fontFamily:Ti.App.Properties.getString('fontFamily'),
@@ -305,6 +307,7 @@ function createTitleLocation(venueObj) {
 	titleCont.add(locationLbl);
 
 	return [titleCont];
+	
 }
 
 function logoAndDescText(venueObj) {
@@ -340,7 +343,7 @@ function logoAndDescText(venueObj) {
 		bottom:'50',
 		left:'50',
 		borderRadius:'0',
-		layout:'horizontal'
+		layout:'vertical'
 	});
 	
 	while (logoMedia.isValidRow()) {
@@ -349,7 +352,7 @@ function logoAndDescText(venueObj) {
 			image:'http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'),
 			defaultImage:'/images/icon.png',
 			width:100,
-			left:10
+			top:10
 		});
 
 		logoContainer.add(logoImage);
@@ -367,7 +370,8 @@ function side2Gallery(venueObj) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 
 	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode=\'TOP\' OR OptionCode = \'PIC\' OR OptionCode=\'MID\' OR OptionCode=\'MIL\' OR OptionCode=\'MIR\') ORDER BY OrderKey, GraphicFileName ASC LIMIT 20 OFFSET 3");
+	
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode=\'TOP\' OR OptionCode = \'PIC\' OR OptionCode=\'MID\' OR OptionCode=\'MIL\' OR OptionCode=\'MIR\') ORDER BY OptionCode ASC LIMIT 4 OFFSET 3");
 	var picCount = 0;
 	var imageArray = [];
 	var imgCount = 0;
@@ -432,6 +436,7 @@ function side2Gallery(venueObj) {
 				left:0,
 				top:0,
 			});
+			
 			imgContainer.add(venueImage);
 			galleryView.add(imgContainer);
 
@@ -784,17 +789,16 @@ function createSilverSpeOfferBtn(venueObj) {
 				top:0,
 				left:0,
 				height:'15%',
-				width:'100%',
-				backgroundColor:'#e6a723',
-				layout:'horizontal',			
+				width:Ti.UI.FILL,
+				backgroundColor:'#e6a723',			
 			});
 			
 			var specialOffersLbl = Titanium.UI.createLabel({
 				text:'Special Offers',
-				left:'5%',
+				left:'15',
 				width:'85%',
 				height:'40',
-				top:'20',
+				top:'15',
 				ellipsize:true,
 				color:'#ffffff',
 				font:{
@@ -802,17 +806,17 @@ function createSilverSpeOfferBtn(venueObj) {
 					fontFamily:Ti.App.Properties.getString('fontFamily'),
 				}
 			});
+			
 			upperView.add(specialOffersLbl);
 
 			var close = Titanium.UI.createButton({		
-				right:'0',
-				top:'0',
-				height:'80',
-				width: '60',				
+				right:'15',
+				top:'10',			
 				title: "X",
 				color:"#FFF",
-				font:{fontSize: "28",fontWeight:"bold"},
+				font:{fontSize: "28", fontWeight:"bold"},
 			});
+			
 			upperView.add(close);
 			
 			close.addEventListener('click', function(e) {
@@ -824,6 +828,7 @@ function createSilverSpeOfferBtn(venueObj) {
 			offerWin.add(offerContainer);
 			offerWin.open();			
 		});
+		
 	}
 
 	db.close();

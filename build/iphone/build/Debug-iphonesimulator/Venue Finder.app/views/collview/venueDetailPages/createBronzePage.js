@@ -1,1 +1,0 @@
-/Users/SamJacob/Documents/AppDesign/Venue Finder/Resources/views/collview/venueDetailPages/createBronzePage.js

@@ -241,7 +241,7 @@ function venueFindingService(tabGroup, curWin) {
 	if (Ti.App.Properties.getString('osname') == 'iPad') {
 		submit.setWidth(216);
 		submit.setRight(0);
-		submit.setImage('/images/submit_bar_single.png');
+		submit.setImage('/images/send_bar_single.png');
 	}
 
 	submitView.add(submit);

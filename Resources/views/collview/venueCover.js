@@ -115,18 +115,9 @@ function venueCover(tabGroup, style, name, coverWindow, collectionWindow) {
 		defaultImage : '/images/icon.png'
 	});
 	
-	var imageSize = image.toImage();
+	var imageResize = require('/builders/imageResize');
+	imageResize(image, imageHolder);
 	
-	if (imageSize.width>=imageSize.height){
-		var ratio = imageSize.height/imageHolder.height;
-		image.setHeight(imageHolder.height);
-		image.setWidth(imageSize.width/ratio);
-	} else {
-		var ratio = imageSize.width/imageHolder.width;
-		image.setHeight(imageHolder.width);
-		image.setWidth(imageSize.height/ratio);
-	}
-
 	imageHolder.add(image);
 	viewChildren.add(imageHolder);
 }

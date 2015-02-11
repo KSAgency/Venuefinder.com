@@ -66,9 +66,9 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 				londonQuery = 'AND Venue.Town = "London"';
 			}
 			
-			Ti.API.info('SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") '+londonQuery+' ORDER BY VenueID ASC');
+			Ti.API.info('SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="PRE") '+londonQuery+' ORDER BY VenueID ASC');
 			
-			var sql = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") '+londonQuery+' ORDER BY VenueID ASC';
+			var sql = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="PRE") '+londonQuery+' ORDER BY VenueID ASC';
 			var createApplicationWindow = require('/builders/createApplicationWindow');
 			var winView = createApplicationWindow(tabGroup, null, 'Venue Result', Ti.App.Properties.getString('allWindowsBackgroundColor'), '/images/loading_page.png', 'Search', 'Venue Collections', '', '', '', 'forflipwindow');
 			windowsArray.push(winView);
@@ -328,7 +328,7 @@ function SearchView1(tabGroup, win, leftView, styleID, windowsArray) {
 			londonQuery = 'AND Venue.Town = "London"';
 		}
 		
-		var sql = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="BRZ") '+londonQuery+' ORDER BY VenueID ASC';
+		var sql = 'SELECT * FROM Venue JOIN VenueToVenueStyles ON Venue.VenueID = VenueToVenueStyles.VenueID WHERE VenueName LIKE "%'+nameSearchField.value+'%" AND VenueStyleID="'+styleID+'" AND (PackageCode="GLD" OR PackageCode="SIL" OR PackageCode="PRE") '+londonQuery+' ORDER BY VenueID ASC';
 
 		var createApplicationWindow = require('/builders/createApplicationWindow');
 		var winView = createApplicationWindow(tabGroup, null, 'Venue Result', Ti.App.Properties.getString('allWindowsBackgroundColor'), '/images/loading_page.png', 'Search', 'Venue Collections', '', '', '', 'forflipwindow');

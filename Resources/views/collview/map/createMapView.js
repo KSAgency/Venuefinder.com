@@ -88,7 +88,10 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 			packageCode:venueClass,
 		});
 
-		annotation.setRightButton(Titanium.UI.iPhone.SystemButton.DISCLOSURE);
+		if (tier1 != 'Show on Map'){
+			annotation.setRightButton(Titanium.UI.iPhone.SystemButton.DISCLOSURE);
+		}
+		
 
 		if (venueClass != "FRE") {
 			annotation.setPincolor(Map.ANNOTATION_RED);
@@ -140,12 +143,13 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 			}
 
 			if (!isVenueDeatil) {
+				
+				var createStartActInd = require('/builders/startActInd');
+				var startActInd = createStartActInd(windowsArray[1]);
+				
 				var createApplicationWindow = require('/builders/createApplicationWindow');
 				var currentWin = createApplicationWindow(null, null, 'Venue Detail', Ti.App.Properties.getString('allWindowsBackgroundColor'), '/images/loading_page.png', 'Venue Detail', 'Venue Detail', '', '', '', 'forflipwindow');
 				windowsArray.push(currentWin);
-
-				var createStartActInd = require('/builders/startActInd');
-				var startActInd = createStartActInd(currentWin);
 
 				var SearchView = require('/views/collview/searchView');
 				var searchView = SearchView(null, currentWin, '', null, '', windowsArray);
@@ -168,7 +172,7 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 					var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
 					var silverPage = venueDetailPage.createDetailPage(venueID, currentWin, windowsArray);
 					currentWin.add(silverPage);
-				} else if (packageCode == 'BRZ') {
+				} else if (packageCode == 'PRE') {
 					var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
 					var silverPage = venueDetailPage.createDetailPage(venueID, currentWin, windowsArray);
 					currentWin.add(silverPage);
@@ -177,7 +181,7 @@ function createMapView(sqlString, venueName, geoLocation, tab, tier1, tier2, tie
 				currentWin.open();
 
 				var createEndActInd = require('/builders/endActInd');
-				var endActInd = createEndActInd(currentWin, startActInd[0], startActInd[1]);
+				var endActInd = createEndActInd(windowsArray[1], startActInd[0], startActInd[1]);
 			}
 		}
 	});

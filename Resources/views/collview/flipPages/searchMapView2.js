@@ -51,7 +51,7 @@ function searchMapView2(tabGroup, win, flipView, styleID, win) {
 	}
 	db.close();
 
-	var sqlString = 'SELECT * FROM Venue JOIN VenueCoords ON Venue.VenueID=VenueCoords.VenueID WHERE VenueCoords.Latitude IS NOT NULL and VenueCoords.VenueID in (' + venueIds + ') and Venue.packagecode in (\'gld\', \'sil\', \'brz\')';
+	var sqlString = 'SELECT * FROM Venue JOIN VenueCoords ON Venue.VenueID=VenueCoords.VenueID WHERE VenueCoords.Latitude IS NOT NULL and VenueCoords.VenueID in (' + venueIds + ') and Venue.packagecode in (\'gld\', \'sil\', \'PRE\')';
 	var createMapView = require('/views/collview/map/createMapView');		
 	var mapView = createMapView(sqlString, 'Venue Map', false, 'Venue Listing', null, null, null, false, false, windowsArray);
 	mapAndView.add(mapView);

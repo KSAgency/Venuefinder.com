@@ -28,7 +28,7 @@ function getVenueThumbView(venueObj, top, left, windowsArray, loadList, isPageFl
 		venueView.setBackgroundColor('#EDE1A7');
 	} else if (venuePackage == 'SIL'){
 		venueView.setBackgroundColor('#C0C0C0');
-	} else if (venuePackage == 'BRZ'){
+	} else if (venuePackage == 'PRE'){
 		venueView.setBackgroundColor('#DEC8AF');
 	}
 
@@ -277,7 +277,7 @@ function getVenueThumbView(venueObj, top, left, windowsArray, loadList, isPageFl
 			var venueDetailPage = require('/views/collview/venueDetailPages/createSilverPage');
 			var silverPage = venueDetailPage.createDetailPage(venueID, loadList, newWin, windowsArray);
 			newWin.add(silverPage);
-		} else if (packageCode == 'BRZ') {
+		} else if (packageCode == 'PRE') {
 			var venueDetailPage = require('/views/collview/venueDetailPages/createBronzePage');
 			var bronzePage = venueDetailPage.createDetailPage(venueID, loadList, newWin, windowsArray);
 			newWin.add(bronzePage);

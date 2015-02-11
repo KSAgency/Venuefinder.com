@@ -572,7 +572,6 @@ function createShareBtn(venueID, currentView){
 }
 
 function createSpeOfferBtn(venueID) {
-	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 	
 	var createTodaysDate = require('/builders/todaysDate');
@@ -585,10 +584,9 @@ function createSpeOfferBtn(venueID) {
 	}
 	var offerBtnContainer = null;
 	if(hasOffer){
-		
 		offerBtnContainer = Ti.UI.createView({
-			right:25,
-			bottom: 150,
+			right:12,
+			bottom: 94,
 			width:130,
 			height:50,
 			backgroundColor:"#FFFFFF",
@@ -600,7 +598,7 @@ function createSpeOfferBtn(venueID) {
 			top:10,
 			width:102,
 			height:'auto',			
-		});
+		});	
 		
 		offerBtnContainer.add(offersButton);
 		
@@ -610,12 +608,11 @@ function createSpeOfferBtn(venueID) {
 				top:'0%',
 				zIndex:5,
 				layout:'vertical',
-				backgroundColor:'#FFFFFF'
+				backgroundColor:'#FFF'
 			});		
 	
 			var createTab = require('/views/children/listingElements/createOffersTab');
 			createTab(null, null, offerScroll, venueID, null);
-			//var parentwindow = Ti.UI.currentWindow;
 			
 			var offerWin = Titanium.UI.createWindow({
 				backgroundColor:'rgba(0,0,0,0.8)',
@@ -633,36 +630,34 @@ function createSpeOfferBtn(venueID) {
 				top:0,
 				left:0,
 				height:'15%',
-				width:'100%',
-				backgroundColor:'#FFFFFF',
-				layout:'horizontal',			
+				width:Ti.UI.FILL,
+				backgroundColor:'#e6a723',			
 			});
 			
 			var specialOffersLbl = Titanium.UI.createLabel({
 				text:'Special Offers',
-				left:'5%',
+				left:'15',
 				width:'85%',
 				height:'40',
-				top:'20',
+				top:'15',
 				ellipsize:true,
 				color:'#ffffff',
 				font:{
 					fontSize:'34',
 					fontFamily:Ti.App.Properties.getString('fontFamily'),
-					//fontWeight:'bold'
 				}
 			});
+			
 			upperView.add(specialOffersLbl);
 
 			var close = Titanium.UI.createButton({		
-				right:'0',
-				top:'0',
-				height:'80',
-				width: '60',				
+				right:'15',
+				top:'10',			
 				title: "X",
 				color:"#FFF",
-				font:{fontSize: "28",fontWeight:"bold"},
+				font:{fontSize: "28", fontWeight:"bold"},
 			});
+			
 			upperView.add(close);
 			
 			close.addEventListener('click', function(e) {
@@ -674,6 +669,7 @@ function createSpeOfferBtn(venueID) {
 			offerWin.add(offerContainer);
 			offerWin.open();			
 		});
+		
 	}
 
 	db.close();
