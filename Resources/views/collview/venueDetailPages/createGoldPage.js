@@ -406,7 +406,7 @@ function createCateringArea(venueID) {
 	}
 
 	if (descText == null || descText == '') {
-		descText = 'No catering information could be retrieved for this venue.';
+		descText = 'No catering information has been received for this venue.';
 	}
 
 	descText.replace('/<(?:.|\n)*?>/gm', '');
@@ -871,7 +871,7 @@ function nearByAttraction(venueObj) {
 
 	var nearByView = Ti.UI.createView({
 		width:'120',
-		height:'197',
+		height:'220',
 		top:'324',
 		left:'786',
 	});
@@ -923,12 +923,12 @@ function nearByAttraction(venueObj) {
 					top:'64',
 					left:'0',
 					width:'120',
-					height:'139',
+					height:'140',
 					disableBounce:true,
 					contentHeight:Ti.UI.SIZE,
-					contentWidth:'110',
+					contentWidth:Ti.UI.SIZE,
 					layout:'vertical',
-					showVerticalScrollIndicator:true,
+					showVerticalScrollIndicator:true
 				});
 
 				if (items.length != 0) {
@@ -1039,31 +1039,25 @@ function createVenueDetailSide4(venueObj) {
 	var venueImageView = Ti.UI.createView({
 		width:'245',
 		height:'252',
-		top:'53',
+		top:'80',
 		left:'511',
 		layout:'vertical'
 	});
 
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='MIL' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName DESC");
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='MIL' OR OptionCode = 'PIC' ) ORDER BY Text DESC");
 	var count = 0;
 	var vdImageUrl;
 	var altText;
-	while (getMedia.isValidRow()) {
-		count++;
-		if (count > 2) {
+	if (getMedia.isValidRow()) {
 			vdImageUrl = getMedia.fieldByName('GraphicFileName');
 			altText = getMedia.fieldByName('Text');
-			break;
-		}
-		getMedia.next();
 	}
 	db.close();
 	var venueImageContainer = Ti.UI.createView({
-		width:'216',
+		width:'245',
 		height:'158',
-		top:'0',
-		left:'14'
+		top:'0'
 	});
 	var venueImage = Titanium.UI.createImageView({
 		image:'http://www.venuefinder.com/adverts/' + vdImageUrl,
@@ -1079,16 +1073,16 @@ function createVenueDetailSide4(venueObj) {
 	venueImageView.add(venueImageContainer);
 
 	var venueImageSubtitle = Titanium.UI.createLabel({
-		width:'217',
-		height:'52',
-		top:'200',
-		left:'14',
-		backgroundColor:'transparent',
+		width:'245',
+		height:Ti.UI.SIZE,
+		textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
+		top:'10',
+		color:'#000',
 		text:altText,
 		font:{
 			fontSize:"14",
 			fontFamily:Ti.App.Properties.getString('fontFamily'),
-		}
+		},
 	});
 
 	venueImageView.add(venueImageSubtitle);
