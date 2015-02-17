@@ -38,7 +38,6 @@ function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
 	pageView.add(createBronzeView(venueObj));
 	
 	var venueObj2 = dbUtil.getVenueForId(nextVenueId);
-	alert(venueObj2['VenueID']);
 	if(venueObj2['VenueID'] != undefined){
 		var bronze2View = createBronzeView(venueObj2);
 		bronze2View.setLeft(469);
@@ -278,7 +277,7 @@ function createTitleLocation(venueObj) {
 		left:'45',
 		width:400,
 		height:Ti.UI.FILL,
-		layout:'horizontal'
+		layout:'vertical'
 	});
 
 	var titleLbl = Titanium.UI.createLabel({
@@ -365,8 +364,16 @@ function createVenueDetail(venueObj) {
 	});
 	
 	detailView.add(detailTitleText);
+	
+	var telNum;
 
-	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + venueObj['Tel'] + "</div>";
+	if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
+		telNum = venueObj['Tel'];
+	} else {
+		telNum = '+44 (0)1780 484498';
+	}
+
+	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + telNum + "</div>";
 	
 	var addressWV = Ti.UI.createWebView({
 		html:'<html><body style="margin:0px;"><div style="text-align:left;font-family:' + Ti.App.Properties.getString('fontFamily') + '; color:#000; line-height:18pts; font-size:14px;">' + venueAddress + '</div></body></html>',
@@ -478,8 +485,16 @@ function createVenueDetail(venueObj) {
 
 	emailLine.addEventListener('click', function() {
 
+		var emailLink;
+
+		if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
+			emailLink = venueObj['Email'];
+		} else {
+			emailLink = 'VenueFinder@trinityconferences.co.uk';
+		}
+
 		var createEmailer = require('/builders/createEmailer');
-		var emailer = createEmailer(null, venueObj['Email'], null, null, venueObj['VenueName'], null, null, null, null);
+		var emailer = createEmailer(null, emailLink, null, null, venueObj['VenueName'], null, null, null, null);
 
 		//Open window
 		var emailerWin = Titanium.UI.createWindow({

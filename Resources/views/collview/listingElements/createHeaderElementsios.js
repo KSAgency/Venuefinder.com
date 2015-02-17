@@ -2,19 +2,22 @@ function createFeaturedButtons(venueID, currentView, windowsArray){
 	
 	var btnContainer = Ti.UI.createView({
 		width:136,
-		height:120,
+		height:150,
 		layout:'vertical',
 		top:84,
-		right:0
+		right:5
 	});
 	
 	btnContainer.add(createFavBtn(venueID, currentView));
 	btnContainer.add(createMapBtn(venueID, currentView, windowsArray));
 	btnContainer.add(createVenueAdviceBtn());
 	btnContainer.add(createShareBtn(venueID, currentView));
+	btnContainer.add(createFloorPlansBtn(venueID));
 	
 	return btnContainer;	
+	
 }
+
 module.exports.createFeaturedButtons = createFeaturedButtons;
 
 function createFavBtn(venueID, currentView){
@@ -87,12 +90,12 @@ function createFavBtn(venueID, currentView){
 		top:3,
 		left:10,		
 	});	
+	
 	favBtnWrapper.add(favImage);
 	favContainer.add(favBtnWrapper);
 
-	
-
 	if (isFavourited != venueID) {
+		
 		favImage.setImage('/images/add_favourites.png');
 
 		function newFavourite() {
@@ -569,6 +572,123 @@ function createShareBtn(venueID, currentView){
 	
 	return shareBtnContainer;
 	
+}
+
+function createFloorPlansBtn(venueID){
+	
+	var floorPlansBtnContainer = Ti.UI.createView({
+		width:136,
+		height:24,
+		layout:'horizontal',
+		top:8,
+		right:0,
+		
+	});
+	
+	var floorPlansText = Titanium.UI.createLabel({
+		text:'Floorplans',
+		color:'#000000',		
+		top:2,
+		height :20,
+		width:90,
+		font:{
+			fontSize:'11',
+			fontFamily:Ti.App.Properties.getString('fontFamily'),
+		},
+		left:0,
+		textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT, 
+	});
+
+	floorPlansBtnContainer.add(floorPlansText);
+	
+	var floorPlansBtnWrapper = Titanium.UI.createView({		
+		width:40,
+		height :24,
+		top:0,
+		left:6,
+		backgroundColor:'#FFFFFF',
+	});
+	
+	
+	var floorPlansImage = Titanium.UI.createImageView({
+		image:'/images/floorPlansIcon.png',
+		width:20,
+		height :18,
+		top:3,
+		left:10,			
+	});	
+	floorPlansBtnWrapper.add(floorPlansImage);
+	floorPlansBtnContainer.add(floorPlansBtnWrapper);
+
+	floorPlansImage.addEventListener('click', function(e){
+		var floorPlansScroll = Titanium.UI.createScrollView({
+			top:'0%',
+			zIndex:5,
+			layout:'vertical',
+			backgroundColor:'#FFF'
+		});		
+
+		var createTab = require('/views/children/listingElements/createRoomsTab');
+		createTab(null, null, floorPlansScroll, venueID, null);
+		
+		var floorPlansWin = Titanium.UI.createWindow({
+			backgroundColor:'rgba(0,0,0,0.8)',
+		});
+					
+		var floorPlansContainer = Ti.UI.createView({
+			width:'60%',
+			height:'60%',
+			top:'10%',
+			left:'20%',
+			layout:'vertical',
+		});
+		
+		var upperView = Ti.UI.createView({
+			top:0,
+			left:0,
+			height:'15%',
+			width:Ti.UI.FILL,
+			backgroundColor:'#e6a723',			
+		});
+		
+		var floorPlansLbl = Titanium.UI.createLabel({
+			text:'Floorplans',
+			left:'15',
+			width:'85%',
+			height:'40',
+			top:'15',
+			ellipsize:true,
+			color:'#ffffff',
+			font:{
+				fontSize:'34',
+				fontFamily:Ti.App.Properties.getString('fontFamily'),
+			}
+		});
+		
+		upperView.add(floorPlansLbl);
+
+		var close = Titanium.UI.createButton({		
+			right:'15',
+			top:'10',			
+			title: "X",
+			color:"#FFF",
+			font:{fontSize: "28", fontWeight:"bold"},
+		});
+		
+		upperView.add(close);
+		
+		close.addEventListener('click', function(e) {
+			floorPlansWin.close();
+		});
+					
+		floorPlansContainer.add(upperView);			
+		floorPlansContainer.add(floorPlansScroll);			
+		floorPlansWin.add(floorPlansContainer);
+		floorPlansWin.open();	
+	});
+	
+	return floorPlansBtnContainer;
+
 }
 
 function createSpeOfferBtn(venueID) {

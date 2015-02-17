@@ -8,11 +8,15 @@ function reCalcDate(dateString){
 	
 	var month = date[1].toString() - 1;
 	
+	if (month < 10){
+		month = '0'+month;
+	}
+	
 	var day = date[2].toString();
 	
-	var calcDate = new Date(year, month, day);
+	var calcDate = day+'/'+month+'/'+year;
 	
-	calcDate = calcDate.toString().substr(0, 15);
+	calcDate = calcDate.toString();
 	
 	return calcDate;
 

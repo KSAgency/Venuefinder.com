@@ -144,6 +144,7 @@ function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
 module.exports.createDetailPage = createDetailPage;
 
 function createGold1(venueObj, currentWin, windowsArray) {
+
 	var currentCollectionName = Ti.App.Properties.getString('styleName');
 
 	var windowPageView = require('/views/collview/getVenueThumbView');
@@ -153,7 +154,9 @@ function createGold1(venueObj, currentWin, windowsArray) {
 	var location = venueObj['Town'];
 
 	if (venueObj['Town'] == 'London') {
-		location = location + '  ' + venueObj['Postcode'];
+		var postcode = venueObj['Postcode'];
+		postcode = postcode.split(' ');
+		location = location + ' ' + postcode[0];
 	}
 
 	var townPostcode = Ti.UI.createLabel({
@@ -169,6 +172,7 @@ function createGold1(venueObj, currentWin, windowsArray) {
 		height:'35',
 		textAlign:Titanium.UI.TEXT_ALIGNMENT_RIGHT,
 	});
+	
 	page1.add(townPostcode);
 
 	page1.add(createGallery(venueObj['VenueID']));
@@ -260,7 +264,9 @@ function createGold2(venueObj, currentWin, windowsArray) {
 	var location = venueObj['Town'];
 
 	if (venueObj['Town'] == 'London') {
-		location = location + '  ' + venueObj['Postcode'];
+		var postcode = venueObj['Postcode'];
+		postcode = postcode.split(' ');
+		location = location + ' ' + postcode[0];
 	}
 
 	var townPostcode = Ti.UI.createLabel({
@@ -450,8 +456,16 @@ function createVenueDetailSide3(venueObj) {
 		}
 	});
 	detailView.add(detailTitleText);
+	
+	var telNum;
 
-	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + venueObj['Tel'] + "</div>";
+	if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
+		telNum = venueObj['Tel'];
+	} else {
+		telNum = '+44 (0)1780 484498';
+	}
+
+	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + telNum + "</div>";
 	var addressWV = Ti.UI.createWebView({
 		html:'<div style="text-align:left;font-family:' + Ti.App.Properties.getString('fontFamily') + '; color:#000; line-height:18pts; font-size:14px;">' + venueAddress + '</div>',
 		top:'52',
@@ -560,8 +574,16 @@ function createVenueDetailSide3(venueObj) {
 
 	emailLine.addEventListener('click', function() {
 
+		var emailLink;
+
+		if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
+			emailLink = venueObj['Email'];
+		} else {
+			emailLink = 'VenueFinder@trinityconferences.co.uk';
+		}
+
 		var createEmailer = require('/builders/createEmailer');
-		var emailer = createEmailer(null, venueObj['Email'], null, null, venueObj['VenueName'], null, null, null, null);
+		var emailer = createEmailer(null, emailLink, null, null, venueObj['VenueName'], null, null, null, null);
 
 		//Open window
 		var emailerWin = Titanium.UI.createWindow({
@@ -666,9 +688,18 @@ function videoArea(venueObj) {
 			touchEnabled:false
 		});
 		
+		var playIcon = Ti.UI.createImageView({
+			image:'/images/play_video.png',
+			width:'25%',
+			opacity:0.75,
+			top:'15%',
+			touchEnabled:false
+		});
+		
 		imageResize(virtualImage, videoCont);
 		
 		videoCont.add(virtualImage);
+		videoCont.add(playIcon);
 		videoArray.push(videoCont);
 		
 		getMedia.next();
@@ -695,6 +726,8 @@ function videoArea(venueObj) {
 			videoArray[i].setHeight(videoArray[i].height/2-20);
 			
 			imageResize(videoArray[i].children[0], videoArray[i]);
+			
+			videoArray[i].children[1].setTop('30%');
 			
 			videoView.add(videoArray[i]);
 
@@ -1095,7 +1128,7 @@ function createGallery(venueID) {
 
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueID + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\') ORDER BY OptionCode, OrderKey, GraphicFileName DESC');
+	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueID + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\') ORDER BY OptionCode, OrderKey, GraphicFileName DESC LIMIT 6');
 	var imageArray = [];
 
 	var galleryView = Ti.UI.createView({
@@ -1202,7 +1235,7 @@ function createGoldSide2(page, venueID) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 
 	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueID + "' AND (OptionCode='MIL' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName ASC");
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueID + "' AND (OptionCode='MIL' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName ASC LIMIT 6 OFFSET 6");
 	var picCount = 0;
 	var imageArray = [];
 	var imgCount = 0;

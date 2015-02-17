@@ -155,10 +155,25 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
             }
         });
         
+        var footerLine = Titanium.UI.createLabel({
+        	text:'Delegate rates are net of discount and exclusive of sales tax',
+            left:'15',
+            width:'90%',
+            top:'10',
+            ellipsize:true,
+            color:'#666666',
+            font: {
+                fontSize:'14'
+            }
+        });
+        
+	    
+        
         scroll.add(offerTitle);
         scroll.add(offerDate);
         scroll.add(offertoDate);
         scroll.add(offerDesc);
+        scroll.add(footerLine);
         
         if (dayRate != null && dayRate != '0'){
 			

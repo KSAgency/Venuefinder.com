@@ -476,7 +476,15 @@ function createVenueDetail(venueObj) {
 	});
 	detailView.add(detailTitleText);
 
-	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + venueObj['Tel'] + "</div>";
+	var telNum;
+
+	if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
+		telNum = venueObj['Tel'];
+	} else {
+		telNum = '+44 (0)1780 484498';
+	}
+
+	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + telNum + "</div>";
 	var addressWV = Ti.UI.createWebView({
 		html:'<div style="text-align:left;font-family:' + Ti.App.Properties.getString('fontFamily') + '; color:#000; line-height:18pts; font-size:14px;">' + venueAddress + '</div>',
 		top:'33',
@@ -516,8 +524,16 @@ function createVenueDetail(venueObj) {
 
 	emailLine.addEventListener('click', function() {
 
+		var emailLink;
+
+		if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
+			emailLink = venueObj['Email'];
+		} else {
+			emailLink = 'VenueFinder@trinityconferences.co.uk';
+		}
+
 		var createEmailer = require('/builders/createEmailer');
-		var emailer = createEmailer(null, venueObj['Email'], null, null, venueObj['VenueName'], null, null, null, null);
+		var emailer = createEmailer(null, emailLink, null, null, venueObj['VenueName'], null, null, null, null);
 
 		//Open window
 		var emailerWin = Titanium.UI.createWindow({
