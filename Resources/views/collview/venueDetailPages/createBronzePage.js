@@ -143,6 +143,7 @@ function createBronzeView(venueObj) {
 		height:'561',
 		top:'74',
 		left:'0',
+		touchEnabled:true
 	});
 
 	bronzeView.add(createGallery(venueObj));
@@ -239,15 +240,15 @@ function logo(venueObj) {
 	
 	//logo
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'LG1\' OR OptionCode = \'GR1\' OR OptionCode = \'SG2\') ORDER BY OptionCode DESC');
+	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'LG1\' OR OptionCode = \'GR1\' OR OptionCode = \'SG2\' OR OptionCode=\'AS1\') ORDER BY OptionCode DESC');
 	
 	var logoContainer = Ti.UI.createView({
 		width:Ti.UI.SIZE,
 		height:Ti.UI.SIZE,
-		top:160,
-		right:10,
+		top:150,
+		right:5,
 		borderRadius:'0',
-		layout:'horizontal'
+		layout:'horizontal',
 	});
 	
 	while (logoMedia.isValidRow()) {
@@ -255,9 +256,14 @@ function logo(venueObj) {
 		var logoImage = Titanium.UI.createImageView({
 			image:'http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'),
 			defaultImage:'/images/icon.png',
-			height:35,
+			width:120,
 			right:10
 		});
+		
+		if (logoMedia.rowCount > 1){
+			logoImage.setWidth((logoImage.width-(logoImage.width/2)).toString());
+			logoImage.setLeft(10);
+		}
 
 		logoContainer.add(logoImage);
 
@@ -276,8 +282,8 @@ function createTitleLocation(venueObj) {
 		top:'210',
 		left:'45',
 		width:400,
-		height:Ti.UI.FILL,
-		layout:'vertical'
+		height:Ti.UI.SIZE,
+		layout:'vertical',
 	});
 
 	var titleLbl = Titanium.UI.createLabel({
@@ -313,10 +319,24 @@ function createTitleLocation(venueObj) {
 
 function descText(venueObj) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var desRow = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID="' + venueObj['VenueID'] + '" AND OptionCode="SG2"');
+	var query;
+	
+	if (venueObj['PackageCode'] != 'PRE'){
+		query = 'SELECT DescriptionText FROM VenueTextForWeb WHERE VenueID="'+venueObj['VenueID']+'"';
+	} else {
+		query = 'SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID="'+venueObj['VenueID']+'" AND OptionCode="SG2"';
+	}
+	
+	var desRow = db.execute(query);
 	var descText;
+	
 	while (desRow.isValidRow()) {
-		descText = desRow.fieldByName('Text');
+		if (venueObj['PackageCode'] != 'PRE'){
+			descText = desRow.fieldByName('DescriptionText');
+		} else {
+			descText = desRow.fieldByName('Text');
+		}
+		
 		desRow.next();
 	}
 
@@ -329,11 +349,8 @@ function descText(venueObj) {
 	var descriptionWV = Titanium.UI.createWebView({
 		html:'<html><body><span style="font-family:Arial; color:#000; font-size:14px; line-height:20pts; font-size:15px;">' + descText + '</span></body></html>',
 		width:185,
-		height:Ti.UI.FILL,
-		top:320,
+		top:315,
 		left:'40',
-		scrollable:true,
-		touchEnabled:true
 	});
 	
 	return descriptionWV;

@@ -38,9 +38,9 @@ function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
 	page.add(createGallery(venueObj));
 
 	var titleLocation = createTitleLocation(venueObj);
-	page.add(titleLocation);
+	page.add(titleLocation[0]);
 
-	var logoDescText = logoAndDescText(venueObj);
+	var logoDescText = logoAndDescText(venueObj, titleLocation[1]);
 	page.add(logoDescText[0]);
 	page.add(logoDescText[1]);
 
@@ -305,12 +305,15 @@ function createTitleLocation(venueObj) {
 	
 	titleCont.add(titleLbl);
 	titleCont.add(locationLbl);
+	
+	//Measure View
+	var viewHeight = (titleCont.toImage().height + parseInt(titleCont.getTop()))+20;
 
-	return [titleCont];
+	return [titleCont, viewHeight];
 	
 }
 
-function logoAndDescText(venueObj) {
+function logoAndDescText(venueObj, titleHeight) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 	var desRow = db.execute('SELECT DescriptionText FROM VenueTextForWeb WHERE VenueID="' + venueObj['VenueID'] + '"');
 	var descText;
@@ -328,22 +331,23 @@ function logoAndDescText(venueObj) {
 	var descriptionWV = Titanium.UI.createWebView({
 		html:'<span style="font-family:Arial; color:#000; font-size:14px; line-height:20pts; font-size:15px;">' + descText + '</span>',
 		width:'225',
-		height:'200',
-		bottom:'20',
+		height:Ti.UI.FILL,
+		top:titleHeight,
 		left:'240',
+		bottom:20
 	});
 
 	//logo
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'LG1\' OR OptionCode = \'GR1\') ORDER BY OptionCode DESC');
+	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'LG1\' OR OptionCode = \'GR1\' OR OptionCode=\'AS1\') ORDER BY OptionCode DESC');
 	
 	var logoContainer = Ti.UI.createView({
 		width:Ti.UI.SIZE,
 		height:Ti.UI.SIZE,
 		bottom:'50',
-		left:'50',
+		left:'30',
 		borderRadius:'0',
-		layout:'vertical'
+		layout:'horizontal'
 	});
 	
 	while (logoMedia.isValidRow()) {
@@ -351,9 +355,13 @@ function logoAndDescText(venueObj) {
 		var logoImage = Titanium.UI.createImageView({
 			image:'http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'),
 			defaultImage:'/images/icon.png',
-			width:100,
-			top:10
+			width:125,
 		});
+		
+		if (logoMedia.rowCount > 1){
+			logoImage.setWidth((logoImage.width-(logoImage.width/3)).toString());
+			logoImage.setLeft(10);
+		}
 
 		logoContainer.add(logoImage);
 

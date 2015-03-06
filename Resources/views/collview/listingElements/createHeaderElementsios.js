@@ -1,5 +1,12 @@
 function createFeaturedButtons(venueID, currentView, windowsArray){	
 	
+	var dbUtil = require('/builders/databaseFunctions/dbUtil');
+	var venueObj = dbUtil.getVenueForId(venueID);
+	
+	var createDatabase = require('/builders/databaseFunctions/createDatabase');
+	var db = createDatabase('/venuefinder.db', 'venuefinder');
+	var checker = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID="'+venueID+'" AND OptionCode = "FLR"');
+	
 	var btnContainer = Ti.UI.createView({
 		width:136,
 		height:150,
@@ -12,7 +19,12 @@ function createFeaturedButtons(venueID, currentView, windowsArray){
 	btnContainer.add(createMapBtn(venueID, currentView, windowsArray));
 	btnContainer.add(createVenueAdviceBtn());
 	btnContainer.add(createShareBtn(venueID, currentView));
-	btnContainer.add(createFloorPlansBtn(venueID));
+	
+	if (venueObj['PackageCode'] == 'GLD' && checker.rowCount != 0){
+		btnContainer.add(createFloorPlansBtn(venueID));
+	}
+	
+	db.close();
 	
 	return btnContainer;	
 	
@@ -596,7 +608,7 @@ function createFloorPlansBtn(venueID){
 			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
 		left:0,
-		textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT, 
+		textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT
 	});
 
 	floorPlansBtnContainer.add(floorPlansText);
@@ -617,20 +629,18 @@ function createFloorPlansBtn(venueID){
 		top:3,
 		left:10,			
 	});	
+	
 	floorPlansBtnWrapper.add(floorPlansImage);
 	floorPlansBtnContainer.add(floorPlansBtnWrapper);
 
 	floorPlansImage.addEventListener('click', function(e){
 		var floorPlansScroll = Titanium.UI.createScrollView({
-			top:'0%',
+			top:'0',
 			zIndex:5,
 			layout:'vertical',
 			backgroundColor:'#FFF'
 		});		
 
-		var createTab = require('/views/children/listingElements/createRoomsTab');
-		createTab(null, null, floorPlansScroll, venueID, null);
-		
 		var floorPlansWin = Titanium.UI.createWindow({
 			backgroundColor:'rgba(0,0,0,0.8)',
 		});
@@ -680,9 +690,29 @@ function createFloorPlansBtn(venueID){
 		close.addEventListener('click', function(e) {
 			floorPlansWin.close();
 		});
-					
+		
 		floorPlansContainer.add(upperView);			
-		floorPlansContainer.add(floorPlansScroll);			
+		floorPlansContainer.add(floorPlansScroll);	
+		
+		var createDatabase = require('/builders/databaseFunctions/createDatabase');
+		var db = createDatabase('/venuefinder.db', 'venuefinder');
+		var row = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID="'+venueID+'" AND OptionCode = "FLR"');
+		if (row.isValidRow()){
+		
+			var url = 'http://www.venuefinder.com/adverts/' + row.fieldByName('GraphicFileName');
+		
+			var docView = Ti.UI.createWebView({
+				url:'http://docs.google.com/viewer?embedded=true&url='+url
+			});
+			
+			Ti.API.info('http://docs.google.com/viewer?embedded=true&url='+url);
+			
+			floorPlansScroll.add(docView);
+			
+		}
+		
+		db.close();
+							
 		floorPlansWin.add(floorPlansContainer);
 		floorPlansWin.open();	
 	});

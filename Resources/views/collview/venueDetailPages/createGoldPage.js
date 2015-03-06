@@ -218,11 +218,11 @@ function createGold1(venueObj, currentWin, windowsArray) {
 
 	//logo
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'LG1\' OR OptionCode = \'GR1\') ORDER BY OptionCode DESC');
+	var logoMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueObj['VenueID'] + ' AND (OptionCode=\'LG1\' OR OptionCode = \'GR1\' OR OptionCode=\'AS1\') ORDER BY OptionCode DESC');
 	
 	var logoContainer = Ti.UI.createView({
 		width:Ti.UI.SIZE,
-		height:Ti.UI.SIZE,
+		height:100,
 		top:20,
 		left:-10,
 		borderRadius:'0',
@@ -234,9 +234,19 @@ function createGold1(venueObj, currentWin, windowsArray) {
 		var logoImage = Titanium.UI.createImageView({
 			image:'http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'),
 			defaultImage:'/images/icon.png',
-			width:100,
+			width:150,
 			left:10
 		});
+		
+		if (logoImage.toImage().height > parseInt(logoContainer.height)){
+			logoImage.setHeight(100);
+			logoImage.setWidth(Ti.UI.SIZE);
+		}
+		
+		if (logoMedia.rowCount > 1){
+			logoImage.setWidth((logoImage.width-(logoImage.width/3)).toString());
+			logoImage.setLeft(10);
+		}
 
 		logoContainer.add(logoImage);
 
@@ -248,7 +258,7 @@ function createGold1(venueObj, currentWin, windowsArray) {
 	titleCont.add(logoContainer);
 	page1.add(titleCont);
 
-	createGoldSide2(page1, venueObj['VenueID']);
+	createGoldSide2(page1, venueObj['VenueID'], 0);
 	page1.add(createGoldSide2(page1, venueObj['VenueID']));
 
 	return page1;
@@ -608,7 +618,7 @@ function createVenueDetailSide3(venueObj) {
 			emailerWin.close();
 		});
 
-		var websiteContainer = Ti.UI.createView({
+		var websiteContainer = Ti.UI.createView ({
 			width:'80%',
 			height:'80%',
 			top:'10%',
@@ -634,6 +644,7 @@ function createVenueDetailSide3(venueObj) {
 		height:'100',
 		disableBounce:true,
 	});
+	
 	detailView.add(capacityWV);
 
 	return detailView;
@@ -669,7 +680,7 @@ function videoArea(venueObj) {
 	
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=" + venueObj['VenueID'] + " AND OptionCode='VID' AND URL IS NOT NULL ORDER BY OrderKey ASC");
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=" + venueObj['VenueID'] + " AND OptionCode='VID' AND URL IS NOT NULL ORDER BY OrderKey ASC LIMIT 2");
 	while (getMedia.isValidRow()) {
 
 		var videoCont = Ti.UI.createView({
@@ -1233,9 +1244,9 @@ function createGoldSide2(page, venueID) {
 
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-
+	
 	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueID + "' AND (OptionCode='MIL' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName ASC LIMIT 6 OFFSET 6");
+	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueID + "' AND (OptionCode='TOP' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName ASC LIMIT 12 OFFSET 6");
 	var picCount = 0;
 	var imageArray = [];
 	var imgCount = 0;
