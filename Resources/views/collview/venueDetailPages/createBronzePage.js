@@ -282,7 +282,6 @@ function createTitleLocation(venueObj) {
 		top:'210',
 		left:'45',
 		width:400,
-		height:Ti.UI.SIZE,
 		layout:'vertical',
 	});
 
@@ -349,7 +348,7 @@ function descText(venueObj) {
 	var descriptionWV = Titanium.UI.createWebView({
 		html:'<html><body><span style="font-family:Arial; color:#000; font-size:14px; line-height:20pts; font-size:15px;">' + descText + '</span></body></html>',
 		width:185,
-		top:315,
+		top:355,
 		left:'40',
 	});
 	

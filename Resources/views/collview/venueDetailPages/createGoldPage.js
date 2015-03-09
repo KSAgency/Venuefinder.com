@@ -1139,7 +1139,7 @@ function createGallery(venueID) {
 
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueID + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\') ORDER BY OptionCode, OrderKey, GraphicFileName DESC LIMIT 6');
+	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueID + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\' OR OptionCode = \'MIL\' OR OptionCode = \'MIL\' OR OptionCode = \'MIR\') ORDER BY OptionCode DESC');
 	var imageArray = [];
 
 	var galleryView = Ti.UI.createView({
@@ -1246,7 +1246,7 @@ function createGoldSide2(page, venueID) {
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
 	
 	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueID + "' AND (OptionCode='TOP' OR OptionCode = 'PIC' ) ORDER BY OrderKey, GraphicFileName ASC LIMIT 12 OFFSET 6");
+	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueID + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\' OR OptionCode = \'MIL\' OR OptionCode = \'MIL\' OR OptionCode = \'MIR\') ORDER BY OptionCode DESC LIMIT 3 OFFSET 6');
 	var picCount = 0;
 	var imageArray = [];
 	var imgCount = 0;
@@ -1267,16 +1267,6 @@ function createGoldSide2(page, venueID) {
 
 		var imgW, imgH, imgT, imgL;
 
-		if (mediaType == 'MIL' || mediaType == 'PIC') {
-			/*if (mediaType == 'PIC') {
-			 //Add pic
-			 picCount++;
-			 if (picCount < 6) {
-			 continue;
-			 }
-			 }
-			 */
-
 			if (imgCount == 0) {
 				imgW = 128;
 				imgH = 106;
@@ -1293,6 +1283,7 @@ function createGoldSide2(page, venueID) {
 				imgL = 0;
 				imgT = 17;
 			}
+			
 			var imgContainer = Ti.UI.createScrollView({
 				width:imgW,
 				height:imgH,
@@ -1313,6 +1304,7 @@ function createGoldSide2(page, venueID) {
 				left:0,
 				top:0,
 			});
+			
 			imgContainer.add(venueImage);
 			galleryView.add(imgContainer);
 
@@ -1323,7 +1315,7 @@ function createGoldSide2(page, venueID) {
 			});
 
 			imgCount++;
-		}
+		
 		getMedia.next();
 	}
 
