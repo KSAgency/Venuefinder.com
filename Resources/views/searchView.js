@@ -130,16 +130,17 @@ function searchView(tabGroup, title, backgroundColor) {
 	
 	//Load Images
 	
-	var imagesToLoad = ['images/searchPage/0219590PIC.jpg', 
-		'images/searchPage/0220828PIC.jpg',
-		'images/searchPage/0220834PIC.jpg', 
-		'images/searchPage/0218631PIC.jpg', 
-		'images/searchPage/0218254PIC.jpg', 
-		'images/searchPage/0221729PIC.jpg',
-		'images/searchPage/0222859PIC.jpg',
-		'images/searchPage/0222437PIC.jpg',
-		'images/searchPage/0218810PIC.jpg',
-		'images/searchPage/0219719PIC.jpg'];
+	var imagesToLoad = [
+		{image:'images/searchPage/0219590PIC.jpg', id:'30878', title:'3M Buckley Innovation Center'}, 
+		{image:'images/searchPage/0220828PIC.jpg', id:'28851', title:'ArcelorMittal Orbit'},
+		{image:'images/searchPage/0220834PIC.jpg', id:'30026', title:'Bounce Ping Pong'}, 
+		{image:'images/searchPage/0218631PIC.jpg', id:'1959', title:'Foxhills'}, 
+		{image:'images/searchPage/0218254PIC.jpg', id:'9802', title:'HM Tower of London'}, 
+		{image:'images/searchPage/0221729PIC.jpg', id:'28570', title:'MSE Meeting Rooms - Oxford Street'},
+		{image:'images/searchPage/0222859PIC.jpg', id:'18266', title:'Mythe Barn'},
+		{image:'images/searchPage/0222437PIC.jpg', id:'15861', title:'Radisson Blu Edwardian, Free Trade Hall Manchester'},
+		{image:'images/searchPage/0218810PIC.jpg', id:'4104', title:'the runnymede-on-thames'},
+		{image:'images/searchPage/0219719PIC.jpg', id:'12895', title:'IWM North, part of Imperial War Museums'}];
 	
 	function imageResize (imageSize){
 		if (imageSize.width>=imageSize.height){
@@ -159,24 +160,41 @@ function searchView(tabGroup, title, backgroundColor) {
 		width:Ti.UI.FILL,
 		height:Ti.UI.FILL,
 		opacity:1,
-		image:imagesToLoad[0],
+		image:imagesToLoad[0].image,
+		imageID:0,
 		isVis:true
 	});
 	
 	var imageUnderlayFade = Ti.UI.createImageView({
 		width:Ti.UI.FILL,
 		height:Ti.UI.FILL,
-		image:imagesToLoad[1],
+		image:imagesToLoad[1].image,
 		opacity:0,
+		imageID:1,
 		isVis:false
 	});
 	
 	win.add(imageUnderlay);
 	win.add(imageUnderlayFade);
+	
+	var infoBox = Ti.UI.createLabel({
+		backgroundColor:'#2195be',
+		color:'#399ad4',
+		backgroundPaddingBottom:15,
+		backgroundPaddingTop:15,
+		backgroundPaddingLeft:15,
+		backgroundPaddingRight:15,
+		bottom:15,
+		left:15
+	});
+	
+	win.add(infoBox);
 
 	setInterval(function(){
 		
 		currentDisplay = currentDisplay+1;
+		
+		infoBox.setTitle(imagesToLoad[currentDisplay].title);
 			
 		if (imageUnderlay.isVis){
 			
@@ -197,9 +215,9 @@ function searchView(tabGroup, title, backgroundColor) {
 			setTimeout(function(){
 				if (currentDisplay+1 == 10){
 					currentDisplay = 0;
-					imageUnderlay.setImage(imagesToLoad[0]);
+					imageUnderlay.setImage(imagesToLoad[0].image);
 				} else {
-					imageUnderlay.setImage(imagesToLoad[currentDisplay+1]);
+					imageUnderlay.setImage(imagesToLoad[currentDisplay+1].image);
 				}
 			}, 2000);
 			
@@ -222,9 +240,9 @@ function searchView(tabGroup, title, backgroundColor) {
 			setTimeout(function(){
 				if (currentDisplay+1 == 10){
 					currentDisplay = 0;
-					imageUnderlayFade.setImage(imagesToLoad[0]);
+					imageUnderlayFade.setImage(imagesToLoad[0].image);
 				} else {
-					imageUnderlayFade.setImage(imagesToLoad[currentDisplay+1]);
+					imageUnderlayFade.setImage(imagesToLoad[currentDisplay+1].image);
 				}
 			}, 2000);
 		}

@@ -282,6 +282,7 @@ function createTitleLocation(venueObj) {
 		top:'210',
 		left:'45',
 		width:400,
+		height:Ti.UI.SIZE,
 		layout:'vertical',
 	});
 
