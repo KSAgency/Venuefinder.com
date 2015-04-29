@@ -1,8 +1,15 @@
 function newApplicationTabGroup() {
 
     //Create tabGroup & require views
-    //var tabGroup = Ti.UI.createTabGroup(), searchView = require('/views/searchView'), mapView = require('/views/mapView'), mediaView = require('/views/mediaView'), offersView = require('/views/offersView'), favouritesView = require('/views/favouritesView');
-    var tabGroup = Ti.UI.createTabGroup({tintColor:'#FFF', tabsTintColor:'#2195be'}), searchView = require('/views/searchView'), mapView = require('/views/mapView'), mediaView = require('/views/mediaView'), offersView = require('/views/offersView'), favouritesView = require('/views/favouritesView');
+    var tabGroup = Ti.UI.createTabGroup({tintColor:'#FFF', tabsTintColor:'#2195be'}), mapView = require('/views/mapView'), mediaView = require('/views/mediaView'), offersView = require('/views/offersView'), favouritesView = require('/views/favouritesView');
+
+	var searchView;
+	
+	if (Ti.App.Properties.getString('osname') === 'iPad'){
+		searchView = require('/views/searchView');
+	} else {
+		searchView = require('/views/searchViewOld');
+	}
 
     //Require dashboard files & reference tabGroup
     var applicationDashboard = require('/builders/applicationDashboard'), home_screen = applicationDashboard(tabGroup);

@@ -6,6 +6,12 @@ function searchView(tabGroup, title, backgroundColor) {
 		height : Ti.UI.FILL
 	});
 
+	var buttonScroller = Ti.UI.createScrollView({
+		width:Ti.UI.FILL,
+		height:Ti.UI.FILL,
+		layout:'vertical'
+	});
+
 	if (Ti.App.Properties.getString('osname') != 'Android') {
 		win.setBarColor('#2195be');
 		win.setBackButtonTitle('Back');

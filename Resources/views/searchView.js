@@ -154,14 +154,13 @@ function searchView(tabGroup, title, backgroundColor) {
 		}
 	}
 	
-	var currentDisplay = 1;
+	var currentDisplay = 0;
 	
 	var imageUnderlay = Ti.UI.createImageView({
 		width:Ti.UI.FILL,
 		height:Ti.UI.FILL,
 		opacity:1,
 		image:imagesToLoad[0].image,
-		imageID:0,
 		isVis:true
 	});
 	
@@ -170,32 +169,58 @@ function searchView(tabGroup, title, backgroundColor) {
 		height:Ti.UI.FILL,
 		image:imagesToLoad[1].image,
 		opacity:0,
-		imageID:1,
 		isVis:false
 	});
 	
 	win.add(imageUnderlay);
 	win.add(imageUnderlayFade);
 	
-	var infoBox = Ti.UI.createLabel({
-		backgroundColor:'#2195be',
-		color:'#399ad4',
-		backgroundPaddingBottom:15,
-		backgroundPaddingTop:15,
-		backgroundPaddingLeft:15,
-		backgroundPaddingRight:15,
+	var labelCont = Ti.UI.createView({
+		width:Ti.UI.SIZE,
+		height:Ti.UI.SIZE,
 		bottom:15,
-		left:15
+		right:15,
+		borderRadius:5,
+		backgroundColor:backgroundColor,
+		clickCall:'',
+		vTitle:''
 	});
 	
-	win.add(infoBox);
+	var infoBox = Ti.UI.createLabel({
+		color:'#399ad4',
+		textAlign:'center',
+		width:Ti.UI.SIZE,
+		height:Ti.UI.SIZE,
+		text:'',
+		top:10,
+		bottom:10,
+		left:10,
+		right:10,
+		touchEnabled:false
+	});
+	
+	labelCont.add(infoBox);
+	win.add(labelCont);
+	
+	labelCont.addEventListener('click', function(e){
+		if (e.source.clickCall){
+			var createApplicationWindow = require('/builders/createApplicationWindow');
+			var windowElements = createApplicationWindow(tabGroup, 'children/featuredListing', e.source.vTitle, '#FFF', 'Search', null, null, null, e.source.clickCall, null);
+		}
+	});
+	
+	infoBox.setText(imagesToLoad[0].title);
+	labelCont.clickCall = imagesToLoad[0].id;
+	labelCont.vTitle = imagesToLoad[0].title;
 
 	setInterval(function(){
 		
 		currentDisplay = currentDisplay+1;
 		
-		infoBox.setTitle(imagesToLoad[currentDisplay].title);
-			
+		infoBox.setText(imagesToLoad[currentDisplay].title);
+		labelCont.clickCall = imagesToLoad[currentDisplay].id;
+		labelCont.vTitle = imagesToLoad[currentDisplay].title;
+	
 		if (imageUnderlay.isVis){
 			
 			imageUnderlayFade.animate({

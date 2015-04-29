@@ -34,17 +34,26 @@ function createDetailPage(thisVenueId, loadList, currentWin, windowsArray) {
 	};
 
 	var page1 = createGold1(venueObj, currentWin, windowsArray);
-	page1.setTop(0);
+	if (Ti.Platform.ostype == '64bit'){
+		page1.setTop(20);
+	} else {
+		page1.setTop(0);
+	}
+	
 	page1.setLeft(0);
 
 	var page2 = createGold2(venueObj, currentWin, windowsArray);
-	page2.setTop(0);
+	if (Ti.Platform.ostype == '64bit'){
+		page2.setTop(20);
+	} else {
+		page2.setTop(0);
+	}
 	page2.setLeft(0);
 
 	var goldDetailScroll = Ti.UI.createScrollableView({
 		width:'938',
 		height:'720',
-		top:20,
+		top:'20',
 		layout:'horizontal',
 		showPagingControl:true,
 		pagingControlColor:'transparent',
@@ -234,7 +243,7 @@ function createGold1(venueObj, currentWin, windowsArray) {
 		var logoImage = Titanium.UI.createImageView({
 			image:'http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'),
 			defaultImage:'/images/icon.png',
-			width:150,
+			width:130,
 			left:10
 		});
 		
@@ -484,6 +493,7 @@ function createVenueDetailSide3(venueObj) {
 		height:'100',
 		disableBounce:true,
 	});
+	
 	detailView.add(addressWV);
 
 	var urlText = 'Visit website';

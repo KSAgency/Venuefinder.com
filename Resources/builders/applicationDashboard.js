@@ -355,7 +355,7 @@ function applicationDashboard(tabGroup) {
 		} else if (e.rowData.index == 0 && e.rowData.title == 'Venue Collections' && Ti.App.Properties.getString('osname') == 'iPad'){
 			
 			tabGroup.setActiveTab(e.rowData.index);
-			tabGroup.getActiveTab().getWindow().getChildren()[4].getChildren()[0].fireEvent('collections');
+			tabGroup.getActiveTab().getWindow().getChildren()[5].getChildren()[0].fireEvent('collections');
 			home_screen.hide();
 						
 		} else {

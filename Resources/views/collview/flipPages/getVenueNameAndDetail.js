@@ -20,6 +20,35 @@ function getVenueImage(venueID) {
 
 module.exports.getVenueImage = getVenueImage;
 
+function getVenueAdvert(venueID) {
+
+	var advert;
+	var link;
+	if (venueID == 39) {
+		//image = '/images/collection-cover.png';
+		advert = '/images/collectionsAdverts/edwardianGroupLondon.png';
+		link = 'http://www.radissonblu-edwardian.com/';
+	} else if (venueID == 15) {
+		advert = '/images/collectionsAdverts/kewGardens.png';
+		link = 'http://www.kew.org/';
+	} else if (venueID == 3) {
+		advert = '/images/collectionsAdverts/ILEC.png';
+		link = 'http://www.ilecconferencecentre.co.uk';
+	} else if (venueID == 20) {
+		advert = '/images/collectionsAdverts/amazingVenues.png';
+		link = 'http://www.amazingvenues.co.uk/';
+	} else if (venueID == 19) {
+		advert = '/images/collectionsAdverts/imago.png';
+		link = 'http://www.welcometoimago.com/';
+	} else if (venueID == 53) {
+		advert = '/images/collectionsAdverts/mercure.png';
+		link = 'http://www.mercure.com/gb/united-kingdom/index.shtml';
+	}
+	return [advert, link];
+}
+
+module.exports.getVenueAdvert = getVenueAdvert;
+
 function getVenueTitle(venueID) {
 
 	var title;
