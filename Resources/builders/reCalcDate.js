@@ -6,7 +6,7 @@ function reCalcDate(dateString){
 	
 	var year = date[0].toString();
 	
-	var month = date[1].toString() - 1;
+	var month = date[1].toString();
 	
 	if (month < 10){
 		month = '0'+month;

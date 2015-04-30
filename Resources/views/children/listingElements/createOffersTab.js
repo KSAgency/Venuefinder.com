@@ -41,8 +41,6 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
     
     scroll.add(venueTitle);
     scroll.add(venueLocation);
-    
-    
 
     while (row.isValidRow()) {
     	
@@ -166,8 +164,6 @@ function offersTab(tabGroup, win, scroll, venueID, tabs) {
                 fontSize:'14'
             }
         });
-        
-	    
         
         scroll.add(offerTitle);
         scroll.add(offerDate);

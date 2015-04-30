@@ -741,7 +741,7 @@ function seeMoreInfoButton() {
 		});
 
 		var websiteWV = Titanium.UI.createWebView({
-			url:'http://www.venuefinder.com',
+			url:'http://www.venuefinder.com/venues/venue_name/v'+venueObj['VenueID'],
 		});
 
 		websiteContainer.add(websiteWV);

@@ -247,19 +247,24 @@ function createGold1(venueObj, currentWin, windowsArray) {
 			left:10
 		});
 		
-		if (logoImage.toImage().height > parseInt(logoContainer.height)){
-			logoImage.setHeight(100);
-			logoImage.setWidth(Ti.UI.SIZE);
-		}
+		logoImage.addEventListener('onLoad', function(e){
+			alert('http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'));
 		
-		if (logoMedia.rowCount > 1){
-			logoImage.setWidth((logoImage.width-(logoImage.width/3)).toString());
-			logoImage.setLeft(10);
-		}
-
-		logoContainer.add(logoImage);
-
-		logoMedia.next();
+			if (logoImage.toImage().height > parseInt(logoContainer.height)){
+				logoImage.setHeight(100);
+				logoImage.setWidth(Ti.UI.SIZE);
+			}
+			
+			if (logoMedia.rowCount > 1){
+				logoImage.setWidth((logoImage.width-(logoImage.width/3)).toString());
+				logoImage.setLeft(10);
+			}
+	
+			logoContainer.add(logoImage);
+	
+			logoMedia.next();
+		});
+		
 	}
 	
 	db.close();
@@ -1239,12 +1244,15 @@ function createGallery(venueID) {
 			imgContainer.add(imageView);
 			galleryView.add(imgContainer);
 		}
+		
 		imgCount++;
 		imageArray.push('http://www.venuefinder.com/adverts/' + mediaURL);
 		getMedia.next();
+		
 		if (imgCount == 6) {
 			break;
 		}
+		
 	}
 	db.close();
 	return galleryView;

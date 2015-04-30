@@ -646,10 +646,10 @@ function createFloorPlansBtn(venueID){
 		});
 					
 		var floorPlansContainer = Ti.UI.createView({
-			width:'60%',
-			height:'60%',
+			width:'80%',
+			height:'80%',
 			top:'10%',
-			left:'20%',
+			left:'10%',
 			layout:'vertical',
 		});
 		

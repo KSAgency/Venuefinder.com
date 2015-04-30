@@ -1,1 +1,0 @@
-function imageResize(e,t){var i=e.toImage();if(i.width>=i.height){var a=i.height/t.height;e.setHeight(t.height),e.setWidth(i.width/a)}else{var a=i.width/t.width;e.setHeight(t.width),e.setWidth(i.height/a)}}module.exports=imageResize;
