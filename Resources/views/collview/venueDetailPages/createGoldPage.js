@@ -1,5 +1,6 @@
 var createImageGallery = require('views/collview/ImageGallery/createImageGallery');
 var createHeaderElements = require('/views/collview/listingElements/createHeaderElementsios');
+var createImageGalleryThumbnails = require('/views/collview/ImageGallery/createImageGalleryThumbnails');
 
 var createDatabase = require('/builders/databaseFunctions/createDatabase');
 var dbUtil = require('/builders/databaseFunctions/dbUtil');
@@ -184,7 +185,7 @@ function createGold1(venueObj, currentWin, windowsArray) {
 	
 	page1.add(townPostcode);
 
-	page1.add(createGallery(venueObj['VenueID']));
+	page1.add(createGallery(venueObj['VenueID'], venueObj['PackageCode']));
 
 	//Title & Location
 	
@@ -247,9 +248,10 @@ function createGold1(venueObj, currentWin, windowsArray) {
 			left:10
 		});
 		
-		logoImage.addEventListener('onLoad', function(e){
-			alert('http://www.venuefinder.com/adverts/' + logoMedia.fieldByName('GraphicFileName'));
+		logoContainer.add(logoImage);
 		
+		logoImage.addEventListener('load', function(e){
+	
 			if (logoImage.toImage().height > parseInt(logoContainer.height)){
 				logoImage.setHeight(100);
 				logoImage.setWidth(Ti.UI.SIZE);
@@ -260,10 +262,9 @@ function createGold1(venueObj, currentWin, windowsArray) {
 				logoImage.setLeft(10);
 			}
 	
-			logoContainer.add(logoImage);
-	
-			logoMedia.next();
 		});
+	
+	logoMedia.next();
 		
 	}
 	
@@ -272,8 +273,7 @@ function createGold1(venueObj, currentWin, windowsArray) {
 	titleCont.add(logoContainer);
 	page1.add(titleCont);
 
-	createGoldSide2(page1, venueObj['VenueID'], 0);
-	page1.add(createGoldSide2(page1, venueObj['VenueID']));
+	page1.add(createGoldSide2(page1, venueObj['VenueID'], venueObj['PackageCode']));
 
 	return page1;
 }
@@ -486,7 +486,7 @@ function createVenueDetailSide3(venueObj) {
 	if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
 		telNum = venueObj['Tel'];
 	} else {
-		telNum = '+44 (0)1780 484498';
+		telNum = '0870 122 1350';
 	}
 
 	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + telNum + "</div>";
@@ -1150,192 +1150,20 @@ function createVenueDetailSide4(venueObj) {
 
 }
 
-function createGallery(venueID) {
+function createGallery(venueID, packageCode) {
 
-	var createDatabase = require('/builders/databaseFunctions/createDatabase');
-	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueID + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\' OR OptionCode = \'MIL\' OR OptionCode = \'MIL\' OR OptionCode = \'MIR\') ORDER BY OptionCode DESC');
-	var imageArray = [];
+	var imageGalleryThumbnails = createImageGalleryThumbnails(venueID, 'left', packageCode);
 
-	var galleryView = Ti.UI.createView({
-		width:406,
-		height:348,
-		left:30,
-		top:52,
-	});
+	return imageGalleryThumbnails;
 
-	var imgCount = 0;
-	while (getMedia.isValidRow()) {
-		var mediaType = getMedia.fieldByName('OptionCode');
-		var mediaURL = getMedia.fieldByName('GraphicFileName');
-
-		if (imgCount == 0) {
-			var imgContainer = Ti.UI.createScrollView({
-				width:'266',
-				height:'230',
-				top:'0',
-				left:'0',
-				borderRadius:'0',
-				contentWidth:Ti.UI.FILL,
-				contentHeight:Ti.UI.FILL,
-				scrollingEnabled:false,
-			});
-			var topImage = Titanium.UI.createImageView({
-				image:'http://www.venuefinder.com/adverts/' + mediaURL,
-				defaultImage:'/images/icon.png',
-				index:imgCount,
-				width:Ti.UI.FILL,
-				height:Ti.UI.FILL,
-				left:0,
-				top:0,
-			});
-
-			topImage.addEventListener('click', function(e) {
-				var imageGallery = createImageGallery(null, imageArray, e.source.index);
-			});
-
-			imgContainer.add(topImage);
-
-			galleryView.add(imgContainer);
-		} else {
-			var imgTop = 10;
-			var imgLeft = 10;
-			if (imgCount == 1) {
-				imgTop = 0;
-				imgLeft = 278;
-			} else if (imgCount == 2) {
-				imgTop = 118 + 4;
-				imgLeft = 278;
-			} else if (imgCount == 3) {
-				imgTop = 242;
-				imgLeft = 0;
-			} else if (imgCount == 4) {
-				imgTop = 242;
-				imgLeft = 140;
-			} else if (imgCount == 5) {
-				imgTop = 242;
-				imgLeft = 280;
-			}
-
-			var imgContainer = Ti.UI.createScrollView({
-				width:'128',
-				height:'106',
-				top:imgTop,
-				left:imgLeft,
-				borderRadius:'0',
-				contentWidth:Ti.UI.FILL,
-				contentHeight:Ti.UI.FILL,
-				scrollingEnabled:false,
-			});
-
-			var imageView = Titanium.UI.createImageView({
-				image:'http://www.venuefinder.com/adverts/' + mediaURL,
-				defaultImage:'/images/icon.png',
-				index:imgCount,
-				width:Ti.UI.FILL,
-				height:Ti.UI.FILL,
-				left:0,
-				top:0,
-			});
-
-			imageView.addEventListener('click', function(e) {
-				var imageGallery = createImageGallery(null, imageArray, e.source.index);
-			});
-			imgContainer.add(imageView);
-			galleryView.add(imgContainer);
-		}
-		
-		imgCount++;
-		imageArray.push('http://www.venuefinder.com/adverts/' + mediaURL);
-		getMedia.next();
-		
-		if (imgCount == 6) {
-			break;
-		}
-		
-	}
-	db.close();
-	return galleryView;
 }
 
-function createGoldSide2(page, venueID) {
+function createGoldSide2(page, venueID, packageCode) {
+
+	var imageGalleryThumbnailsRight = new createImageGalleryThumbnails(venueID, 'right', packageCode);
 
 	var createDatabase = require('/builders/databaseFunctions/createDatabase');
 	var db = createDatabase('/venuefinder.db', 'venuefinder');
-	
-	//Gallery
-	var getMedia = db.execute('SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID=' + venueID + ' AND (OptionCode = \'TOP\' OR OptionCode = \'PIC\' OR OptionCode = \'MIL\' OR OptionCode = \'MIL\' OR OptionCode = \'MIR\') ORDER BY OptionCode DESC LIMIT 3 OFFSET 6');
-	var picCount = 0;
-	var imageArray = [];
-	var imgCount = 0;
-
-	var galleryView = Ti.UI.createView({
-		width:270,
-		height:348,
-		right:170,
-		top:52,
-		layout:"horizontal",
-	});
-
-	while (getMedia.isValidRow()) {
-
-		var mediaType = getMedia.fieldByName('OptionCode');
-		var mediaURL = getMedia.fieldByName('GraphicFileName');
-		var videoURL = getMedia.fieldByName('URL');
-
-		var imgW, imgH, imgT, imgL;
-
-			if (imgCount == 0) {
-				imgW = 128;
-				imgH = 106;
-				imgL = 0;
-				imgT = 0;
-			} else if (imgCount == 1) {
-				imgW = 128;
-				imgH = 106;
-				imgL = 14;
-				imgT = 0;
-			} else if (imgCount == 2) {
-				imgW = 270;
-				imgH = 230;
-				imgL = 0;
-				imgT = 17;
-			}
-			
-			var imgContainer = Ti.UI.createScrollView({
-				width:imgW,
-				height:imgH,
-				top:imgT,
-				left:imgL,
-				borderRadius:'0',
-				contentWidth:Ti.UI.FILL,
-				contentHeight:Ti.UI.FILL,
-				scrollingEnabled:false,
-			});
-
-			var venueImage = Titanium.UI.createImageView({
-				image:'http://www.venuefinder.com/adverts/' + mediaURL,
-				defaultImage:'/images/icon.png',
-				index:imgCount,
-				width:Ti.UI.FILL,
-				height:Ti.UI.FILL,
-				left:0,
-				top:0,
-			});
-			
-			imgContainer.add(venueImage);
-			galleryView.add(imgContainer);
-
-			imageArray.push(venueImage.image);
-
-			venueImage.addEventListener('click', function(e) {
-				var imageGallery = createImageGallery(null, imageArray, e.source.index);
-			});
-
-			imgCount++;
-		
-		getMedia.next();
-	}
 
 	var desRow = db.execute('SELECT DescriptionText FROM VenueTextForWeb WHERE VenueID="' + venueID + '"');
 	var descText;
@@ -1369,5 +1197,6 @@ function createGoldSide2(page, venueID) {
 	}
 
 	db.close();
-	return galleryView;
+	
+	return imageGalleryThumbnailsRight;
 }

@@ -3,19 +3,19 @@ function createImageGallery(tabGroup, imageList, index) {
 	var imageViews = [];
 
 	var winBG = Titanium.UI.createWindow({
-		backgroundColor : 'rgba(0,0,0,0.8)',
+		backgroundColor:'rgba(0,0,0,0.8)',
 	});
 
 	var close = Titanium.UI.createButton({
-		right : '35',
-		top : '80',
-		height : '20',
-		zIndex : 1,
-		title : "X",
-		color : "#FFF",
-		font : {
-			fontSize : "28",
-			fontWeight : "bold"
+		right:'35',
+		top:'80',
+		height:'20',
+		zIndex:1,
+		title:"X",
+		color:"#FFF",
+		font:{
+			fontSize:"28",
+			fontWeight:"bold"
 		},
 	});
 
@@ -32,26 +32,26 @@ function createImageGallery(tabGroup, imageList, index) {
 	}
 	var x1 = index * (720 + 25);
 	var scrollView = Ti.UI.createScrollView({
-		maxZoomScale : 100,
-		minZoomScale : 1,
-		verticalBounce : false,
-		layout : 'horizontal',
-		contentWidth : Ti.UI.SIZE,
-		contentHeight : '60%',
-		width : Ti.UI.FILL,
-		height : '60%',
-		top : '20%',
+		maxZoomScale:100,
+		minZoomScale:1,
+		verticalBounce:false,
+		layout:'horizontal',
+		contentWidth:Ti.UI.SIZE,
+		contentHeight:'60%',
+		width:Ti.UI.FILL,
+		height:'60%',
+		top:'20%',
 	});
 
 	for (var i = 0; i < imageList.length; i++) {
 
 		var imageView = Titanium.UI.createImageView({
-			image : imageList[i],
-			width : 720,
-			top : 0,
-			left : 25,
-			height : 'auto',
-			defaultImage : '/images/icon.png',
+			image:'http://www.venuefinder.com/adverts/'+imageList[i],
+			width:720,
+			top:0,
+			left:25,
+			height:'auto',
+			defaultImage:'/images/icon.png',
 		});
 
 		scrollView.add(imageView);

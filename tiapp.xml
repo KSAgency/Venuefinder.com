@@ -11,7 +11,7 @@
     <sdk-version>3.5.0.GA</sdk-version>
     <id>com.ksagency.venuefinder</id>
     <name>Venue Finder</name>
-    <version>1.6.10</version>
+    <version>1.6.11</version>
     <publisher>SamJacob</publisher>
     <url>http://www.venuefinder.com</url>
     <description>not specified</description>
@@ -27,6 +27,16 @@
     <guid>891f315f-df12-4e31-8555-e2cb8b94974e</guid>
     <property name="ti.ui.defaultunit" type="string">dip</property>
     <!--<property name="ti.android.fastdev" type="bool">false</property>-->
+    <ios>
+        <plist>
+            <dict>
+                <key>NSLocationAlwaysUsageDescription</key>
+                <string>
+                    Get user location, to display venues near to their current position.
+                </string>
+            </dict>
+        </plist>
+    </ios>
     <iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>

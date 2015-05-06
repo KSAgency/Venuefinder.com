@@ -1,5 +1,6 @@
 var createImageGallery = require('views/collview/ImageGallery/createImageGallery');
 var createHeaderElements = require('/views/collview/listingElements/createHeaderElementsios');
+var createImageGalleryThumbnails = require('/views/collview/ImageGallery/createImageGalleryThumbnails');
 
 var createDatabase = require('/builders/databaseFunctions/createDatabase');
 var dbUtil = require('/builders/databaseFunctions/dbUtil');
@@ -140,16 +141,16 @@ function createBronzeView(venueObj) {
 
 	var bronzeView = Ti.UI.createView({
 		width:'469',
-		height:'561',
-		top:'74',
+		height:Ti.UI.FILL,
+		top:'0',
 		left:'0',
 		touchEnabled:true
 	});
 
-	bronzeView.add(createGallery(venueObj));
+	bronzeView.add(createGallery(venueObj['VenueID'], venueObj['PackageCode']));
 
 	var featuredBtn = createHeaderElements.createFeaturedButtons(venueObj['VenueID'], bronzeView);
-	featuredBtn.setTop(0);
+	featuredBtn.setTop(74);
 	bronzeView.add(featuredBtn);
 	bronzeView.add(logo(venueObj));
 	bronzeView.add(descText(venueObj));
@@ -160,80 +161,15 @@ function createBronzeView(venueObj) {
 	bronzeView.add(createVenueDetail(venueObj));
 	
 	return bronzeView;
+	
 }
 
-function createGallery(venueObj) {
+function createGallery(venueID, packageCode) {
 
-	var db = createDatabase('/venuefinder.db', 'venuefinder');
+	var imageGalleryThumbnails = createImageGalleryThumbnails(venueID, 'left', packageCode, true);
 
-	//Gallery
-	var getMedia = db.execute("SELECT * FROM VenueAdvertOptionsForWeb WHERE VenueID='" + venueObj['VenueID'] + "' AND (OptionCode='TOP' OR OptionCode = 'PIC' OR OptionCode='MID' OR OptionCode='MIL' OR OptionCode='MIR') ORDER BY OrderKey, GraphicFileName ASC");
-	var picCount = 0;
-	var imgCount = 0;
+	return imageGalleryThumbnails;
 
-	var galleryView = Ti.UI.createView({
-		width:240,
-		height:195,
-		left:45,
-		top:0,
-		layout:"horizontal",
-	});
-
-	while (getMedia.isValidRow()) {
-
-		var mediaType = getMedia.fieldByName('OptionCode');
-		var mediaURL = getMedia.fieldByName('GraphicFileName');
-		var videoURL = getMedia.fieldByName('URL');
-
-		var imgW, imgH, imgT, imgL;
-		imgW = 115;
-		imgH = 95;
-
-		if (imgCount == 0) {
-			imgL = 0;
-			imgT = 0;
-		} else if (imgCount == 1) {
-			imgL = 10;
-			imgT = 0;
-		} else if (imgCount == 2) {
-			imgL = 0;
-			imgT = 5;
-		} else if (imgCount == 3) {
-			imgL = 10;
-			imgT = 5;
-		}
-		var imgContainer = Ti.UI.createScrollView({
-			width:imgW,
-			height:imgH,
-			top:imgT,
-			left:imgL,
-			borderRadius:'0',
-			contentWidth:Ti.UI.FILL,
-			contentHeight:Ti.UI.FILL,
-			scrollingEnabled:false,
-		});
-
-		var venueImage = Titanium.UI.createImageView({
-			image:'http://www.venuefinder.com/adverts/' + mediaURL,
-			defaultImage:'/images/icon.png',
-			index:imgCount,
-			width:Ti.UI.FILL,
-			height:Ti.UI.FILL,
-			left:0,
-			top:0,
-		});
-		imgContainer.add(venueImage);
-		galleryView.add(imgContainer);
-
-		imgCount++;
-		if (imgCount == 4) {
-			break;
-		}
-		getMedia.next();
-	}
-
-	db.close();
-	return galleryView;
 }
 
 function logo(venueObj) {
@@ -245,7 +181,7 @@ function logo(venueObj) {
 	var logoContainer = Ti.UI.createView({
 		width:Ti.UI.SIZE,
 		height:Ti.UI.SIZE,
-		top:150,
+		top:224,
 		right:5,
 		borderRadius:'0',
 		layout:'horizontal',
@@ -279,7 +215,7 @@ function logo(venueObj) {
 function createTitleLocation(venueObj) {
 	
 	var titleCont = Ti.UI.createView({
-		top:'210',
+		top:'304',
 		left:'45',
 		width:400,
 		height:Ti.UI.SIZE,
@@ -349,7 +285,7 @@ function descText(venueObj) {
 	var descriptionWV = Titanium.UI.createWebView({
 		html:'<html><body><span style="font-family:Arial; color:#000; font-size:14px; line-height:20pts; font-size:15px;">' + descText + '</span></body></html>',
 		width:185,
-		top:355,
+		top:449,
 		left:'40',
 	});
 	
@@ -362,7 +298,7 @@ function createVenueDetail(venueObj) {
 	var detailView = Ti.UI.createView({
 		width:'205',
 		height:'270',
-		top:320,
+		top:414,
 		right:'20',
 		layout:'vertical'
 	});
@@ -387,7 +323,7 @@ function createVenueDetail(venueObj) {
 	if (venueObj['Country'] == 'England' || venueObj['Country'] == 'Scotland' || venueObj['Country'] == 'Northern Ireland' || venueObj['Country'] == 'Wales'){
 		telNum = venueObj['Tel'];
 	} else {
-		telNum = '+44 (0)1780 484498';
+		telNum = '0870 122 1350';
 	}
 
 	var venueAddress = "<div>" + venueObj['AddressLine1'] + "</div><div>" + venueObj['Town'] + ", " + venueObj['Country'] + ",</div><div>" + venueObj['Postcode'] + "</div><div>Tel: " + telNum + "</div>";
