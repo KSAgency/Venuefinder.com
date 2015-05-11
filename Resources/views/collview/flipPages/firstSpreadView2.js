@@ -63,7 +63,8 @@ function firstSpreadView2(flipView, venueID) {
 			endPoint:{x:'0%', y:'100%'},
 			colors:[{color:'#999999', offset:0.0}, {color:'#FFFFFF', offset:1}]
 		},
-		opacity:'0'
+		opacity:'0',
+		touchEnabled:false
 	});
 	
 	flipView.add(topScrollIndicator);
@@ -79,7 +80,8 @@ function firstSpreadView2(flipView, venueID) {
 			endPoint:{x:'0%', y:'100%'},
 			colors:[{color:'#FFFFFF', offset:0.0}, {color:'#999999', offset:1}]
 		},
-		opacity:'0.3'
+		opacity:'0.3',
+		touchEnabled:false
 	});
 
 	flipView.add(bottomScrollIndicator);
@@ -91,32 +93,30 @@ function firstSpreadView2(flipView, venueID) {
 		contentWidth:Ti.UI.FILL,
 		top:'156',
 		left:'175',
-		disableBounce:true,
+		layout:'vertical'
 	});
 	
 	var textView = Ti.UI.createWebView({
 		top:'0',
 		left:'0',
-		width:'238',
+		width:'235',
+		html:venueText,
 		font:{
 			fontSize:18,
 			fontFamily:Ti.App.Properties.getString('fontFamily'),
 		},
 		backgroundColor:'transparent',
-		touchEnabled:false
+		willHandleTouches:true
 	});
 
 	textView.setHtml(venueText, {mimeType:'text/html'});
 	textView.setHeight(Ti.UI.SIZE);
-	
 	textScroll.add(textView);
 	flipView.add(textScroll);
 	
-	
-	
 	textScroll.addEventListener('scroll', function(e){
-		var scrollHeight = textView.toImage().height - textScroll.height;
-	Ti.API.info(scrollHeight);
+		var scrollHeight = textView.rect.height - textScroll.rect.height;
+		Ti.API.info(scrollHeight);
 		
 		Ti.API.info(e.y);
 		

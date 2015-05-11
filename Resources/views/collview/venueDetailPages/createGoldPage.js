@@ -232,7 +232,7 @@ function createGold1(venueObj, currentWin, windowsArray) {
 	
 	var logoContainer = Ti.UI.createView({
 		width:Ti.UI.SIZE,
-		height:100,
+		height:80,
 		top:20,
 		left:-10,
 		borderRadius:'0',
@@ -248,21 +248,10 @@ function createGold1(venueObj, currentWin, windowsArray) {
 			left:10
 		});
 		
-		logoContainer.add(logoImage);
+		var imageResize = require('/builders/imageResize');
+		imageResize(logoImage, logoContainer);
 		
-		logoImage.addEventListener('load', function(e){
-	
-			if (logoImage.toImage().height > parseInt(logoContainer.height)){
-				logoImage.setHeight(100);
-				logoImage.setWidth(Ti.UI.SIZE);
-			}
-			
-			if (logoMedia.rowCount > 1){
-				logoImage.setWidth((logoImage.width-(logoImage.width/3)).toString());
-				logoImage.setLeft(10);
-			}
-	
-		});
+		logoContainer.add(logoImage);
 	
 	logoMedia.next();
 		

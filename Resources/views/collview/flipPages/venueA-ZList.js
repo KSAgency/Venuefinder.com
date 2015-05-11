@@ -1,7 +1,7 @@
 function venueList(win, windowsArray, venueatozScrollView) {
 
 	var styleID = win.styleID;
-	var tableContainer = getVenues('A', styleID, windowsArray);
+	var tableContainer = getVenues('#', styleID, windowsArray);
 	
 	var atomDict = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
 	var ntozDict = ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -62,7 +62,21 @@ function venueList(win, windowsArray, venueatozScrollView) {
 		
 	}
 	
-	var lastClicked = atomView.getChildren()[1];
+	var lastClicked = atomView.getChildren()[0];
+	
+	if (tableContainer == undefined) {
+		var tableContainer = getVenues('A', styleID, windowsArray);
+		atomView.getChildren()[0].font = {
+			fontWeight:'normal',
+		};
+		
+		atomView.getChildren()[1].font = {
+			fontWeight:'bold',
+			fontFamily:'Arial',
+			fontSize:'24',
+		};
+
+	}
 	
 	atomView.addEventListener('click', function(e) {
 		if (e.source.title){
@@ -205,7 +219,7 @@ function venueList(win, windowsArray, venueatozScrollView) {
 		}
 	});
 
-	atomView.getChildren()[1].font = {
+	atomView.getChildren()[0].font = {
 		fontWeight:'bold',
 		fontFamily:'Arial',
 		fontSize:'24',
